@@ -262,3 +262,4 @@ __pycache__/
 
 #visual studio folder that should be ignored
 .vs/
+bin/Debug/
