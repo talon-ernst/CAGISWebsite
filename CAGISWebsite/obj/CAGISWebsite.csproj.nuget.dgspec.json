@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\School\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj": {}
+    "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj": {}
   },
   "projects": {
-    "E:\\School\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj": {
+    "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\School\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj",
+        "projectUniqueName": "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj",
         "projectName": "CAGISWebsite",
-        "projectPath": "E:\\School\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj",
-        "packagesPath": "C:\\Users\\Talon Ernst\\.nuget\\packages\\",
-        "outputPath": "E:\\School\\CAGISWebsite\\CAGISWebsite\\obj\\",
+        "projectPath": "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\CAGISWebsite.csproj",
+        "packagesPath": "C:\\Users\\Landon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Talon Ernst\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Landon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,10 +25,12 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\Microsoft Enterprise\\Project\\Desert_Sands_Gaming_Store\\DesertSandsClassLibrary\\bin\\Debug": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -40,6 +42,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
@@ -80,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

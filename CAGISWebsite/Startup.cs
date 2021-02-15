@@ -12,6 +12,8 @@ using CAGISWebsite.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
+using CAGISWebsite.Models;
 
 namespace CAGISWebsite
 {
@@ -30,11 +32,15 @@ namespace CAGISWebsite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CAGISKidsContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("CAGISConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();           
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(opts => opts.LoginPath = "/Administration/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

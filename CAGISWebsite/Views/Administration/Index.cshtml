@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Admin Home Page";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="card">
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Add New Employee</a>
+    }
+    <a asp-action="ListRole" asp-controller="Administration" class="btn btn-primary" id="btnRoles">Role Information</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnOrders">Update orders</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminReviews">Pending Reviews</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminEvents">Event Manager</a>
+</div>
