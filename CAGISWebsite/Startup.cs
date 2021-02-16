@@ -35,13 +35,14 @@ namespace CAGISWebsite
             services.AddDbContext<CAGISKidsContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("CAGISConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();           
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.ConfigureApplicationCookie(opts => opts.LoginPath = "/Administration/Login");
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

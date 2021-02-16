@@ -36,183 +36,57 @@ namespace CAGISWebsite.Controllers
             return View();
         }
 
-        //create role action, limited to admin role
-
-        [HttpGet]
-        public IActionResult CreateRole()
-        {
-            return View();
-        }
-
-        //post action for create role action
-        [HttpPost]
-        public async Task<IActionResult> CreateRole(CreateRole model)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityRole role = new IdentityRole { Name = model.RoleName };
-                var result = await roleManager.CreateAsync(role);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListRole");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View(model);
-        }
-
-        //list all roles
-        [HttpGet]
-        public IActionResult ListRole()
-        {
-            var roles = roleManager.Roles;
-            return View(roles);
-        }
-
-        //list all users in specified role
-        [HttpGet]
-        public async Task<IActionResult> ListUsersInRole(string id)
-        {
-            var role = await roleManager.FindByIdAsync(id);
-
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with id = {id} cannot be found";
-                return NotFound();
-            }
-
-            ViewBag.RoleName = role.Name;
-
-            var model = new EditRole
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            };
-            ViewBag.RoleName = role.Name;
-
-            foreach (var user in userManager.Users)
-            {
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user);
-                }
-            }
-            return View(model);
-        }
-
-        //edit role, limited to admin
+        //Deactivate existing or add new employee accounts
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> EditRole(string id)
+        public async Task<IActionResult> ListEmployees()
         {
-            var role = await roleManager.FindByIdAsync(id);
+
+            var role = await roleManager.FindByNameAsync("Employee");
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with id = {id} cannot be found";
-                return NotFound();
-            }
-
-            var model = new EditRole
-            {
-                Id = role.Id,
-                RoleName = role.Name
-            };
-
-            foreach (var user in userManager.Users)
-            {
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    model.Users.Add(user);
-                }
-            }
-            return View(model);
-        }
-
-        //posted edited role
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> EditRole(EditRole model)
-        {
-            var role = await roleManager.FindByIdAsync(model.Id);
-
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with id = {model.Id} cannot be found";
-                return NotFound();
-            }
-            else
-            {
-                role.Name = model.RoleName;
-                var result = await roleManager.UpdateAsync(role);
-
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("ListRole");
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
-            }
-            return View(model);
-        }
-
-        //add or remove users from role, limited to admin
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> EditUserInRole(string roleId)
-        {
-            ViewBag.roleId = roleId;
-
-            var role = await roleManager.FindByIdAsync(roleId);
-
-            if (role == null)
-            {
-                ViewBag.ErrorMessage = $"Role with id = {roleId} cannot be found";
+                ViewBag.ErrorMessage = $"Employees could not be found";
                 return NotFound();
             }
 
             var model = new List<UserRole>();
             foreach (var user in userManager.Users)
             {
-                var userRole = new UserRole
-                {
-                    UserId = user.Id,
-                    UserName = user.UserName
-                };
+                //if (await userManager.IsInRoleAsync(user, "Employee") && !User.IsInRole("Admin"))
+                //{
+                    var userRole = new UserRole
+                    {
+                        UserId = user.Id,
+                        UserName = user.UserName
+                    };
 
-                if (await userManager.IsInRoleAsync(user, role.Name))
-                {
-                    userRole.IsSelected = true;
-                }
-                else
-                {
-                    userRole.IsSelected = false;
-                }
-                model.Add(userRole);
+                    if (await userManager.IsInRoleAsync(user, role.Name))
+                    {
+                        userRole.IsSelected = true;
+                    }
+                    else
+                    {
+                        userRole.IsSelected = false;
+                    }
+
+                    model.Add(userRole);
+                //}
             }
             return View(model);
         }
 
-        //post changes to user roles
+        //post changes to active accounts
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> EditUserInRole(List<UserRole> model, string roleId)
+        public async Task<IActionResult> ListEmployees(List<UserRole> model)
         {
-            var role = await roleManager.FindByIdAsync(roleId);
+            var role = await roleManager.FindByNameAsync("Employee");
+
 
             if (role == null)
             {
-                ViewBag.ErrorMessage = $"Role with id = {roleId} cannot be found";
+                ViewBag.ErrorMessage = $"Employees could not be found";
                 return NotFound();
             }
 
@@ -237,13 +111,78 @@ namespace CAGISWebsite.Controllers
                     if (i < (model.Count - 1))
                         continue;
                     else
-                        return RedirectToAction("ListUsersInRole", new { id = roleId });
+                        return RedirectToAction("ListEmployees");
 
                 }
             }
 
-            return RedirectToAction("ListUsersInRole", new { id = roleId });
+            return RedirectToAction("ListEmployees");
         }
+
+        //change password of employee account
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> ChangePassword(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User could not be found";
+                return NotFound();
+            }
+
+            //check if a password has been set
+            var hasPassword = await userManager.HasPasswordAsync(user);
+            if (!hasPassword)
+            {
+                return RedirectToPage("/Account/Manage/SetPassword");
+            }
+
+            ChangePassword changePassword = new ChangePassword
+            {
+                UserId = id
+            };
+
+            return View(changePassword);
+        }
+
+        //post changes to user roles
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword([Bind("UserId, NewPassword, ConfirmPassword")] ChangePassword changePassword)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByIdAsync(changePassword.UserId);
+
+               
+                if (user == null)
+                {
+                    return NotFound($"Unable to load user'.");
+                }
+
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+
+                var changePasswordResult = await userManager.ResetPasswordAsync(user, token, changePassword.NewPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    foreach (var error in changePasswordResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    
+                }
+                else
+                {
+                    return RedirectToAction("ListEmployees");
+                }
+            }
+
+            return View(changePassword);
+        }
+
 
     }
 }

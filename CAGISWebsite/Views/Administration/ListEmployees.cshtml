@@ -1,0 +1,50 @@
+﻿@model List<UserRole>
+@{
+    ViewData["Title"] = "Edit User In Role";
+}
+<a asp-action="Index" class="btn btn-primary">Back</a>
+<h1>Edit User In Role</h1>
+
+<form method="post" onSubmit="return confirm('What you are about to do cannot be undone on the website. ' +
+    'To reactivate these accounts, you must change their status in the database. ' +
+    'Are you sure you would like to deactivate these accounts?');">
+    <div class="card">
+        <div class="card-header">
+            <h2>Add or remove Users from this role</h2>
+        </div>
+        <div class="card-body">
+            <table id="tblEmployee">
+                <tr>
+                    <th>Employee Account</th>
+                    <th>Password</th>
+                    <th>Select Which Ones to Remove</th>
+                </tr>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="hidden" asp-for="@Model[i].UserId" />
+                            <div class="form-check m-1">
+                                <label class="form-check-label">@Model[i].UserName</label>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" id="btnChangePassword" asp-controller="Administration" asp-action="ChangePassword" asp-route-id="@Model[i].UserId">Change Password</a>
+                        </td>
+                        <td>
+                            <div id="ck-button">
+                                <label>
+                                    <input asp-for="@Model[i].IsSelected" type="checkbox"><span>Remove</span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="card-footer">
+            <input type="submit" value="Update" class="btn btn-primary" />
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Add New Employee Account</a>
+        </div>
+    </div>
+</form>

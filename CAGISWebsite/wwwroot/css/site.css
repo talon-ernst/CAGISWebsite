@@ -69,3 +69,48 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+div label input {
+    margin-right: 100px;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+#ck-button {
+    margin: 4px;
+    background-color: #911;
+    color: #fff;
+    border-radius: 4px;
+    border: 1px solid #D0D0D0;
+    overflow: auto;
+    float: left;
+}
+
+#ck-button:hover {
+    background: red;
+}
+
+#ck-button label {
+    float: left;
+    width: 4.0em;
+    margin-bottom: 0;
+}
+
+#ck-button label span {
+    text-align: center;
+    padding: 3px 0px;
+    display: block;
+}
+
+#ck-button label input {
+    position: absolute;
+    display: none;
+    height: 100%;
+}
+
+#ck-button input:checked + span {
+    background-color: #EFEFEF;
+    color: black;
+}

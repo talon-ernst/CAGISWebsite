@@ -7,11 +7,11 @@
 
 <div class="card">
     @if (User.IsInRole("Admin"))
-    {
-        <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Add New Employee</a>
+    { 
+        <a asp-action="ListEmployees" asp-controller="Administration" class="btn btn-primary" id="btnEmployees">Employees</a>
     }
-    <a asp-action="ListRole" asp-controller="Administration" class="btn btn-primary" id="btnRoles">Role Information</a>
-    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnOrders">Update orders</a>
-    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminReviews">Pending Reviews</a>
-    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminEvents">Event Manager</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminBlog">Blog Manager</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminDYK">"Did You Know?" Manager</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminActivities">Activity Manager</a>
+    <a asp-action="#" asp-controller="Administration" class="btn btn-primary" id="btnAdminContests">Contest Manager</a>
 </div>
