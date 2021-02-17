@@ -19,7 +19,7 @@ namespace CAGISWebsite.Models
         {
         }
 
-        public virtual DbSet<Admin> Admin { get; set; }
+        public virtual DbSet<Activities> Activities { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -27,6 +27,11 @@ namespace CAGISWebsite.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Blogs> Blogs { get; set; }
+        public virtual DbSet<Contests> Contests { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Facts> Facts { get; set; }
+        public virtual DbSet<Images> Images { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,22 +44,24 @@ namespace CAGISWebsite.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Admin>(entity =>
+            modelBuilder.Entity<Activities>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.ActivityId)
+                    .HasName("PK__Activiti__0FC9CBCC63BA24DC");
 
-                entity.Property(e => e.AdminFirstName)
+                entity.Property(e => e.ActivityId)
+                    .HasColumnName("activityID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ActivityText)
                     .IsRequired()
-                    .HasColumnName("adminFirstName")
-                    .HasMaxLength(30)
-                    .IsUnicode(false);
+                    .HasColumnName("activityText")
+                    .HasMaxLength(4000);
 
-                entity.Property(e => e.AdminId).HasColumnName("adminId");
-
-                entity.Property(e => e.AdminLastName)
+                entity.Property(e => e.ActivityTitle)
                     .IsRequired()
-                    .HasColumnName("adminLastName")
-                    .HasMaxLength(30)
+                    .HasColumnName("activityTitle")
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 
@@ -154,6 +161,107 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<Blogs>(entity =>
+            {
+                entity.HasKey(e => e.BlogId)
+                    .HasName("PK__Blogs__FA0AA70D59BCB166");
+
+                entity.Property(e => e.BlogId)
+                    .HasColumnName("blogID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.BlogText)
+                    .IsRequired()
+                    .HasColumnName("blogText")
+                    .HasMaxLength(4000);
+
+                entity.Property(e => e.BlogTitle)
+                    .IsRequired()
+                    .HasColumnName("blogTitle")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Contests>(entity =>
+            {
+                entity.HasKey(e => e.ContestId)
+                    .HasName("PK__Contests__C5A32706096CBC51");
+
+                entity.Property(e => e.ContestId)
+                    .HasColumnName("contestID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.ContestEndDate)
+                    .HasColumnName("contestEndDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ContestStartDate)
+                    .HasColumnName("contestStartDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.ContestText)
+                    .IsRequired()
+                    .HasColumnName("contestText")
+                    .HasMaxLength(4000);
+
+                entity.Property(e => e.ContestTitle)
+                    .IsRequired()
+                    .HasColumnName("contestTitle")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnName("email")
+                    .HasMaxLength(65);
+            });
+
+            modelBuilder.Entity<Employees>(entity =>
+            {
+                entity.HasKey(e => e.AdminId)
+                    .HasName("PK__Employee__AD050086F6C0229E");
+
+                entity.Property(e => e.AdminId)
+                    .HasColumnName("adminID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Username)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Facts>(entity =>
+            {
+                entity.HasKey(e => e.Dykid)
+                    .HasName("PK__Facts__EB2F82E9E246327C");
+
+                entity.Property(e => e.Dykid)
+                    .HasColumnName("DYKID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Dyktext)
+                    .IsRequired()
+                    .HasColumnName("DYKText")
+                    .HasMaxLength(4000);
+
+                entity.Property(e => e.Dyktitle)
+                    .IsRequired()
+                    .HasColumnName("DYKTitle")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Images>(entity =>
+            {
+                entity.HasKey(e => e.ImageId)
+                    .HasName("PK__Images__336E9B7586C1622E");
+
+                entity.Property(e => e.ImageId)
+                    .HasColumnName("imageID")
+                    .ValueGeneratedNever();
             });
 
             OnModelCreatingPartial(modelBuilder);
