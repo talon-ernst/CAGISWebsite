@@ -1,0 +1,55 @@
+﻿@model IEnumerable<CAGISWebsite.Models.Contests>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestEndDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestStartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestEndDate)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ContestId">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

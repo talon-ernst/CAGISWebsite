@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CAGISWebsite.Models.Activities>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityText)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActivityText)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ActivityId">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

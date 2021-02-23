@@ -261,7 +261,7 @@ __pycache__/
 *.pyc
 
 #visual studio folder that should be ignored
-.vs/
-bin/Debug/
+CAGISWebsite/.vs/
+CAGISWebsite/bin/Debug/
 CAGISWebsite/obj/
 CAGISWebsite/obj/Debug
