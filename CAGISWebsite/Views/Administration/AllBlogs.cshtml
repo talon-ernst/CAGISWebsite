@@ -1,0 +1,42 @@
+﻿@model IEnumerable<CAGISWebsite.Models.Blogs>
+
+@{
+    ViewData["Title"] = "List of Blogs";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateBlog">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlogText)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlogText)
+            </td>
+            <td>
+                <a asp-action="EditBlog" asp-route-id="@item.BlogId">Edit</a> |
+                <form asp-action="DeleteBlog" onSubmit="return confirm('Are you sure you want to delete this?');" >
+                    <input type="submit" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/> |
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

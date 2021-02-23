@@ -1,0 +1,53 @@
+﻿@model CAGISWebsite.Models.Contests
+
+@{
+    ViewData["Title"] = "CreateContest";
+}
+
+<h1>CreateContest</h1>
+
+<h4>Contests</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateContest">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ContestTitle" class="control-label"></label>
+                <input asp-for="ContestTitle" class="form-control" />
+                <span asp-validation-for="ContestTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContestText" class="control-label"></label>
+                <input asp-for="ContestText" class="form-control" />
+                <span asp-validation-for="ContestText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContestStartDate" class="control-label"></label>
+                <input asp-for="ContestStartDate" class="form-control" />
+                <span asp-validation-for="ContestStartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContestEndDate" class="control-label"></label>
+                <input asp-for="ContestEndDate" class="form-control" />
+                <span asp-validation-for="ContestEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="AllContests">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

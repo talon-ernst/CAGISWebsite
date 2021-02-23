@@ -1,0 +1,61 @@
+﻿@model IEnumerable<CAGISWebsite.Models.Contests>
+
+@{
+    ViewData["Title"] = "List of Contests";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateContest">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestStartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestEndDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestText)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContestEndDate)
+                </td>
+                <td>
+                    <a asp-action="EditContest" asp-route-id="@item.ContestId">Edit</a> |
+                    <form asp-action="DeleteContest" onSubmit="return confirm('Are you sure you want to delete this?');">
+                        <input type="submit" value="Delete" asp-route-id="@item.ContestId" class="btn btn-danger" /> |
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

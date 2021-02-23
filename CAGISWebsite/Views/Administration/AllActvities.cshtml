@@ -1,0 +1,43 @@
+﻿@model IEnumerable<CAGISWebsite.Models.Activities>
+
+@{
+    ViewData["Title"] = "List of Activities";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="CreateActivity">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActivityText)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityText)
+                </td>
+                <td>
+                    <a asp-action="EditActivity" asp-route-id="@item.ActivityId">Edit</a> |
+                    <form asp-action="DeleteActivity" onSubmit="return confirm('Are you sure you want to delete this?');">
+                        <input type="submit" value="Delete" asp-route-id="@item.ActivityId" class="btn btn-danger" /> |
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
