@@ -4,7 +4,7 @@
     ViewData["Title"] = "List of Contests";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 id="titleAllContest">@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="CreateContest">Create New</a>
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ContestTitle)
+                Contest Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContestText)
+                Contest Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContestStartDate)
+                Start Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ContestEndDate)
+                End Date
             </th>
             <th></th>
         </tr>
@@ -50,9 +50,9 @@
                     @Html.DisplayFor(modelItem => item.ContestEndDate)
                 </td>
                 <td>
-                    <a asp-action="EditContest" asp-route-id="@item.ContestId">Edit</a> |
+                    <a asp-action="EditContest" asp-route-id="@item.ContestId" class="btn btn-primary" id="btnEditContest">Edit</a>
                     <form asp-action="DeleteContest" onSubmit="return confirm('Are you sure you want to delete this?');">
-                        <input type="submit" value="Delete" asp-route-id="@item.ContestId" class="btn btn-danger" /> |
+                        <input type="submit" value="Delete" asp-route-id="@item.ContestId" class="btn btn-danger" />
                     </form>
                 </td>
             </tr>

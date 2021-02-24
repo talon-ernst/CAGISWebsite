@@ -4,7 +4,7 @@
     ViewData["Title"] = "List of Blogs";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 id="titleAllBogs">@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="CreateBlog">Create New</a>
@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BlogTitle)
+                Blog Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BlogText)
+                Blog Description
             </th>
             <th></th>
         </tr>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.BlogText)
             </td>
             <td>
-                <a asp-action="EditBlog" asp-route-id="@item.BlogId">Edit</a> |
+                <a asp-action="EditBlog" asp-route-id="@item.BlogId" class="btn btn-primary" id="btnEditBlog">Edit</a>
                 <form asp-action="DeleteBlog" onSubmit="return confirm('Are you sure you want to delete this?');" >
-                    <input type="submit" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/> |
+                    <input type="submit" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/>
                 </form>
             </td>
         </tr>

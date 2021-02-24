@@ -4,7 +4,7 @@
     ViewData["Title"] = "List of Activities";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 id="titleAllActivites">@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="CreateActivity">Create New</a>
@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ActivityTitle)
+                Activity Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ActivityText)
+                Activity Description
             </th>
             <th></th>
         </tr>
@@ -32,9 +32,11 @@
                     @Html.DisplayFor(modelItem => item.ActivityText)
                 </td>
                 <td>
-                    <a asp-action="EditActivity" asp-route-id="@item.ActivityId">Edit</a> |
+                    
+                    
+                    <a asp-action="EditActivity" asp-route-id="@item.ActivityId" class="btn btn-primary" id="btnEditActivity">Edit</a>
                     <form asp-action="DeleteActivity" onSubmit="return confirm('Are you sure you want to delete this?');">
-                        <input type="submit" value="Delete" asp-route-id="@item.ActivityId" class="btn btn-danger" /> |
+                        <input type="submit" value="Delete" asp-route-id="@item.ActivityId" class="btn btn-danger" />
                     </form>
                 </td>
             </tr>

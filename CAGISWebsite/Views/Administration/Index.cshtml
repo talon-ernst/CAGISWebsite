@@ -1,17 +1,18 @@
 ﻿
 @{
-    ViewData["Title"] = "Admin Home Page";
+    ViewData["Title"] = "Admin Panel";
 }
 
-<h1>@ViewData["Title"]</h1>
+    <h1 id="AdminTitle">@ViewData["Title"]</h1>
 
-<div class="card">
-    @if (User.IsInRole("Admin"))
-    { 
-        <a asp-action="ListEmployees" asp-controller="Administration" class="btn btn-primary" id="btnEmployees">Employees</a>
-    }
-    <a asp-action="AllBlogs" asp-controller="Administration" class="btn btn-primary" id="btnAdminBlog">Blog Manager</a>
-    <a asp-action="AllFacts" asp-controller="Administration" class="btn btn-primary" id="btnAdminDYK">"Did You Know?" Manager</a>
-    <a asp-action="AllActvities" asp-controller="Administration" class="btn btn-primary" id="btnAdminActivities">Activity Manager</a>
-    <a asp-action="AllContests" asp-controller="Administration" class="btn btn-primary" id="btnAdminContests">Contest Manager</a>
-</div>
+    <div class="card">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="ListEmployees" asp-controller="Administration" class="btn btn-primary" id="btnEmployees">Employees</a><br />
+        }
+        <a asp-action="AllBlogs" asp-controller="Administration" class="btn btn-primary" id="btnAdminBlog">Manage Blog</a><br />
+        <a asp-action="AllFacts" asp-controller="Administration" class="btn btn-primary" id="btnAdminDYK">Manage Did You Know</a><br />
+        <a asp-action="AllActvities" asp-controller="Administration" class="btn btn-primary" id="btnAdminActivities">Manage Activities</a><br />
+        <a asp-action="AllContests" asp-controller="Administration" class="btn btn-primary" id="btnAdminContests">Manage Contests</a>
+    </div>
+

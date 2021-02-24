@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<CAGISWebsite.Models.Facts>
 
 @{
-    ViewData["Title"] = "List of Facts";
+    ViewData["Title"] = "Did You Know";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 id="titleAllDYK">@ViewData["Title"]</h1>
 
 <p>
     <a asp-action="CreateFact">Create New</a>
@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Dyktitle)
+                Did You Know Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Dyktext)
+                Did You Know Description
             </th>
             <th></th>
         </tr>
@@ -32,12 +32,15 @@
                     @Html.DisplayFor(modelItem => item.Dyktext)
                 </td>
                 <td>
-                    <a asp-action="EditFact" asp-route-id="@item.Dykid">Edit</a> |
+                    <a asp-action="EditFact" asp-route-id="@item.Dykid" class="btn btn-primary" id="btnEditFact">Edit</a>
                     <form asp-action="DeleteFact" onSubmit="return confirm('Are you sure you want to delete this?');">
-                        <input type="submit" value="Delete" asp-route-id="@item.Dykid" class="btn btn-danger" /> |
+                        <input type="submit" value="Delete" asp-route-id="@item.Dykid" class="btn btn-danger" />
                     </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
