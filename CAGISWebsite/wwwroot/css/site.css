@@ -127,3 +127,10 @@ body {
 #h1Title{
     padding-top:10px;
 }
+
+#btnEditActivity, #btnDeleteActivity, #btnDeleteBlog, #btnEditBlog, #btnEditContest, #btnDeleteContest, #btnEditFact, #btnDeleteDYK {
+    width: 100px;
+    height: 35px;
+}
+
+

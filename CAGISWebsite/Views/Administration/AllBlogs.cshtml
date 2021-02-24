@@ -33,10 +33,13 @@
             <td>
                 <a asp-action="EditBlog" asp-route-id="@item.BlogId" class="btn btn-primary" id="btnEditBlog">Edit</a>
                 <form asp-action="DeleteBlog" onSubmit="return confirm('Are you sure you want to delete this?');" >
-                    <input type="submit" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/>
+                    <input type="submit" id="btnDeleteBlog" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/>
                 </form>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<div>
+    <a asp-action="Index">Back to Admin Panel</a>
+</div>
