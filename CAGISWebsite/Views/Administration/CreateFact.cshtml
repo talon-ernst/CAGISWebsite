@@ -4,23 +4,22 @@
     ViewData["Title"] = "Create New Did You Know";
 }
 
-<h1 id="titleCreateDYK">Create New Did You Know</h1>
+<h1 id="titleCreateDYK">@ViewData["Title"]</h1>
 
 <h4>Did You Know</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateFact">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="CreateFact" id="frmDYK" onsubmit="return TTLValidation('DYK');">
             <div class="form-group">
                 <label asp-for="Dyktitle" class="control-label">Did You Know Title</label>
-                <input asp-for="Dyktitle" class="form-control" />
-                <span asp-validation-for="Dyktitle" class="text-danger"></span>
+                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control" />
+                <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Dyktext" class="control-label">Did You Know Text</label>
-                <input asp-for="Dyktext" class="form-control" />
-                <span asp-validation-for="Dyktext" class="text-danger"></span>
+                <input asp-for="Dyktext" id="txtDYKText" class="form-control" />
+                <span id="txtDYKText-error" asp-validation-for="Dyktext" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -34,5 +33,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/TTLGeneralValidation.js" type="text/javascript"></script>
 }

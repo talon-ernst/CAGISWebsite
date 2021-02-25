@@ -1,26 +1,25 @@
 ﻿@model CAGISWebsite.Models.Blogs
 
 @{
-    ViewData["Title"] = "CreateBlog";
+    ViewData["Title"] = "Create New Blog";
 }
 
-<h1 id="titleCreateBlog">Create New Blog</h1>
+<h1 id="titleCreateBlog">@ViewData["Title"]</h1>
 
 <h4>Blogs</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateBlog">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog');">
             <div class="form-group">
                 <label asp-for="BlogTitle" class="control-label">Blog Title</label>
-                <input asp-for="BlogTitle" class="form-control" />
-                <span asp-validation-for="BlogTitle" class="text-danger"></span>
+                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control" />
+                <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BlogText" class="control-label">Blog Description</label>
-                <input asp-for="BlogText" class="form-control" />
-                <span asp-validation-for="BlogText" class="text-danger"></span>
+                <input asp-for="BlogText" id="txtBlogText" class="form-control" />
+                <span id="txtBlogText-error" asp-validation-for="BlogText" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="CreateBlog" class="btn btn-primary" />
@@ -34,5 +33,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/TTLGeneralValidation.js" type="text/javascript"></script>
 }

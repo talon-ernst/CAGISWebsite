@@ -368,7 +368,7 @@ namespace CAGISWebsite.Controllers
         }
 
         // List all activites
-        public async Task<IActionResult> AllActvities()
+        public async Task<IActionResult> AllActivities()
         {
             return View(await _context.Activities.ToListAsync());
         }
@@ -390,7 +390,7 @@ namespace CAGISWebsite.Controllers
                 activity.ActivityId = Guid.NewGuid();
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllActvities));
+                return RedirectToAction(nameof(AllActivities));
             }
             return View(activity);
         }
@@ -439,7 +439,7 @@ namespace CAGISWebsite.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(AllActvities));
+                return RedirectToAction(nameof(AllActivities));
             }
             return View(activity);
         }
@@ -452,7 +452,7 @@ namespace CAGISWebsite.Controllers
             var activity = await _context.Activities.FindAsync(id);
             _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(AllActvities));
+            return RedirectToAction(nameof(AllActivities));
         }
 
         //check if an activity with given id exists

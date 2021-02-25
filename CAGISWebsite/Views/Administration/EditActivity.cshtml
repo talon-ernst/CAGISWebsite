@@ -10,18 +10,17 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="EditActivity">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="EditActivity" id="frmEditActivity" onsubmit="return TTLValidation('Activity');">   
             <input type="hidden" asp-for="ActivityId" />
             <div class="form-group">
                 <label asp-for="ActivityTitle" class="control-label">Activity Title</label><br />
-                <input asp-for="ActivityTitle" class="form-control, col-md-4" />
-                <span asp-validation-for="ActivityTitle" class="text-danger"></span>
+                <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control" />
+                <span id="txtActivityTitle-error" asp-validation-for="ActivityTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ActivityText" class="control-label">Activity Description</label>
-                <textarea asp-for="ActivityText" class="form-control" rows="7" cols="250"></textarea>
-                <span asp-validation-for="ActivityText" class="text-danger"></span>
+                <textarea asp-for="ActivityText" id="txtActivityText" class="form-control" rows="7" cols="250"></textarea>
+                <span id="txtActivityText-error" asp-validation-for="ActivityText" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -35,5 +34,5 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/TTLGeneralValidation.js" type="text/javascript"></script>
 }
