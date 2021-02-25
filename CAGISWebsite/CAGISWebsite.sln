@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAGISWebsite", "CAGISWebsite.csproj", "{19801F50-147D-4640-B389-062AD654AA9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAGISWebsite", "CAGISWebsite.csproj", "{19801F50-147D-4640-B389-062AD654AA9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAGISUnitTests", "..\CAGISUnitTests\CAGISUnitTests.csproj", "{599FEF42-A4D4-408D-AED0-F4B1C5708164}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{19801F50-147D-4640-B389-062AD654AA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19801F50-147D-4640-B389-062AD654AA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19801F50-147D-4640-B389-062AD654AA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599FEF42-A4D4-408D-AED0-F4B1C5708164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599FEF42-A4D4-408D-AED0-F4B1C5708164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599FEF42-A4D4-408D-AED0-F4B1C5708164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599FEF42-A4D4-408D-AED0-F4B1C5708164}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
