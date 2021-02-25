@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BlogText" class="control-label">Blog Description</label>
-                <input asp-for="BlogText" id="txtBlogText" class="form-control" />
+                <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
                 <span id="txtBlogText-error" asp-validation-for="BlogText" class="text-danger"></span>
             </div>
             <div class="form-group">
