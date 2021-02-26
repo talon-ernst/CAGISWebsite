@@ -115,7 +115,7 @@ body {
     color: black;
 }
 
-#AdminTitle, #titleAllDYK, #titleAllContest, #titleAllBogs, #titleAllActivites, #titleCreateActivity, #titleCreateBlog, #titleCreateContest, #titleCreateDYK, #TitleEditActivity, #titleEditBlog, #titleEditContest, #titleEditDYK {
+#AdminTitle, #titleAllDYK, #titleAllContest, #titleAllBogs, #titleAllActivities, #titleCreateActivity, #titleCreateBlog, #titleCreateContest, #titleCreateDYK, #TitleEditActivity, #titleEditBlog, #titleEditContest, #titleEditDYK {
     padding-top: 10px;
     padding-bottom: 10px;
 }

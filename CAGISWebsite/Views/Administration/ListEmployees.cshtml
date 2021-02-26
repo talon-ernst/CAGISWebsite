@@ -21,30 +21,39 @@
                 </tr>
                 @for (int i = 0; i < Model.Count; i++)
                 {
-                    <tr>
-                        <td>
-                            <input type="hidden" asp-for="@Model[i].UserId" />
-                            <div class="form-check m-1">
-                                <label class="form-check-label">@Model[i].UserName</label>
-                            </div>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" id="btnChangePassword" asp-controller="Administration" asp-action="ChangePassword" asp-route-id="@Model[i].UserId">Change Password</a>
-                        </td>
-                        <td>
-                            <div id="ck-button">
-                                <label>
-                                    <input asp-for="@Model[i].IsSelected" type="checkbox"><span>Remove</span>
-                                </label>
-                            </div>
-                        </td>
-                    </tr>
+            <tr>
+                <td>
+                    <input type="hidden" asp-for="@Model[i].UserId" />
+                    <div class="form-check m-1">
+                        <label class="form-check-label" id="lblUserName">@Model[i].UserName</label>
+                    </div>
+                </td>
+                <td>
+                    <a class="btn btn-primary" id="btnChangePassword" asp-controller="Administration" asp-action="ChangePassword" asp-route-id="@Model[i].UserId">Change Password</a>
+                </td>
+                @if (User.Identity.Name != Model[i].UserName)
+                {
+                    <td>
+                        <div id="ck-button">
+                            <label>
+                                <input asp-for="@Model[i].IsSelected" type="checkbox" id="chkRemove"><span>Remove</span>
+                            </label>
+                        </div>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <input asp-for="@Model[i].IsSelected" hidden>
+                    </td>
+                }
+                </tr>
                 }
             </table>
         </div>
         <div class="card-footer">
-            <input type="submit" value="Update" class="btn btn-primary" />
-            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register">Add New Employee Account</a>
+            <input type="submit" value="Update" class="btn btn-primary" id="btnUpdateList"/>
+            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Register" id="btnAddEmployee">Add New Employee Account</a>
         </div>
     </div>
 </form>

@@ -53,14 +53,17 @@ namespace CAGISWebsite.Controllers
             var model = new List<UserRole>();
             foreach (var user in userManager.Users)
             {
-                //if (await userManager.IsInRoleAsync(user, "Employee") && !User.IsInRole("Admin"))
-                //{
+                Employees employee = _context.Employees.Where(e => e.AdminId == Guid.Parse(user.Id)).FirstOrDefault();
+                //only include admin and activated employees in the list
+                if ((await userManager.IsInRoleAsync(user, "Employee") && employee.IsActivated))
+                {
                     var userRole = new UserRole
                     {
                         UserId = user.Id,
                         UserName = user.UserName
                     };
 
+                    //in case an account gets through somehow
                     if (await userManager.IsInRoleAsync(user, role.Name))
                     {
                         userRole.IsSelected = true;
@@ -71,7 +74,7 @@ namespace CAGISWebsite.Controllers
                     }
 
                     model.Add(userRole);
-                //}
+                }
             }
             return View(model);
         }
@@ -93,27 +96,23 @@ namespace CAGISWebsite.Controllers
             for (int i = 0; i < model.Count; i++)
             {
                 var user = await userManager.FindByIdAsync(model[i].UserId);
-                IdentityResult result = null;
 
-                if (model[i].IsSelected && !(await userManager.IsInRoleAsync(user, role.Name)))
+                //remove designated accounts from the activated list
+                if (!model[i].IsSelected)
                 {
-                    result = await userManager.AddToRoleAsync(user, role.Name);
-                }
-                else if (!model[i].IsSelected && (await userManager.IsInRoleAsync(user, role.Name)))
-                {
-                    result = await userManager.RemoveFromRoleAsync(user, role.Name);
+                    Employees employee = _context.Employees.Where(e => e.AdminId == Guid.Parse(user.Id)).FirstOrDefault();
+
+                    employee.IsActivated = false;
+                    _context.Update(employee);
+                    await _context.SaveChangesAsync();
                 }
                 else
                     continue;
 
-                if (result.Succeeded)
-                {
-                    if (i < (model.Count - 1))
-                        continue;
-                    else
-                        return RedirectToAction("ListEmployees");
-
-                }
+                if (i < (model.Count - 1))
+                    continue;
+                else
+                    return RedirectToAction("ListEmployees");
             }
 
             return RedirectToAction("ListEmployees");
@@ -367,7 +366,7 @@ namespace CAGISWebsite.Controllers
             return _context.Facts.Any(e => e.Dykid == id);
         }
 
-        // List all activites
+        // List all activities
         public async Task<IActionResult> AllActivities()
         {
             return View(await _context.Activities.ToListAsync());

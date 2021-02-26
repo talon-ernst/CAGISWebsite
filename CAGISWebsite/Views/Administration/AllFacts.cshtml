@@ -7,7 +7,7 @@
 <h1 id="titleAllDYK">@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="CreateFact">Create New</a>
+    <a asp-action="CreateFact" id="btnAddDYK">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -25,10 +25,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
+                <td id="lblDYKTitle">
                     @Html.DisplayFor(modelItem => item.Dyktitle)
                 </td>
-                <td>
+                <td id="lblDYKText">
                     @Html.DisplayFor(modelItem => item.Dyktext)
                 </td>
                 <td>
@@ -42,5 +42,5 @@
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Back to Admin Panel</a>
+    <a asp-action="Index" id="btnFactBack">Back to Admin Panel</a>
 </div>
