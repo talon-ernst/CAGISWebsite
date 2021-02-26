@@ -76,7 +76,9 @@ namespace CAGISWebsite.Controllers
                     model.Add(userRole);
                 }
             }
-            return View(model);
+            var sortedModel = model.OrderBy(x => x.UserName).ToList();
+
+            return View(sortedModel);
         }
 
         //post changes to active accounts
