@@ -13,7 +13,7 @@
         <form asp-action="CreateActivity" id="frmActivity" onsubmit="return TTLValidation('Activity');">
             <div class="form-group">
                 <label asp-for="ActivityTitle" class="control-label">Activity Title</label>
-                <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control" />
+                <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control" maxlength="50"/>
                 <span id="txtActivityTitle-error" asp-validation-for="ActivityTitle" class="text-danger"></span>
             </div>
             <div class="form-group">

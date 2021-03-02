@@ -14,7 +14,7 @@
             <input type="hidden" asp-for="Dykid" />
             <div class="form-group">
                 <label asp-for="Dyktitle" class="control-label">Did You Know Title</label>
-                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control" />
+                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control" maxlength="50"/>
                 <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -509,7 +509,7 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing contest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditContest(Guid id, [Bind("ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest)
+        public async Task<IActionResult> EditContest(Guid id, [Bind("ContestId,ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest)
         {
             if (id != contest.ContestId)
             {

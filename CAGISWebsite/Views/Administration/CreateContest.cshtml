@@ -13,7 +13,7 @@
         <form asp-action="CreateContest" id="frmContest" onsubmit="return TTLValidation(false);">
             <div class="form-group">
                 <label asp-for="ContestTitle" class="control-label">Contest Title</label>
-                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control" />
+                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control" maxlength="50"/>
                 <span id="txtContestTitle-error" asp-validation-for="ContestTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
