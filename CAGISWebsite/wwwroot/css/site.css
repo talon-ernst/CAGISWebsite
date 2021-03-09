@@ -143,8 +143,28 @@ body {
     height: 35px;
 }
 
-#AllActivitesPage, #AllBlogPage, #AllContestsPage, #AllDYKPage, #CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #IndexPage, #ListOfEmployeesPage, #changePasswordPage, #HomePageId, #PrivacyPolicyPage, #sharedHomePage {
+#AllActivitesPage, #ButtonAdminPanel, #AllBlogPage, #AllContestsPage, #AllDYKPage, #CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #IndexPage, #ListOfEmployeesPage, #changePasswordPage, #HomePageId, #PrivacyPolicyPage, #sharedHomePage {
     background-color: #3FB954;
+}
+
+#btnEmployees, #btnAdminBlog, #btnAdminDYK, #btnAdminActivities, #btnAdminContests {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}
+
+#AdminTitle{
+    padding-left: 25%;
+}
+
+#AllActivitesPage, #AllBlogPage, #AllContestsPage, #AllDYKPage {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+#CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #changePasswordPage, #ListOfEmployeesPage, #LoginPage, #RegisterPage {
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 
