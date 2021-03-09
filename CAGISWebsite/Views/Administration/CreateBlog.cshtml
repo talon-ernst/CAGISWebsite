@@ -9,11 +9,11 @@
 <h4>Blogs</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog');">
             <div class="form-group">
-                <label asp-for="BlogTitle" class="control-label">Blog Title</label>
-                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control" maxlength="50"/>
+                <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
+                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50"/>
                 <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="text-danger"></span>
             </div>
             <div class="form-group">

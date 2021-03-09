@@ -9,11 +9,11 @@
 <h4>Did You Know</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form asp-action="CreateFact" id="frmDYK" onsubmit="return TTLValidation('DYK');">
             <div class="form-group">
-                <label asp-for="Dyktitle" class="control-label">Did You Know Title</label>
-                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control" maxlength="50"/>
+                <label asp-for="Dyktitle" class="control-label">Did You Know Title</label><br />
+                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control, col-md-4" maxlength="50"/>
                 <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" class="text-danger"></span>
             </div>
             <div class="form-group">
