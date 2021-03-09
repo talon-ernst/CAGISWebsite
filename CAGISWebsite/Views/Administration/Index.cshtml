@@ -7,6 +7,7 @@
     ViewData["Title"] = "Admin Panel";
 }
 
+<div id="IndexPage">
     <h1 id="AdminTitle">@ViewData["Title"]</h1>
 
     <div class="card">
@@ -19,4 +20,6 @@
         <a asp-action="AllActivities" asp-controller="Administration" class="btn btn-primary" id="btnAdminActivities">Manage Activities</a><br />
         <a asp-action="AllContests" asp-controller="Administration" class="btn btn-primary" id="btnAdminContests">Manage Contests</a>
     </div>
+</div>
+   
 

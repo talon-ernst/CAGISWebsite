@@ -4,48 +4,51 @@
     ViewData["Title"] = "Create New Contest";
 }
 
-<h1 id="titleCreateContest">@ViewData["Title"]</h1>
+<div id="CreateContestPage">
+    <h1 id="titleCreateContest">@ViewData["Title"]</h1>
 
-<h4>Contests</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="CreateContest" id="frmContest" onsubmit="return TTLValidation(false);">
-            <div class="form-group">
-                <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
-                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50"/>
-                <span id="txtContestTitle-error" asp-validation-for="ContestTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContestText" class="control-label">Contest Description</label>
-                <textarea asp-for="ContestText" id="txtContestText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtContestText-error" asp-validation-for="ContestText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label">Email</label><br />
-                <input asp-for="Email" id="txtEmail" class="form-control, col-md-4" />
-                <span id="txtEmail-error" asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContestStartDate" class="control-label">Start Date</label><br />
-                <input asp-for="ContestStartDate" type="datetime-local" id="dateContestStart" class="form-control, col-md-4" />
-                <span id="dateContestStart-error" asp-validation-for="ContestStartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContestEndDate" class="control-label">End Date</label><br />
-                <input asp-for="ContestEndDate" type="datetime-local" id="dateContestEnd" class="form-control, col-md-4" />
-                <span id="dateContestEnd-error" asp-validation-for="ContestEndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" id="btnCreateContest"/>
-            </div>
-        </form>
+    <h4>Contests</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="CreateContest" id="frmContest" onsubmit="return TTLValidation(false);">
+                <div class="form-group">
+                    <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
+                    <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50" />
+                    <span id="txtContestTitle-error" asp-validation-for="ContestTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContestText" class="control-label">Contest Description</label>
+                    <textarea asp-for="ContestText" id="txtContestText" class="form-control" rows="7" cols="250"></textarea>
+                    <span id="txtContestText-error" asp-validation-for="ContestText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label">Email</label><br />
+                    <input asp-for="Email" id="txtEmail" class="form-control, col-md-4" />
+                    <span id="txtEmail-error" asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContestStartDate" class="control-label">Start Date</label><br />
+                    <input asp-for="ContestStartDate" type="datetime-local" id="dateContestStart" class="form-control, col-md-4" />
+                    <span id="dateContestStart-error" asp-validation-for="ContestStartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContestEndDate" class="control-label">End Date</label><br />
+                    <input asp-for="ContestEndDate" type="datetime-local" id="dateContestEnd" class="form-control, col-md-4" />
+                    <span id="dateContestEnd-error" asp-validation-for="ContestEndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" id="btnCreateContest" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="AllContests">Back to List</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="AllContests">Back to List</a>
-</div>
 
 @section Scripts {
     <script src="~/js/TTLContestValidation.js" type="text/javascript"></script>

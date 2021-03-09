@@ -143,4 +143,8 @@ body {
     height: 35px;
 }
 
+#AllActivitesPage, #AllBlogPage, #AllContestsPage, #AllDYKPage, #CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #IndexPage, #ListOfEmployeesPage, #changePasswordPage, #HomePageId, #PrivacyPolicyPage {
+    background-color: #3FB954;
+}
+
 

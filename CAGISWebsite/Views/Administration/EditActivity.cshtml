@@ -4,33 +4,36 @@
     ViewData["Title"] = "EditActivity";
 }
 
-<h1 id="TitleEditActivity">Edit Activity</h1>
+<div id="EditActivityPage">
+    <h1 id="TitleEditActivity">Edit Activity</h1>
 
-<h4>Activities</h4>
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form asp-action="EditActivity" id="frmEditActivity" onsubmit="return TTLValidation('Activity');">   
-            <input type="hidden" asp-for="ActivityId" />
-            <div class="form-group">
-                <label asp-for="ActivityTitle" class="control-label">Activity Title</label><br />
-                <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control, col-md-4" maxlength="50"/>
-                <span id="txtActivityTitle-error" asp-validation-for="ActivityTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ActivityText" class="control-label">Activity Description</label>
-                <textarea asp-for="ActivityText" id="txtActivityText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtActivityText-error" asp-validation-for="ActivityText" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+    <h4>Activities</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form asp-action="EditActivity" id="frmEditActivity" onsubmit="return TTLValidation('Activity');">
+                <input type="hidden" asp-for="ActivityId" />
+                <div class="form-group">
+                    <label asp-for="ActivityTitle" class="control-label">Activity Title</label><br />
+                    <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control, col-md-4" maxlength="50" />
+                    <span id="txtActivityTitle-error" asp-validation-for="ActivityTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ActivityText" class="control-label">Activity Description</label>
+                    <textarea asp-for="ActivityText" id="txtActivityText" class="form-control" rows="7" cols="250"></textarea>
+                    <span id="txtActivityText-error" asp-validation-for="ActivityText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-action="AllActivities">Back to List</a>
+    <div>
+        <a asp-action="AllActivities">Back to List</a>
+    </div>
+
 </div>
 
 @section Scripts {
