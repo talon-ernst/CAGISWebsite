@@ -9,6 +9,7 @@ namespace CAGISWebsite.Models
 {
     public partial class Blogs
     {
+       
         public Guid BlogId { get; set; }
         public string BlogTitle { get; set; }
         public string BlogText { get; set; }

@@ -4,7 +4,8 @@
     ViewData["Title"] = "Edit Blog";
 }
 
-<h1 id="titleEditBlog">@ViewData["Title"]</h1>
+<div id="EditBlogPage">
+    <h1 id="titleEditBlog">@ViewData["Title"]</h1>
 
 <h4>Blogs</h4>
 <hr />
@@ -44,8 +45,9 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="AllBlogs">Back to List</a>
+    <div>
+        <a asp-action="AllBlogs">Back to List</a>
+    </div>
 </div>
 
 @section Scripts {

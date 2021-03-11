@@ -4,7 +4,8 @@
     ViewData["Title"] = "Create New Did You Know";
 }
 
-<h1 id="titleCreateDYK">@ViewData["Title"]</h1>
+<div id="CreateDYKPage">
+    <h1 id="titleCreateDYK">@ViewData["Title"]</h1>
 
 <hr />
 <div class="row">
@@ -32,9 +33,11 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="AllFacts">Back to List</a>
+    <div>
+        <a asp-action="AllFacts">Back to List</a>
+    </div>
 </div>
+
 
 @section Scripts {
     <script src="~/js/TTLGeneralValidation.js" type="text/javascript"></script>

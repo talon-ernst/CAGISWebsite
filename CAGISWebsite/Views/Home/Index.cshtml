@@ -2,8 +2,21 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    
-        <img id ="homePageImage"src="~/Images/Cagis_logo_colour.png" />
-    
+<div class="text-center" id="HomePageId">
+    <div style="text-align:left">
+        <a asp-controller="Blogs" asp-action="Index">
+            <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="BlogIcon" /><br />
+        </a>
+    </div>
+
+    <div style="text-align:left">
+        <a asp-controller="Activities" asp-action="Index">
+            <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="ActivitiesIcon" /><br />
+        </a>
+    </div>
+    <div style="text-align:left">
+        <a asp-controller="Facts" asp-action="Index">
+            <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" /><br />
+        </a>
+    </div>
 </div>

@@ -54,20 +54,30 @@ button.accept-policy {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
+    background-color: #3FB954;
+    
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    position: absolute;
+    bottom: 0;
+    color: black;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: white;
+}
+
+#footerText {
+    color: black;
 }
 
 div label input {
@@ -86,6 +96,10 @@ body {
     border: 1px solid #D0D0D0;
     overflow: auto;
     float: left;
+}
+
+.navbar {
+    height: 100% !important;
 }
 
 #ck-button:hover {
@@ -132,5 +146,43 @@ body {
     width: 100px;
     height: 35px;
 }
+
+#AllActivitesPage, #ButtonAdminPanel, #AllBlogPage, #AllContestsPage, #AllDYKPage, #CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #IndexPage, #ListOfEmployeesPage, #changePasswordPage, #HomePageId, #PrivacyPolicyPage, #sharedHomePage {
+    background-color: #3FB954;
+    
+}
+
+#btnEmployees, #btnAdminBlog, #btnAdminDYK, #btnAdminActivities, #btnAdminContests {
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}
+
+#AdminTitle{
+    padding-left: 25%;
+}
+
+#AllActivitesPage, #AllBlogPage, #AllContestsPage, #AllDYKPage {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+#CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #changePasswordPage, #ListOfEmployeesPage, #LoginPage, #RegisterPage {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+#DYKIcon, #ActivitiesIcon, #BlogIcon {
+    width: 15%;
+    height: auto;
+    padding-top: 3%;
+    padding-left: 2%;
+}
+
+#DYKIcon{
+    padding-bottom: 3%;
+}
+
+
 
 

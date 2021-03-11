@@ -4,7 +4,8 @@
     ViewData["Title"] = "Create Activity";
 }
 
-<h1 id="titleCreateActivity">@ViewData["Title"]</h1>
+<div id="CreateActivityPage">
+    <h1 id="titleCreateActivity">@ViewData["Title"]</h1>
 
 <hr />
 <div class="row">
@@ -32,9 +33,11 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="AllActivities">Back to List</a>
+    <div>
+        <a asp-action="AllActivities">Back to List</a>
+    </div>
 </div>
+
 
 @section Scripts {
     <script src="~/js/TTLGeneralValidation.js" type="text/javascript"></script>

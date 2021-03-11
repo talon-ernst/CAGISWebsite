@@ -4,7 +4,8 @@
     ViewData["Title"] = "Edit Contest";
 }
 
-<h1 id="titleEditContest">@ViewData["Title"]</h1>
+<div id="EditContestPage">
+    <h1 id="titleEditContest">@ViewData["Title"]</h1>
 
 <hr />
 <div class="row">
@@ -58,9 +59,12 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="AllContests">Back to List</a>
+    <div>
+        <a asp-action="AllContests">Back to List</a>
+    </div>
 </div>
+
+
 
 @section Scripts {
     <script src="~/js/TTLContestValidation.js" type="text/javascript"></script>
