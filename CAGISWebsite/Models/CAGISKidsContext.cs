@@ -38,7 +38,7 @@ namespace CAGISWebsite.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=CAGISKids;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-4MMOC5A\\SQLEXPRESS;Database=CAGISKids;Trusted_Connection=True;");
             }
         }
 
@@ -53,6 +53,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.ActivityImageId).HasColumnName("activityImageID");
+
                 entity.Property(e => e.ActivityText)
                     .IsRequired()
                     .HasColumnName("activityText")
@@ -63,6 +65,11 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.ActivityImage)
+                    .WithMany(p => p.Activities)
+                    .HasForeignKey(d => d.ActivityImageId)
+                    .HasConstraintName("FK_Activities_Images");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -172,6 +179,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.BlogImageId).HasColumnName("blogImageID");
+
                 entity.Property(e => e.BlogText)
                     .IsRequired()
                     .HasColumnName("blogText")
@@ -182,6 +191,11 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.BlogImage)
+                    .WithMany(p => p.Blogs)
+                    .HasForeignKey(d => d.BlogImageId)
+                    .HasConstraintName("FK_Blogs_Images");
             });
 
             modelBuilder.Entity<Contests>(entity =>
@@ -196,6 +210,8 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.ContestEndDate)
                     .HasColumnName("contestEndDate")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.ContestImageId).HasColumnName("contestImageId");
 
                 entity.Property(e => e.ContestStartDate)
                     .HasColumnName("contestStartDate")
@@ -216,6 +232,11 @@ namespace CAGISWebsite.Models
                     .IsRequired()
                     .HasColumnName("email")
                     .HasMaxLength(65);
+
+                entity.HasOne(d => d.ContestImage)
+                    .WithMany(p => p.Contests)
+                    .HasForeignKey(d => d.ContestImageId)
+                    .HasConstraintName("FK_Contests_Images");
             });
 
             modelBuilder.Entity<Employees>(entity =>
@@ -242,6 +263,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("DYKID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.DykimageId).HasColumnName("DYKImageID");
+
                 entity.Property(e => e.Dyktext)
                     .IsRequired()
                     .HasColumnName("DYKText")
@@ -252,6 +275,11 @@ namespace CAGISWebsite.Models
                     .HasColumnName("DYKTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Dykimage)
+                    .WithMany(p => p.Facts)
+                    .HasForeignKey(d => d.DykimageId)
+                    .HasConstraintName("FK_Facts_Images");
             });
 
             modelBuilder.Entity<Images>(entity =>
@@ -262,6 +290,10 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.ImageId)
                     .HasColumnName("imageID")
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.ImagePath)
+                    .IsRequired()
+                    .HasColumnName("imagePath");
             });
 
             OnModelCreatingPartial(modelBuilder);

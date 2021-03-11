@@ -14,6 +14,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 Activity Title
             </th>
@@ -26,29 +27,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td id="lblActivityTitle">
-                    @Html.DisplayFor(modelItem => item.ActivityTitle)
+        <tr>
+            @if (item.ActivityImageId == null)
+            {
+                <td id="imgActivityImage">
+                    <img src="~/Images/Cagis_logo_colour.png" />
                 </td>
-                <td id="lblActivityText">
-                    @if (item.ActivityText.Length >= 230)
-                    {
-                        @Html.DisplayTextFor(modelItem => item.ActivityText).Substring(0, 230)
-                    }
-                    else
-                    {
-                        @Html.DisplayTextFor(modelItem => item.ActivityText)
-                    }
+            }
+            else
+            {
+                <td id="imgActivityImage">
+                    <img src="@item.ActivityImage.ImagePath" height="150" width="200" />
                 </td>
-                <td>
+            }
+            <td id="lblActivityTitle">
+                @Html.DisplayFor(modelItem => item.ActivityTitle)
+            </td>
+            <td id="lblActivityText">
+                @if (item.ActivityText.Length >= 230)
+                {
+                    @Html.DisplayTextFor(modelItem => item.ActivityText).Substring(0, 230)
+                }
+                else
+                {
+                    @Html.DisplayTextFor(modelItem => item.ActivityText)
+                }
+            </td>
+            <td>
 
 
-                    <a asp-action="EditActivity" asp-route-id="@item.ActivityId" class="btn btn-primary" id="btnEditActivity">Edit</a><br />
-                    <form asp-action="DeleteActivity" onSubmit="return confirm('Are you sure you want to delete this?');">
-                        <input type="submit" id="btnDeleteActivity" value="Delete" asp-route-id="@item.ActivityId" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
+                <a asp-action="EditActivity" asp-route-id="@item.ActivityId" class="btn btn-primary" id="btnEditActivity">Edit</a><br />
+                <form asp-action="DeleteActivity" onSubmit="return confirm('Are you sure you want to delete this?');">
+                    <input type="submit" id="btnDeleteActivity" value="Delete" asp-route-id="@item.ActivityId" class="btn btn-danger" />
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

@@ -9,18 +9,33 @@
 <h4>Blogs</h4>
 <hr />
 <div class="row">
+    <div>
+        @if (Model.BlogImageId == null)
+        {
+            <img id="imgBlogImage" src="~/Images/Cagis_logo_colour.png" />
+        }
+        else
+        {
+            <img id="imgBlogImage" src="@Model.BlogImage.ImagePath" height="150" width="200" />
+        }
+    </div>
     <div class="col-md-10">
-        <form asp-action="EditBlog" id="frmEditBlog" onsubmit="return TTLValidation('Blog');">
+        <form enctype="multipart/form-data" asp-action="EditBlog" id="frmEditBlog" onsubmit="return TTLValidation('Blog');">
             <input type="hidden" asp-for="BlogId" />
             <div class="form-group">
                 <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
-                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50"/>
+                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50" />
                 <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BlogText" class="control-label">Blog Description</label>
                 <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
                 <span id="txtBlogText-error" asp-validation-for="BlogText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Image</label><br />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

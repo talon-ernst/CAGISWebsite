@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 Blog Title
             </th>
@@ -24,6 +25,18 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            @if (item.BlogImageId == null)
+            {
+                <td id="imgBlogImage">
+                    <img src="~/Images/Cagis_logo_colour.png" />
+                </td>
+            }
+            else
+            {
+                <td id="imgBlogImage">
+                    <img src="@item.BlogImage.ImagePath" height="150" width="200"/>
+                </td>
+            }
             <td id="lblBlogTitle">
                 @Html.DisplayFor(modelItem => item.BlogTitle)
             </td>

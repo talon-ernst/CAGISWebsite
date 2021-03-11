@@ -6,21 +6,35 @@
 
 <h1 id="titleEditDYK">@ViewData["Title"]</h1>
 
-<h4>Did You Knows</h4>
 <hr />
 <div class="row">
+    <div>
+        @if (Model.DykimageId == null)
+        {
+            <img id="imgBlogImage" src="~/Images/Cagis_logo_colour.png" />
+        }
+        else
+        {
+            <img id="imgBlogImage" src="@Model.Dykimage.ImagePath" height="150" width="200" />
+        }
+    </div>
     <div class="col-md-10">
-        <form asp-action="EditFact" id="frmEditDYK" onsubmit="return TTLValidation('DYK');">
+        <form enctype="multipart/form-data" asp-action="EditFact" id="frmEditDYK" onsubmit="return TTLValidation('DYK');">
             <input type="hidden" asp-for="Dykid" />
             <div class="form-group">
                 <label asp-for="Dyktitle" class="control-label">Did You Know Title</label><br />
-                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control, col-md-4" maxlength="50"/>
+                <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control, col-md-4" maxlength="50" />
                 <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Dyktext" class="control-label">Did You Know Description</label>
                 <textarea asp-for="Dyktext" id="txtDYKText" class="form-control" rows="7" cols="250"></textarea>
                 <span id="txtDYKText-error" asp-validation-for="Dyktext" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Image</label><br />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

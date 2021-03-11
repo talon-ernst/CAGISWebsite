@@ -6,15 +6,24 @@
 
 <h1 id="titleEditContest">@ViewData["Title"]</h1>
 
-<h4>Contests</h4>
 <hr />
 <div class="row">
+    <div>
+        @if (Model.ContestImageId == null)
+        {
+            <img id="imgBlogImage" src="~/Images/Cagis_logo_colour.png" />
+        }
+        else
+        {
+            <img id="imgBlogImage" src="@Model.ContestImage.ImagePath" height="150" width="200" />
+        }
+    </div>
     <div class="col-md-10">
-        <form asp-action="EditContest" id="frmEditContest" onsubmit="return TTLValidation(true);">
+        <form enctype="multipart/form-data" asp-action="EditContest" id="frmEditContest" onsubmit="return TTLValidation(true);">
             <input type="hidden" asp-for="ContestId" />
             <div class="form-group">
                 <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
-                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50"/>
+                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50" />
                 <span id="txtEditContestTitle-error" asp-validation-for="ContestTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -36,6 +45,11 @@
                 <label asp-for="ContestEndDate" class="control-label">End Date</label><br />
                 <input asp-for="ContestEndDate" type="datetime-local" id="dateContestEnd" class="form-control, col-md-4" />
                 <span id="dateContestEnd-error" asp-validation-for="ContestEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Image</label><br />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

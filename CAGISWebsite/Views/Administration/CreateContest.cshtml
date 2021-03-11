@@ -6,14 +6,13 @@
 
 <h1 id="titleCreateContest">@ViewData["Title"]</h1>
 
-<h4>Contests</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="CreateContest" id="frmContest" onsubmit="return TTLValidation(false);">
+        <form enctype="multipart/form-data" asp-action="CreateContest" id="frmContest" onsubmit="return TTLValidation(false);">
             <div class="form-group">
                 <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
-                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50"/>
+                <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50" />
                 <span id="txtContestTitle-error" asp-validation-for="ContestTitle" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,7 +36,12 @@
                 <span id="dateContestEnd-error" asp-validation-for="ContestEndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" id="btnCreateContest"/>
+                <label class="control-label">Upload Image</label><br />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <span id="imgImageUpload-error" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="btnCreateContest" />
             </div>
         </form>
     </div>

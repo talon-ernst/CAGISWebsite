@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CAGISWebsite.Data;
 using CAGISWebsite.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,13 +24,16 @@ namespace CAGISWebsite.Controllers
 
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<IdentityUser> userManager;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public AdministrationController(RoleManager<IdentityRole> roleManager,
-                                UserManager<IdentityUser> userManager, CAGISKidsContext context)
+                                UserManager<IdentityUser> userManager, CAGISKidsContext context,
+                                IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             this.roleManager = roleManager;
             this.userManager = userManager;
+            this.webHostEnvironment = webHostEnvironment;
         }
      
 
@@ -183,7 +189,7 @@ namespace CAGISWebsite.Controllers
         // List all blogs
         public async Task<IActionResult> AllBlogs()
         {
-            return View(await _context.Blogs.ToListAsync());
+            return View(await _context.Blogs.Include(b => b.BlogImage).ToListAsync());
         }
 
         // GET: Create new blog
@@ -195,12 +201,41 @@ namespace CAGISWebsite.Controllers
         // POST: Create new blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText")] Blogs blogs)
+        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText")] Blogs blogs, IFormFile file)
         {
-
+            
             if (ModelState.IsValid)
             {
+                //give new blog a unique id
                 blogs.BlogId = Guid.NewGuid();
+
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    blogs.BlogImageId = image.ImageId;
+                }  
                 _context.Add(blogs);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllBlogs));
@@ -216,7 +251,7 @@ namespace CAGISWebsite.Controllers
                 return NotFound();
             }
 
-            var blogs = await _context.Blogs.FindAsync(id);
+            var blogs = await _context.Blogs.Include(b => b.BlogImage).Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
             if (blogs == null)
             {
                 return NotFound();
@@ -227,7 +262,7 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText")] Blogs blogs)
+        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText")] Blogs blogs, IFormFile file)
         {
             if (id != blogs.BlogId)
             {
@@ -236,6 +271,33 @@ namespace CAGISWebsite.Controllers
 
             if (ModelState.IsValid)
             {
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    blogs.BlogImageId = image.ImageId;
+                }
                 try
                 {
                     _context.Update(blogs);
@@ -277,7 +339,7 @@ namespace CAGISWebsite.Controllers
         // List all facts
         public async Task<IActionResult> AllFacts()
         {
-            return View(await _context.Facts.ToListAsync());
+            return View(await _context.Facts.Include(f => f.Dykimage).ToListAsync());
         }
 
         // GET: Create new fact
@@ -289,12 +351,41 @@ namespace CAGISWebsite.Controllers
         // POST: Create new fact
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateFact([Bind("Dyktitle,Dyktext")] Facts fact)
+        public async Task<IActionResult> CreateFact([Bind("Dyktitle,Dyktext")] Facts fact, IFormFile file)
         {
 
             if (ModelState.IsValid)
             {
+                //give new Did You Know? a unique id
                 fact.Dykid = Guid.NewGuid();
+
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    fact.DykimageId = image.ImageId;
+                }
                 _context.Add(fact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllFacts));
@@ -310,7 +401,7 @@ namespace CAGISWebsite.Controllers
                 return NotFound();
             }
 
-            var fact = await _context.Facts.FindAsync(id);
+            var fact = await _context.Facts.Include(f => f.Dykimage).Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
             if (fact == null)
             {
                 return NotFound();
@@ -321,7 +412,7 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing fact
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext")] Facts fact)
+        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext")] Facts fact, IFormFile file)
         {
             if (id != fact.Dykid)
             {
@@ -330,6 +421,33 @@ namespace CAGISWebsite.Controllers
 
             if (ModelState.IsValid)
             {
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    fact.DykimageId = image.ImageId;
+                }
                 try
                 {
                     _context.Update(fact);
@@ -371,7 +489,7 @@ namespace CAGISWebsite.Controllers
         // List all activities
         public async Task<IActionResult> AllActivities()
         {
-            return View(await _context.Activities.ToListAsync());
+            return View(await _context.Activities.Include(a => a.ActivityImage).ToListAsync());
         }
 
         // GET: Create new activity
@@ -383,12 +501,41 @@ namespace CAGISWebsite.Controllers
         // POST: Create new activity
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateActivity([Bind("ActivityTitle,ActivityText")] Activities activity)
+        public async Task<IActionResult> CreateActivity([Bind("ActivityTitle,ActivityText")] Activities activity, IFormFile file)
         {
 
             if (ModelState.IsValid)
             {
+                //give new activity a unique id
                 activity.ActivityId = Guid.NewGuid();
+
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    activity.ActivityImageId = image.ImageId;
+                }
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllActivities));
@@ -404,7 +551,7 @@ namespace CAGISWebsite.Controllers
                 return NotFound();
             }
 
-            var activity = await _context.Activities.FindAsync(id);
+            var activity = await _context.Activities.Include(a => a.ActivityImage).Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
             if (activity == null)
             {
                 return NotFound();
@@ -415,7 +562,7 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing activity
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText")] Activities activity)
+        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText")] Activities activity, IFormFile file)
         {
             if (id != activity.ActivityId)
             {
@@ -424,6 +571,33 @@ namespace CAGISWebsite.Controllers
 
             if (ModelState.IsValid)
             {
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    activity.ActivityImageId = image.ImageId;
+                }
                 try
                 {
                     _context.Update(activity);
@@ -465,7 +639,7 @@ namespace CAGISWebsite.Controllers
         // List all contests
         public async Task<IActionResult> AllContests()
         {
-            return View(await _context.Contests.ToListAsync());
+            return View(await _context.Contests.Include(c => c.ContestImage).ToListAsync());
         }
 
         // GET: Create new contest
@@ -477,12 +651,41 @@ namespace CAGISWebsite.Controllers
         // POST: Create new contest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateContest([Bind("ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest)
+        public async Task<IActionResult> CreateContest([Bind("ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest, IFormFile file)
         {
 
             if (ModelState.IsValid)
             {
+                //give new contest a unique id
                 contest.ContestId = Guid.NewGuid();
+
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    contest.ContestImageId = image.ImageId;
+                }
                 _context.Add(contest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllContests));
@@ -498,7 +701,7 @@ namespace CAGISWebsite.Controllers
                 return NotFound();
             }
 
-            var contest = await _context.Contests.FindAsync(id);
+            var contest = await _context.Contests.Include(c => c.ContestImage).Where(c => c.ContestId.Equals(id)).FirstOrDefaultAsync();
             if (contest == null)
             {
                 return NotFound();
@@ -509,7 +712,7 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing contest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditContest(Guid id, [Bind("ContestId,ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest)
+        public async Task<IActionResult> EditContest(Guid id, [Bind("ContestId,ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest, IFormFile file)
         {
             if (id != contest.ContestId)
             {
@@ -518,6 +721,33 @@ namespace CAGISWebsite.Controllers
 
             if (ModelState.IsValid)
             {
+                //add image to image folder if employee uploaded one
+                if (file != null)
+                {
+                    Images image = new Images();
+                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                    int counter = 1;
+
+                    //check if image share name of other images
+                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    {
+                        //add incremented value
+                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                        counter++;
+                    }
+                    //add image to project
+                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                    await file.CopyToAsync(stream);
+
+                    //add to database
+                    image.ImageId = Guid.NewGuid();
+                    image.ImagePath = filePath;
+                    _context.Add(image);
+                    await _context.SaveChangesAsync();
+
+                    contest.ContestImageId = image.ImageId;
+                }
                 try
                 {
                     _context.Update(contest);

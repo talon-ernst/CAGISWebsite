@@ -6,11 +6,10 @@
 
 <h1 id="titleCreateBlog">@ViewData["Title"]</h1>
 
-<h4>Blogs</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog');">
+        <form enctype="multipart/form-data" asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog');">
             <div class="form-group">
                 <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
                 <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50"/>
@@ -20,6 +19,11 @@
                 <label asp-for="BlogText" class="control-label">Blog Description</label>
                 <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
                 <span id="txtBlogText-error" asp-validation-for="BlogText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Upload Image</label><br />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create Blog" class="btn btn-primary" id="btnCreateBlog"/>

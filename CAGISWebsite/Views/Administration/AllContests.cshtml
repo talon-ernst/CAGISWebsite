@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 Contest Title
             </th>
@@ -33,29 +34,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td id="lblContestTitle">
-                    @Html.DisplayFor(modelItem => item.ContestTitle)
+        <tr>
+            @if (item.ContestImageId == null)
+            {
+                <td id="imgContestImage">
+                    <img src="~/Images/Cagis_logo_colour.png" />
                 </td>
-                <td id="lblContestText">
-                    @Html.DisplayFor(modelItem => item.ContestText)
+            }
+            else
+            {
+                <td id="imgContestImage">
+                    <img src="@item.ContestImage.ImagePath" height="150" width="200" />
                 </td>
-                <td id="lblContestEmail">
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td id="lblContestStartDate">
-                    @Html.DisplayFor(modelItem => item.ContestStartDate)
-                </td>
-                <td id="lblContestEndDate">
-                    @Html.DisplayFor(modelItem => item.ContestEndDate)
-                </td>
-                <td>
-                    <a asp-action="EditContest" asp-route-id="@item.ContestId" class="btn btn-primary" id="btnEditContest">Edit</a>
-                    <form asp-action="DeleteContest" onSubmit="return confirm('Are you sure you want to delete this?');">
-                        <input type="submit" value="Delete" id="btnDeleteContest" asp-route-id="@item.ContestId" class="btn btn-danger" />
-                    </form>
-                </td>
-            </tr>
+            }
+            <td id="lblContestTitle">
+                @Html.DisplayFor(modelItem => item.ContestTitle)
+            </td>
+            <td id="lblContestText">
+                @Html.DisplayFor(modelItem => item.ContestText)
+            </td>
+            <td id="lblContestEmail">
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td id="lblContestStartDate">
+                @Html.DisplayFor(modelItem => item.ContestStartDate)
+            </td>
+            <td id="lblContestEndDate">
+                @Html.DisplayFor(modelItem => item.ContestEndDate)
+            </td>
+            <td>
+                <a asp-action="EditContest" asp-route-id="@item.ContestId" class="btn btn-primary" id="btnEditContest">Edit</a>
+                <form asp-action="DeleteContest" onSubmit="return confirm('Are you sure you want to delete this?');">
+                    <input type="submit" value="Delete" id="btnDeleteContest" asp-route-id="@item.ContestId" class="btn btn-danger" />
+                </form>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

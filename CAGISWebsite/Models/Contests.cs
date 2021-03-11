@@ -15,5 +15,8 @@ namespace CAGISWebsite.Models
         public string Email { get; set; }
         public DateTime ContestStartDate { get; set; }
         public DateTime ContestEndDate { get; set; }
+        public Guid? ContestImageId { get; set; }
+
+        public virtual Images ContestImage { get; set; }
     }
 }
