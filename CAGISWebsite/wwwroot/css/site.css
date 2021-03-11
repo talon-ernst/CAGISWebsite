@@ -173,8 +173,12 @@ body {
 }
 
 #DYKIcon, #ActivitiesIcon, #BlogIcon {
-    width: 10px;
-    height: 10px;
+    width: 15%;
+    height: auto;
+    padding-top: 3%;
+    padding-left: 2%;
 }
+
+
 
 
