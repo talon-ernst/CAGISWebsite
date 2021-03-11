@@ -1,22 +1,19 @@
 ﻿@model IEnumerable<CAGISWebsite.Models.Blogs>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Blogs Page";
 }
 
-<h1>Index</h1>
+<h1>Please Select A Blog: </h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.BlogTitle)
+                <p>Blog Title</p>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BlogText)
+                <p>Blog Text</p>
             </th>
             <th></th>
         </tr>
