@@ -27,10 +27,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.BlogText)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.BlogId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.BlogId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.BlogId">Delete</a>
+            <td>                
+                <a asp-action="Details" asp-route-id="@item.BlogId">Details</a>             
             </td>
         </tr>
 }
