@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CAGISWebsite.Models.HomeModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -7,16 +8,55 @@
         <a asp-controller="Blogs" asp-action="Index">
             <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="BlogIcon" /><br />
         </a>
+        @foreach (var blog in Model.Blogs)
+        {
+            <a asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.BlogId">
+                @if (blog.BlogImageId == null)
+                {
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@blog.BlogTitle"/>
+                }
+                else
+                {
+                    <img src="@blog.BlogImage.ImagePath" alt="@blog.BlogTitle" height="150" width="200" />
+                }
+            </a>
+        }
     </div>
 
     <div style="text-align:left">
         <a asp-controller="Activities" asp-action="Index">
             <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="ActivitiesIcon" /><br />
         </a>
+        @foreach (var activity in Model.Activities)
+        {
+            <a asp-controller="Activities" asp-action="Details" asp-route-id="@activity.ActivityId">
+                @if (activity.ActivityImageId == null)
+                {
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@activity.ActivityTitle" />
+                }
+                else
+                {
+                    <img src="@activity.ActivityImage.ImagePath" alt="@activity.ActivityTitle" height="150" width="200" />
+                }
+            </a>
+        }
     </div>
     <div style="text-align:left">
         <a asp-controller="Facts" asp-action="Index">
             <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" /><br />
         </a>
+        @foreach (var fact in Model.Facts)
+        {
+            <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">
+                @if (fact.DykimageId == null)
+                {
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@fact.Dyktitle" />
+                }
+                else
+                {
+                    <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" height="150" width="200" />
+                }
+            </a>
+        }
     </div>
 </div>
