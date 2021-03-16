@@ -6,18 +6,19 @@
 <div class="text-center" id="HomePageId">
     <div style="text-align:left">
         <a asp-controller="Blogs" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="BlogIcon" /><br />
+            <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="BlogIcon" />
         </a>
+
         @foreach (var blog in Model.Blogs)
         {
-            <a asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.BlogId">
+            <a asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.BlogId" id="BlogPhotos">
                 @if (blog.BlogImageId == null)
                 {
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@blog.BlogTitle"/>
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@blog.BlogTitle" id="nullImgBlog"/>
                 }
                 else
                 {
-                    <img src="@blog.BlogImage.ImagePath" alt="@blog.BlogTitle" height="150" width="200" />
+                    <img src="@blog.BlogImage.ImagePath" alt="@blog.BlogTitle"  id="imgsForBlogHome" />
                 }
             </a>
         }
@@ -25,36 +26,36 @@
 
     <div style="text-align:left">
         <a asp-controller="Activities" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="ActivitiesIcon" /><br />
+            <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="ActivitiesIcon" />
         </a>
         @foreach (var activity in Model.Activities)
         {
             <a asp-controller="Activities" asp-action="Details" asp-route-id="@activity.ActivityId">
                 @if (activity.ActivityImageId == null)
                 {
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@activity.ActivityTitle" />
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@activity.ActivityTitle" id="nullImgActivity" />
                 }
                 else
                 {
-                    <img src="@activity.ActivityImage.ImagePath" alt="@activity.ActivityTitle" height="150" width="200" />
+                    <img src="@activity.ActivityImage.ImagePath" alt="@activity.ActivityTitle"  id="imgsForActivitiyHome"/>
                 }
             </a>
         }
     </div>
     <div style="text-align:left">
         <a asp-controller="Facts" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" /><br />
+            <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" />
         </a>
         @foreach (var fact in Model.Facts)
         {
             <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">
                 @if (fact.DykimageId == null)
                 {
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@fact.Dyktitle" />
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@fact.Dyktitle" id="nullImgDYK"/>
                 }
                 else
                 {
-                    <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" height="150" width="200" />
+                    <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" id="imgsForDYKHome"/>
                 }
             </a>
         }

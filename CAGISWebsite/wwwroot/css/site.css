@@ -168,20 +168,34 @@ body {
 }
 
 #CreateActivityPage, #CreateBlogPage, #CreateContestPage, #CreateDYKPage, #EditActivityPage, #EditBlogPage, #EditContestPage, #EditFactPage, #changePasswordPage, #ListOfEmployeesPage, #LoginPage, #RegisterPage {
-    padding-left: 5%;
-    padding-right: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
 
 #DYKIcon, #ActivitiesIcon, #BlogIcon {
     width: 15%;
     height: auto;
-    padding-top: 3%;
-    padding-left: 2%;
+    margin-top: 3%;
+    margin-left:2%;
+    margin-right:3%;
 }
 
 #DYKIcon{
     padding-bottom: 3%;
 }
+
+#nullImgBlog, #imgsForBlogHome, #nullImgActivity, #imgsForActivitiyHome, #nullImgDYK, #imgsForDYKHome {
+    height: 14%;
+    width: 14%;
+    max-height: 150px;
+    max-width: 250px;
+    border: solid;
+    border-color: #FBD02B;
+    background-color: #2777B2;
+    margin-right: 1%;
+}
+
+
 
 
 
