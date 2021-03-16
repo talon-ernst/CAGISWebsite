@@ -6,21 +6,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CAGISWebsite.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CAGISWebsite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly CAGISKidsContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+
+        public HomeController(ILogger<HomeController> logger, CAGISKidsContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeModel homeModel = new HomeModel();
+            homeModel.Blogs = _context.Blogs.Include(b => b.BlogImage).Take(5);
+            homeModel.Activities = _context.Activities.Include(b => b.ActivityImage).Take(5);
+            homeModel.Facts = _context.Facts.Include(b => b.Dykimage).Take(5);
+            return View(homeModel);
         }
 
         public IActionResult Privacy()
