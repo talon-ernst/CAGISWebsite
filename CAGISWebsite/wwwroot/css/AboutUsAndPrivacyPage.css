@@ -1,0 +1,64 @@
+﻿#AboutUsMainDiv {
+    margin-left: auto;
+    margin-right: auto;
+    width: 98%;
+    padding-left:1%;
+    padding-right:1%;
+}
+
+#PTagWhoAreWe {
+    text-align: center;
+}
+
+#ptagCagis {
+    text-align: center;
+}
+
+#LarisName {
+    font-size: 18px
+}
+
+#ImageOfLarissa {
+    float: left;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#HistoryofCompany {
+    text-align: left;
+    overflow: hidden;
+}
+
+#WhoIsLarrissa {
+    overflow: hidden;
+    text-align: left;
+}
+
+#VingilisTag {
+    font-size: 18px;
+}
+
+#imgofVingilis {
+    float: left;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#textofVingilis{
+    text-align: left;
+}
+
+#whoAreWeH1 {
+    text-align: center;
+}
+
+#PrivacyPolicyPage {
+    margin-left: 15%; 
+    padding-right:15%;
+}
+
+#titleforPrivacy {
+    text-align: center;
+    padding-top: .5%;
+        
+}
