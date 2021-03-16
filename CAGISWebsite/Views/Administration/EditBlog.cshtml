@@ -1,13 +1,12 @@
 ﻿@model CAGISWebsite.Models.Blogs
 
 @{
-    ViewData["Title"] = "Edit Blog";
+    ViewData["Title"] = "Edit " + Model.BlogTitle;
 }
 
 <div id="EditBlogPage">
     <h1 id="titleEditBlog">@ViewData["Title"]</h1>
 
-<h4>Blogs</h4>
 <hr />
 <div class="row">
     <div>
@@ -23,6 +22,8 @@
     <div class="col-md-10">
         <form enctype="multipart/form-data" asp-action="EditBlog" id="frmEditBlog" onsubmit="return TTLValidation('Blog');">
             <input type="hidden" asp-for="BlogId" />
+            <input type="hidden" asp-for="BlogUploadDate" />
+            <input type="hidden" asp-for="BlogImageId" value="@Model.BlogImageId"/>
             <div class="form-group">
                 <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
                 <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50" />
@@ -39,7 +40,9 @@
                 <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-route-blogStatus="EditBlog" class="btn btn-primary" />
+                <input type="submit" id="btnRemoveImage" value="Remove Image" asp-route-blogStatus="ImageRemoval" class="btn btn-danger" 
+                       onclick="return confirm('This will permanently remove the image and become replaced with a placeholder. Are you sure you want to continue?')"/>
             </div>
         </form>
     </div>

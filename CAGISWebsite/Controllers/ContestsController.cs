@@ -21,7 +21,17 @@ namespace CAGISWebsite.Controllers
         // GET: Contests
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Contests.ToListAsync());
+            //get current date and time of user
+            DateTime currentDateTime = DateTime.Now;
+
+            List<Contests> contests = await _context.Contests.Include(c => c.ContestImage)
+                                        .Where(c => c.ContestStartDate <= currentDateTime)
+                                        .Where(c => c.ContestEndDate > currentDateTime)
+                                        .OrderBy(c => c.ContestStartDate)
+                                        .ToListAsync();
+
+
+            return View(contests);
         }
 
         // GET: Contests/Details/5
@@ -38,7 +48,7 @@ namespace CAGISWebsite.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["DateNow"] = DateTime.Now;
             return View(contests);
         }
 

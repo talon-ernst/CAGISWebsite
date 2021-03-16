@@ -1,7 +1,7 @@
 ﻿@model CAGISWebsite.Models.Contests
 
 @{
-    ViewData["Title"] = "Edit Contest";
+    ViewData["Title"] = "Edit " + Model.ContestTitle;
 }
 
 <div id="EditContestPage">
@@ -22,6 +22,8 @@
     <div class="col-md-10">
         <form enctype="multipart/form-data" asp-action="EditContest" id="frmEditContest" onsubmit="return TTLValidation(true);">
             <input type="hidden" asp-for="ContestId" />
+            <input type="hidden" asp-for="ContestUploadDate" />
+            <input type="hidden" asp-for="ContestImageId" value="@Model.ContestImageId" />
             <div class="form-group">
                 <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
                 <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50" />
@@ -53,7 +55,9 @@
                 <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-route-contestStatus="EditContest" class="btn btn-primary" />
+                <input type="submit" id="btnRemoveImage" value="Remove Image" asp-route-contestStatus="ImageRemoval" class="btn btn-danger"
+                       onclick="return confirm('This will permanently remove the image and become replaced with a placeholder. Are you sure you want to continue?')" />
             </div>
         </form>
     </div>

@@ -13,6 +13,8 @@ namespace CAGISWebsite.Models
         public string ActivityTitle { get; set; }
         public string ActivityText { get; set; }
         public Guid? ActivityImageId { get; set; }
+        public DateTime ActivityUploadDate { get; set; }
+        public DateTime ActivityEditDate { get; set; }
 
         public virtual Images ActivityImage { get; set; }
     }
