@@ -53,6 +53,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.ActivityEditDate)
+                    .HasColumnName("activityEditDate")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.ActivityImageId).HasColumnName("activityImageID");
 
                 entity.Property(e => e.ActivityText)
@@ -65,6 +69,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ActivityUploadDate)
+                    .HasColumnName("activityUploadDate")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.ActivityImage)
                     .WithMany(p => p.Activities)
@@ -179,6 +187,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.BlogEditDate)
+                    .HasColumnName("blogEditDate")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.BlogImageId).HasColumnName("blogImageID");
 
                 entity.Property(e => e.BlogText)
@@ -191,6 +203,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.BlogUploadDate)
+                    .HasColumnName("blogUploadDate")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.BlogImage)
                     .WithMany(p => p.Blogs)
@@ -206,6 +222,10 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.ContestId)
                     .HasColumnName("contestID")
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.ContestEditDate)
+                    .HasColumnName("contestEditDate")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.ContestEndDate)
                     .HasColumnName("contestEndDate")
@@ -227,6 +247,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("contestTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.ContestUploadDate)
+                    .HasColumnName("contestUploadDate")
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -263,6 +287,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("DYKID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.DykeditDate)
+                    .HasColumnName("DYKEditDate")
+                    .HasColumnType("datetime");
+
                 entity.Property(e => e.DykimageId).HasColumnName("DYKImageID");
 
                 entity.Property(e => e.Dyktext)
@@ -275,6 +303,10 @@ namespace CAGISWebsite.Models
                     .HasColumnName("DYKTitle")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.DykuploadDate)
+                    .HasColumnName("DYKUploadDate")
+                    .HasColumnType("datetime");
 
                 entity.HasOne(d => d.Dykimage)
                     .WithMany(p => p.Facts)

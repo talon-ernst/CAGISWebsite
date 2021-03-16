@@ -1,7 +1,7 @@
 ﻿@model CAGISWebsite.Models.Activities
 
 @{
-    ViewData["Title"] = "EditActivity";
+    ViewData["Title"] = "Edit " + Model.ActivityTitle;
 }
 
 <div id="EditActivityPage">
@@ -22,6 +22,8 @@
     <div class="col-md-10">
         <form enctype="multipart/form-data" asp-action="EditActivity" id="frmEditActivity" onsubmit="return TTLValidation('Activity');">
             <input type="hidden" asp-for="ActivityId" />
+            <input type="hidden" asp-for="ActivityUploadDate" />
+            <input type="hidden" asp-for="ActivityImageId" value="@Model.ActivityImageId" />
             <div class="form-group">
                 <label asp-for="ActivityTitle" class="control-label">Activity Title</label><br />
                 <input asp-for="ActivityTitle" id="txtActivityTitle" class="form-control, col-md-4" maxlength="50" />
@@ -38,7 +40,9 @@
                 <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-route-activityStatus="EditActivity" class="btn btn-primary" />
+                <input type="submit" id="btnRemoveImage" value="Remove Image" asp-route-activityStatus="ImageRemoval" class="btn btn-danger"
+                       onclick="return confirm('This will permanently remove the image and become replaced with a placeholder. Are you sure you want to continue?')" />
             </div>
         </form>
     </div>

@@ -13,6 +13,8 @@ namespace CAGISWebsite.Models
         public string Dyktitle { get; set; }
         public string Dyktext { get; set; }
         public Guid? DykimageId { get; set; }
+        public DateTime DykuploadDate { get; set; }
+        public DateTime DykeditDate { get; set; }
 
         public virtual Images Dykimage { get; set; }
     }

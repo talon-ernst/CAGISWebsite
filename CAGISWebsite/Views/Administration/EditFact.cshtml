@@ -1,7 +1,7 @@
 ﻿@model CAGISWebsite.Models.Facts
 
 @{
-    ViewData["Title"] = "Edit Did You Know";
+    ViewData["Title"] = "Edit " + Model.Dyktitle;
 }
 
 <div id="EditFactPage">
@@ -22,6 +22,8 @@
     <div class="col-md-10">
         <form enctype="multipart/form-data" asp-action="EditFact" id="frmEditDYK" onsubmit="return TTLValidation('DYK');">
             <input type="hidden" asp-for="Dykid" />
+            <input type="hidden" asp-for="DykuploadDate" />
+            <input type="hidden" asp-for="DykimageId" value="@Model.DykimageId" />
             <div class="form-group">
                 <label asp-for="Dyktitle" class="control-label">Did You Know Title</label><br />
                 <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control, col-md-4" maxlength="50" />
@@ -38,7 +40,9 @@
                 <span id="imgImageUpload-error" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" asp-route-factStatus="EditFact" class="btn btn-primary" />
+                <input type="submit" id="btnRemoveImage" value="Remove Image" asp-route-factStatus="ImageRemoval" class="btn btn-danger"
+                       onclick="return confirm('This will permanently remove the image and become replaced with a placeholder. Are you sure you want to continue?')" />
             </div>
         </form>
     </div>

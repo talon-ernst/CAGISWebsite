@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    DateTime currentDateTime = DateTime.Parse(ViewData["DateNow"].ToString());
 }
 
 <h1>Details</h1>
@@ -10,36 +11,42 @@
     <h4>Contests</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             <p>Contest Title: </p>
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ContestTitle)
         </dd>
-        <dt class = "col-sm-2">
-            <p>Contest Text: </p>
+        <dt class="col-sm-2">
+            <p>Contest Dates: </p>
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContestText)
+        <dd class="col-sm-10">
+            From @Html.DisplayFor(model => model.ContestStartDate) to @Html.DisplayFor(model => model.ContestEndDate)
         </dd>
-        <dt class = "col-sm-2">
-            <p>Email: </p>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt class = "col-sm-2">
-            <p>Contest Start Date: </p>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContestStartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            <p>Contest End Date: </p>
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContestEndDate)
-        </dd>
+        @if (Model.ContestStartDate >= currentDateTime)
+        {
+            <h3 id="lblNotStart">This Contest Has Yet to Start</h3>
+        }
+        else if (Model.ContestEndDate < currentDateTime)
+        {
+            <h3 id="lblEnded">This Contest Has Already Finished</h3>
+        }
+        else
+        {
+
+            <dt class="col-sm-2">
+                <p>Contest Text: </p>
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.ContestText)
+            </dd>
+            <dt class="col-sm-2">
+                <p>Give us your submission at </p>
+            </dt>
+            <dd class="col-sm-10">
+                <a href = "mailto: @Model.Email">@Html.DisplayFor(model => model.Email)</a>
+            </dd>
+        }
     </dl>
 </div>
 <div>

@@ -189,7 +189,7 @@ namespace CAGISWebsite.Controllers
         // List all blogs
         public async Task<IActionResult> AllBlogs()
         {
-            return View(await _context.Blogs.Include(b => b.BlogImage).ToListAsync());
+            return View(await _context.Blogs.Include(b => b.BlogImage).OrderBy(b => b.BlogUploadDate).ToListAsync());
         }
 
         // GET: Create new blog
@@ -235,7 +235,10 @@ namespace CAGISWebsite.Controllers
                     await _context.SaveChangesAsync();
 
                     blogs.BlogImageId = image.ImageId;
-                }  
+                }
+                //set blog upload date
+                blogs.BlogUploadDate = DateTime.Now;
+                blogs.BlogEditDate = DateTime.Now;
                 _context.Add(blogs);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllBlogs));
@@ -262,59 +265,69 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText")] Blogs blogs, IFormFile file)
+        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogUploadDate,BlogImageId")] Blogs blogs, IFormFile file, string blogStatus)
         {
             if (id != blogs.BlogId)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            //push changes to database
+            if (blogStatus == "EditBlog")
             {
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (ModelState.IsValid)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
                     {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
 
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
 
-                    blogs.BlogImageId = image.ImageId;
-                }
-                try
-                {
-                    _context.Update(blogs);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BlogsExists(blogs.BlogId))
-                    {
-                        return NotFound();
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        blogs.BlogImageId = image.ImageId;
                     }
-                    else
+                    //set blog edit date
+                    blogs.BlogEditDate = DateTime.Now;
+                    try
                     {
-                        throw;
+                        _context.Update(blogs);
+                        await _context.SaveChangesAsync();
                     }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!BlogsExists(blogs.BlogId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(AllBlogs));
                 }
-                return RedirectToAction(nameof(AllBlogs));
+            }
+            //Remove Image From Blog
+            else
+            {
+                blogs.BlogImageId = null;
             }
             return View(blogs);
         }
@@ -329,6 +342,7 @@ namespace CAGISWebsite.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllBlogs));
         }
+       
 
         //check if a blog with given id exists
         private bool BlogsExists(Guid id)
@@ -339,7 +353,7 @@ namespace CAGISWebsite.Controllers
         // List all facts
         public async Task<IActionResult> AllFacts()
         {
-            return View(await _context.Facts.Include(f => f.Dykimage).ToListAsync());
+            return View(await _context.Facts.Include(f => f.Dykimage).OrderBy(f => f.DykuploadDate).ToListAsync());
         }
 
         // GET: Create new fact
@@ -386,6 +400,9 @@ namespace CAGISWebsite.Controllers
 
                     fact.DykimageId = image.ImageId;
                 }
+                //set DYK upload date
+                fact.DykuploadDate = DateTime.Now;
+                fact.DykeditDate = DateTime.Now;
                 _context.Add(fact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllFacts));
@@ -412,59 +429,69 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing fact
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext")] Facts fact, IFormFile file)
+        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext,DykuploadDate,DykimageId")] Facts fact, IFormFile file, string factStatus)
         {
             if (id != fact.Dykid)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (factStatus == "EditFact")
             {
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (ModelState.IsValid)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
                     {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
 
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
 
-                    fact.DykimageId = image.ImageId;
-                }
-                try
-                {
-                    _context.Update(fact);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FactExists(fact.Dykid))
-                    {
-                        return NotFound();
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        fact.DykimageId = image.ImageId;
                     }
-                    else
+                    //set DYK edit date
+                    fact.DykeditDate = DateTime.Now;
+                    try
                     {
-                        throw;
+                        _context.Update(fact);
+                        await _context.SaveChangesAsync();
                     }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!FactExists(fact.Dykid))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(AllFacts));
                 }
-                return RedirectToAction(nameof(AllFacts));
+            }
+            //Remove Image From Fact
+            else
+            {
+                fact.DykimageId = null;
             }
             return View(fact);
         }
@@ -489,7 +516,7 @@ namespace CAGISWebsite.Controllers
         // List all activities
         public async Task<IActionResult> AllActivities()
         {
-            return View(await _context.Activities.Include(a => a.ActivityImage).ToListAsync());
+            return View(await _context.Activities.Include(a => a.ActivityImage).OrderBy(a => a.ActivityUploadDate).ToListAsync());
         }
 
         // GET: Create new activity
@@ -536,6 +563,9 @@ namespace CAGISWebsite.Controllers
 
                     activity.ActivityImageId = image.ImageId;
                 }
+                //set activity upload date
+                activity.ActivityUploadDate = DateTime.Now;
+                activity.ActivityEditDate = DateTime.Now;
                 _context.Add(activity);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllActivities));
@@ -562,59 +592,69 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing activity
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText")] Activities activity, IFormFile file)
+        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText,ActivityUploadDate,ActivityImageId")] Activities activity, IFormFile file, string activityStatus)
         {
             if (id != activity.ActivityId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (activityStatus == "EditActivity")
             {
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (ModelState.IsValid)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
                     {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
 
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
 
-                    activity.ActivityImageId = image.ImageId;
-                }
-                try
-                {
-                    _context.Update(activity);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ActivityExists(activity.ActivityId))
-                    {
-                        return NotFound();
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        activity.ActivityImageId = image.ImageId;
                     }
-                    else
+                    //set activity edit date
+                    activity.ActivityEditDate = DateTime.Now;
+                    try
                     {
-                        throw;
+                        _context.Update(activity);
+                        await _context.SaveChangesAsync();
                     }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ActivityExists(activity.ActivityId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(AllActivities));
                 }
-                return RedirectToAction(nameof(AllActivities));
+            }
+            //Remove Image from Activity
+            else
+            {
+                activity.ActivityImageId = null;
             }
             return View(activity);
         }
@@ -639,7 +679,7 @@ namespace CAGISWebsite.Controllers
         // List all contests
         public async Task<IActionResult> AllContests()
         {
-            return View(await _context.Contests.Include(c => c.ContestImage).ToListAsync());
+            return View(await _context.Contests.Include(c => c.ContestImage).OrderBy(c => c.ContestUploadDate).ToListAsync());
         }
 
         // GET: Create new contest
@@ -686,6 +726,9 @@ namespace CAGISWebsite.Controllers
 
                     contest.ContestImageId = image.ImageId;
                 }
+                //set contest upload date
+                contest.ContestUploadDate = DateTime.Now;
+                contest.ContestEditDate = DateTime.Now;
                 _context.Add(contest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(AllContests));
@@ -712,59 +755,71 @@ namespace CAGISWebsite.Controllers
         // POST: Edit existing contest
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditContest(Guid id, [Bind("ContestId,ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest, IFormFile file)
+        public async Task<IActionResult> EditContest(Guid id, 
+            [Bind("ContestId,ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email,ContestUploadDate,ContestImageId")] Contests contest, 
+            IFormFile file, string contestStatus)
         {
             if (id != contest.ContestId)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (contestStatus == "EditContest")
             {
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (ModelState.IsValid)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
                     {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
 
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
 
-                    contest.ContestImageId = image.ImageId;
-                }
-                try
-                {
-                    _context.Update(contest);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContestExists(contest.ContestId))
-                    {
-                        return NotFound();
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        contest.ContestImageId = image.ImageId;
                     }
-                    else
+                    //set contest edit date
+                    contest.ContestEditDate = DateTime.Now;
+                    try
                     {
-                        throw;
+                        _context.Update(contest);
+                        await _context.SaveChangesAsync();
                     }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ContestExists(contest.ContestId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    return RedirectToAction(nameof(AllContests));
                 }
-                return RedirectToAction(nameof(AllContests));
+            }
+            //Remove Image from Contest
+            else
+            {
+                contest.ContestImageId = null;
             }
             return View(contest);
         }
