@@ -203,7 +203,9 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText")] Blogs blogs, IFormFile file)
         {
-            
+            //check if image is valid
+            ValidImageUpload(file, "Blog");
+
             if (ModelState.IsValid)
             {
                 //give new blog a unique id
@@ -274,6 +276,9 @@ namespace CAGISWebsite.Controllers
             //push changes to database
             if (blogStatus == "EditBlog")
             {
+                //check if image is valid
+                ValidImageUpload(file, "Blog");
+
                 if (ModelState.IsValid)
                 {
                     //add image to image folder if employee uploaded one
@@ -367,6 +372,8 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateFact([Bind("Dyktitle,Dyktext")] Facts fact, IFormFile file)
         {
+            //check if image is valid
+            ValidImageUpload(file, "Dyk");
 
             if (ModelState.IsValid)
             {
@@ -438,6 +445,9 @@ namespace CAGISWebsite.Controllers
 
             if (factStatus == "EditFact")
             {
+                //check if image is valid
+                ValidImageUpload(file, "Dyk");
+
                 if (ModelState.IsValid)
                 {
                     //add image to image folder if employee uploaded one
@@ -530,6 +540,8 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateActivity([Bind("ActivityTitle,ActivityText")] Activities activity, IFormFile file)
         {
+            //check if image is valid
+            ValidImageUpload(file, "Activity");
 
             if (ModelState.IsValid)
             {
@@ -601,6 +613,9 @@ namespace CAGISWebsite.Controllers
 
             if (activityStatus == "EditActivity")
             {
+                //check if image is valid
+                ValidImageUpload(file, "Activity");
+
                 if (ModelState.IsValid)
                 {
                     //add image to image folder if employee uploaded one
@@ -693,6 +708,8 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateContest([Bind("ContestTitle,ContestText,ContestStartDate,ContestEndDate,Email")] Contests contest, IFormFile file)
         {
+            //check if image is valid
+            ValidImageUpload(file, "Contest");
 
             if (ModelState.IsValid)
             {
@@ -766,6 +783,9 @@ namespace CAGISWebsite.Controllers
 
             if (contestStatus == "EditContest")
             {
+                //check if image is valid
+                ValidImageUpload(file, "Contest");
+
                 if (ModelState.IsValid)
                 {
                     //add image to image folder if employee uploaded one
@@ -840,5 +860,43 @@ namespace CAGISWebsite.Controllers
         {
             return _context.Contests.Any(e => e.ContestId == id);
         }
+
+        //image validation
+        private bool ValidImageUpload (IFormFile file, string errorPrefix)
+        {
+            //return value
+            bool validUpload = true;
+            string errorField; 
+            if(errorPrefix == "Dyk")
+                errorField = $"{errorPrefix}image";
+            else
+                errorField = $"{errorPrefix}Image";
+
+
+            //values to validate against
+            List<string> fileextensions = new List<string> { ".jpeg", ".jpg", ".png", ".gif" };
+            double limitSize = 1024 * 1024 * 5; //5MB file size
+            if (file != null)
+            {
+                //get extension of file
+                string ext = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1).ToLower();
+
+                //check file extensions
+                if (!fileextensions.Contains((Path.GetExtension(file.FileName))))
+                {
+                    ModelState.AddModelError(errorField, "Invalid image file, must select a *.jpeg, *.jpg, *.gif, or *.png file.");
+                    validUpload = false;
+                }
+
+                //check file size
+                if (file.Length > limitSize)
+                {
+                    ModelState.AddModelError(errorField, "File is too big, please upload image with a size less than 5MB.");
+                    validUpload = false;
+                }
+            }
+            return validUpload;
+        }
+
     }
 }
