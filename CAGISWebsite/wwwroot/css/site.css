@@ -195,6 +195,13 @@ body {
     margin-right: 1%;
 }
 
+#txtNewPassword-error, #txtConfirmPassword-error, #txtActivityTitle-error, #txtActivityText-error, #txtBlogTitle-error, #txtBlogText-error, #txtContestTitle-error, #txtContestText-error,
+#txtEmail-error, #dateContestStart-error, #dateContestEnd-error, #txtDYKTitle-error, #txtDYKText-error, #txtActivityTitle-error, #txtActivityText-error, #txtBlogTitle-error, #txtBlogText-error,
+#txtEditContestTitle-error, #txtContestText-error, #txtEmail-error, #dateContestStart-error, #dateContestEnd-error, #imgImageUpload-error, txtDYKTitle-error, #txtDYKText-error
+{
+    color: #BB0D0D;
+}
+
 
 
 

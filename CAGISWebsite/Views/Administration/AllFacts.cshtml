@@ -42,7 +42,15 @@
                     @Html.DisplayFor(modelItem => item.Dyktitle)
                 </td>
                 <td id="lblDYKText">
-                    @Html.DisplayFor(modelItem => item.Dyktext)
+                    @if (item.Dyktext.Length >= 230)
+                    {
+                        @Html.DisplayTextFor(modelItem => item.Dyktext).Substring(0, 230)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Dyktext)
+                    }
+                    
                 </td>
                 <td>
                     <a asp-action="EditFact" asp-route-id="@item.Dykid" class="btn btn-primary" id="btnEditFact">Edit</a>
