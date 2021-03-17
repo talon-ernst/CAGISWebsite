@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Image</label><br />
-                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" maxlength="50" />
+                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
                 <span id="imgImageUpload-error" asp-validation-for="BlogImage"></span>
             </div>
             <div class="form-group">
