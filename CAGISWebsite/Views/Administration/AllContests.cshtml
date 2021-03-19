@@ -51,10 +51,10 @@
                 <td id="lblContestTitle">
                     @Html.DisplayFor(modelItem => item.ContestTitle)
                 </td>
-                <td id="lblContestText">
-                    @if (item.ContestText.Length >= 230)
+                <td id="lblContestText" class="col-5">
+                    @if (item.ContestText.Length >= 250)
                     {
-                        @Html.DisplayTextFor(modelItem => item.ContestText).Substring(0, 230)
+                        @Html.DisplayTextFor(modelItem => item.ContestText).Substring(0, 250)
                     }
                     else
                     {

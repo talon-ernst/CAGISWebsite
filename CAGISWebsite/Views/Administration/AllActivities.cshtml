@@ -44,10 +44,10 @@
                 <td id="lblActivityTitle">
                     @Html.DisplayFor(modelItem => item.ActivityTitle)
                 </td>
-                <td id="lblActivityText">
-                    @if (item.ActivityText.Length >= 230)
+                <td id="lblActivityText" class="col-6">
+                    @if (item.ActivityText.Length >= 250)
                     {
-                        @Html.DisplayTextFor(modelItem => item.ActivityText).Substring(0, 230)
+                        @Html.DisplayTextFor(modelItem => item.ActivityText).Substring(0, 250)
                     }
                     else
                     {

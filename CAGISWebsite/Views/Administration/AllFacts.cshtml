@@ -16,10 +16,9 @@
                 <th>
                     Did You Know Title
                 </th>
-                <th>
+                <th >
                     Did You Know Description
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -41,10 +40,10 @@
                 <td id="lblDYKTitle">
                     @Html.DisplayFor(modelItem => item.Dyktitle)
                 </td>
-                <td id="lblDYKText">
-                    @if (item.Dyktext.Length >= 230)
+                <td id="lblDYKText" class="col-5">
+                    @if (item.Dyktext.Length >= 250)
                     {
-                        @Html.DisplayTextFor(modelItem => item.Dyktext).Substring(0, 230)
+                        @Html.DisplayTextFor(modelItem => item.Dyktext).Substring(0, 250)
                     }
                     else
                     {

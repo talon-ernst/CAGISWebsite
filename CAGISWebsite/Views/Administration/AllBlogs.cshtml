@@ -41,10 +41,10 @@
                     <td id="lblBlogTitle">
                         @Html.DisplayFor(modelItem => item.BlogTitle)
                     </td>
-                    <td id="lblBlogText">
-                        @if (item.BlogText.Length >= 230)
+                    <td id="lblBlogText" class="col-6">
+                        @if (item.BlogText.Length >= 250)
                         {
-                            @Html.DisplayTextFor(modelItem => item.BlogText).Substring(0, 230)
+                            @Html.DisplayTextFor(modelItem => item.BlogText).Substring(0, 250)
                         }
                         else
                         {
