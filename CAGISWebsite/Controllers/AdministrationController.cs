@@ -189,7 +189,7 @@ namespace CAGISWebsite.Controllers
         // List all blogs
         public async Task<IActionResult> AllBlogs()
         {
-            return View(await _context.Blogs.Include(b => b.BlogImage).OrderBy(b => b.BlogUploadDate).ToListAsync());
+            return View(await _context.Blogs.Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ToListAsync());
         }
 
         // GET: Create new blog
@@ -358,7 +358,7 @@ namespace CAGISWebsite.Controllers
         // List all facts
         public async Task<IActionResult> AllFacts()
         {
-            return View(await _context.Facts.Include(f => f.Dykimage).OrderBy(f => f.DykuploadDate).ToListAsync());
+            return View(await _context.Facts.Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ToListAsync());
         }
 
         // GET: Create new fact
@@ -526,7 +526,7 @@ namespace CAGISWebsite.Controllers
         // List all activities
         public async Task<IActionResult> AllActivities()
         {
-            return View(await _context.Activities.Include(a => a.ActivityImage).OrderBy(a => a.ActivityUploadDate).ToListAsync());
+            return View(await _context.Activities.Include(a => a.ActivityImage).OrderByDescending(a => a.ActivityUploadDate).ToListAsync());
         }
 
         // GET: Create new activity
@@ -694,7 +694,7 @@ namespace CAGISWebsite.Controllers
         // List all contests
         public async Task<IActionResult> AllContests()
         {
-            return View(await _context.Contests.Include(c => c.ContestImage).OrderBy(c => c.ContestUploadDate).ToListAsync());
+            return View(await _context.Contests.Include(c => c.ContestImage).OrderByDescending(c => c.ContestUploadDate).ToListAsync());
         }
 
         // GET: Create new contest
