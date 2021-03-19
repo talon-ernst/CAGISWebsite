@@ -27,7 +27,7 @@ namespace CAGISWebsite.Controllers
             HomeModel homeModel = new HomeModel();
             homeModel.Blogs = _context.Blogs.Include(b => b.BlogImage).OrderBy(b => b.BlogUploadDate).Take(5);
             homeModel.Activities = _context.Activities.Include(a => a.ActivityImage).OrderBy(a => a.ActivityUploadDate).Take(5);
-            homeModel.Facts = _context.Facts.Include(f => f.Dykimage).OrderBy(f => f.DykuploadDate).Take(5);
+            homeModel.Facts = _context.Facts.Include(f => f.Dykimage).OrderBy(f => f.DykuploadDate).Take(5);           
             return View(homeModel);
         }
 

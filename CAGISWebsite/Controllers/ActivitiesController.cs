@@ -21,7 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Activities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Activities.ToListAsync());
+            return View(await _context.Activities.OrderBy(j => j.ActivityTitle).ThenBy(j => j.ActivityUploadDate).ToListAsync());
         }
 
         // GET: Activities/Details/5
@@ -42,5 +42,17 @@ namespace CAGISWebsite.Controllers
             return View(activities);
         }
 
+        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
+        {
+            if (_context.Activities.Where(j => j.ActivityTitle.Contains(SearchPhrase)).Any())
+            {
+                return View("Index", await _context.Activities.Where(j => j.ActivityTitle.Contains(SearchPhrase)).OrderBy(j => j.ActivityTitle).ThenBy(j => j.ActivityUploadDate).ToListAsync());
+            }
+            else
+            {
+                TempData["message"] = $"No search results appeared for {SearchPhrase}. Please try again!";
+                return RedirectToAction("Index", "Activities");
+            }
+        }
     }
 }

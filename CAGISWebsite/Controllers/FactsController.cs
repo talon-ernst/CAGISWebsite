@@ -42,5 +42,18 @@ namespace CAGISWebsite.Controllers
             return View(facts);
         }
 
+        public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
+        {
+            if (_context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Any())
+            {
+                return View("Index", await _context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).OrderBy(j => j.Dyktitle).ThenBy(j => j.DykuploadDate).ToListAsync());
+            }
+            else
+            {
+                TempData["message"] = $"No search results appeared for {SearchPhrase}. Please try again!";
+                return RedirectToAction("Index", "Facts");
+            }
+        }
+
     }
 }
