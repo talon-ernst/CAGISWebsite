@@ -42,7 +42,15 @@
                         @Html.DisplayFor(modelItem => item.BlogTitle)
                     </td>
                     <td id="lblBlogText">
-                        @Html.DisplayFor(modelItem => item.BlogText)
+                        @if (item.BlogText.Length >= 230)
+                        {
+                            @Html.DisplayTextFor(modelItem => item.BlogText).Substring(0, 230)
+                        }
+                        else
+                        {
+                            @Html.DisplayFor(modelItem => item.BlogText)
+                        }
+
                     </td>
                     <td>
                         <a asp-action="EditBlog" asp-route-id="@item.BlogId" class="btn btn-primary" id="btnEditBlog">Edit</a>

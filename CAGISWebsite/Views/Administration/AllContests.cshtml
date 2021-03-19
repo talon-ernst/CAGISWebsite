@@ -52,7 +52,15 @@
                     @Html.DisplayFor(modelItem => item.ContestTitle)
                 </td>
                 <td id="lblContestText">
-                    @Html.DisplayFor(modelItem => item.ContestText)
+                    @if (item.ContestText.Length >= 230)
+                    {
+                        @Html.DisplayTextFor(modelItem => item.ContestText).Substring(0, 230)
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.ContestText)
+                    }
+
                 </td>
                 <td id="lblContestEmail">
                     @Html.DisplayFor(modelItem => item.Email)
