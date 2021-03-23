@@ -20,7 +20,7 @@
         }
     </div>
     <div class="col-md-10">
-        <form enctype="multipart/form-data" asp-action="EditBlog" id="frmEditBlog" onsubmit="return TTLValidation('Blog');">
+        <form enctype="multipart/form-data" asp-action="EditBlog" id="frmEditBlog" onsubmit="return TTLValidation('Blog', this.actionName);">
             <input type="hidden" asp-for="BlogId" />
             <input type="hidden" asp-for="BlogUploadDate" />
             <input type="hidden" asp-for="BlogImageId" value="@Model.BlogImageId"/>
