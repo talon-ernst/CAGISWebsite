@@ -60,7 +60,7 @@
             </a>
         </div>
         <div class="column" id="rightCol">
-            <h3 id="HeadingTextBlog">Most Recent Did You Knows </h3>
+            <h3 id="HeadingTextForTable">Most Recent Did You Knows </h3>
              @foreach (var fact in Model.Facts)
             {
                 <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">

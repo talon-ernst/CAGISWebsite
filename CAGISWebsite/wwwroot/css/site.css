@@ -134,9 +134,6 @@ body {
     padding-bottom: 10px;
 }
 
-#homePageImage{
-    padding-top:25px;
-}
 
 #h1Title{
     padding-top:10px;
@@ -222,8 +219,8 @@ body {
 
 #nullImgBlog, #imgsForBlogHome, #nullImgActivity, #imgsForActivitiyHome, #imgsForDYKHome, #nullImgDYK {
     margin-left:2%;
-    height: 5%;
     width: 15%;
+    object-fit:scale-down;
     background-color: #2777B2;
 }
 
