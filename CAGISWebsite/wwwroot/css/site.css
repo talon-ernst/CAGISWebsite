@@ -172,28 +172,12 @@ body {
     margin-right: 5%;
 }
 
-#DYKIcon, #ActivitiesIcon, #BlogIcon {
-    width: 15%;
-    height: auto;
-    margin-top: 3%;
-    margin-left:2%;
-    margin-right:3%;
-}
 
 #DYKIcon{
     padding-bottom: 3%;
 }
 
-#nullImgBlog, #imgsForBlogHome, #nullImgActivity, #imgsForActivitiyHome, #nullImgDYK, #imgsForDYKHome {
-    height: 14%;
-    width: 14%;
-    max-height: 150px;
-    max-width: 250px;
-    border: solid;
-    border-color: #FBD02B;
-    background-color: #2777B2;
-    margin-right: 1%;
-}
+
 
 #txtNewPassword-error, #txtConfirmPassword-error, #txtActivityTitle-error, #txtActivityText-error, #txtBlogTitle-error, #txtBlogText-error, #txtContestTitle-error, #txtContestText-error,
 #txtEmail-error, #dateContestStart-error, #dateContestEnd-error, #txtDYKTitle-error, #txtDYKText-error, #txtActivityTitle-error, #txtActivityText-error, #txtBlogTitle-error, #txtBlogText-error,
@@ -201,6 +185,57 @@ body {
 {
     color: #BB0D0D;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+
+.column {
+    height: 30% 
+}
+.row{
+    padding-top:2%;
+}
+
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#LeftColm{
+    width:20%;
+}
+
+#rightCol{
+    width:75%;
+    padding-left:3%;
+}
+#Icon, #DYKIcon{
+    margin-top:2%;
+    margin-left:20%;
+    height:70%;
+    width:70%;
+}
+
+#nullImgBlog, #imgsForBlogHome, #nullImgActivity, #imgsForActivitiyHome, #imgsForDYKHome, #nullImgDYK {
+    margin-left:2%;
+    height: 5%;
+    width: 15%;
+    background-color: #2777B2;
+}
+
+#HeadingTextForTable {
+    font-size: 200%;
+    margin-left: 2%;
+}
+
+#rowBlog, #rowActivities, #rowDYK {
+    max-width: 100%;
+}
+
 
 
 

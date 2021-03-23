@@ -3,31 +3,39 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center" id="HomePageId">
-    <div style="text-align:left">
+<div class="row" id="rowBlog">
+    <div class="column" id="LeftColm">
         <a asp-controller="Blogs" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="BlogIcon" />
+            <img src="~/Images/WebsiteImages/WebsiteIconBlog.png" id="Icon" />
         </a>
-
+    </div>
+    <div class="column" id="rightCol">
+        <h3 id="HeadingTextForTable">Most Recent Blogs</h3>
         @foreach (var blog in Model.Blogs)
         {
             <a asp-controller="Blogs" asp-action="Details" asp-route-id="@blog.BlogId" id="BlogPhotos">
                 @if (blog.BlogImageId == null)
                 {
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@blog.BlogTitle" id="nullImgBlog"/>
+                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@blog.BlogTitle" id="nullImgBlog" />
                 }
                 else
                 {
-                    <img src="@blog.BlogImage.ImagePath" alt="@blog.BlogTitle"  id="imgsForBlogHome" />
+                    <img src="@blog.BlogImage.ImagePath" alt="@blog.BlogTitle" id="imgsForBlogHome" />
                 }
             </a>
         }
     </div>
+</div>
 
-    <div style="text-align:left">
+
+<div class="row" id="rowActivities">
+    <div class="column" id="LeftColm">
         <a asp-controller="Activities" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="ActivitiesIcon" />
+            <img src="~/Images/WebsiteImages/WebsiteIconActivities.png" id="Icon" />
         </a>
+    </div>
+    <div class="column" id="rightCol">
+        <h3 id="HeadingTextForTable">Most Recent Actvities</h3>
         @foreach (var activity in Model.Activities)
         {
             <a asp-controller="Activities" asp-action="Details" asp-route-id="@activity.ActivityId">
@@ -37,27 +45,34 @@
                 }
                 else
                 {
-                    <img src="@activity.ActivityImage.ImagePath" alt="@activity.ActivityTitle"  id="imgsForActivitiyHome"/>
-                }
-            </a>
-        }
-    </div>
-    <div style="text-align:left">
-        <a asp-controller="Facts" asp-action="Index">
-            <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" />
-        </a>
-        @foreach (var fact in Model.Facts)
-        {
-            <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">
-                @if (fact.DykimageId == null)
-                {
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@fact.Dyktitle" id="nullImgDYK"/>
-                }
-                else
-                {
-                    <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" id="imgsForDYKHome"/>
+                    <img src="@activity.ActivityImage.ImagePath" alt="@activity.ActivityTitle" id="imgsForActivitiyHome" />
                 }
             </a>
         }
     </div>
 </div>
+
+
+<div class="row" id="rowDYK">
+        <div class="column" id="LeftColm">
+            <a asp-controller="Facts" asp-action="Index">
+                <img src="~/Images/WebsiteImages/WebsiteIconDYK.png" id="DYKIcon" />
+            </a>
+        </div>
+        <div class="column" id="rightCol">
+            <h3 id="HeadingTextBlog">Most Recent Did You Knows </h3>
+             @foreach (var fact in Model.Facts)
+            {
+                <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">
+                    @if (fact.DykimageId == null)
+                    {
+                        <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" alt="@fact.Dyktitle" id="nullImgDYK" />
+                    }
+                    else
+                    {
+                        <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" id="imgsForDYKHome" />
+                    }
+                </a>
+            }
+        </div>
+    </div>
