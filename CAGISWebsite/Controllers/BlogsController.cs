@@ -21,7 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Blogs.OrderBy(j => j.BlogTitle).ThenBy(j => j.BlogUploadDate).ToListAsync());
+            return View(await _context.Blogs.Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
         }
 
         // GET: Blogs/Details/5
@@ -33,7 +33,7 @@ namespace CAGISWebsite.Controllers
             }
 
             var blogs = await _context.Blogs
-                .FirstOrDefaultAsync(m => m.BlogId == id);
+                .Include(b => b.BlogImage).FirstOrDefaultAsync(m => m.BlogId == id);
             if (blogs == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace CAGISWebsite.Controllers
         {
             if(_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
             {
-                return View("Index", await _context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).OrderBy(j => j.BlogTitle).ThenBy(j => j.BlogUploadDate).ToListAsync());
+                return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
             }
             else
             {

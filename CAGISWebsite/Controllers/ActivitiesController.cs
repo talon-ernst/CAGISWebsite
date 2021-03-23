@@ -21,7 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Activities
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Activities.OrderBy(j => j.ActivityTitle).ThenBy(j => j.ActivityUploadDate).ToListAsync());
+            return View(await _context.Activities.Include(a => a.ActivityImage).OrderByDescending(a => a.ActivityUploadDate).ThenBy(a => a.ActivityTitle).ToListAsync());
         }
 
         // GET: Activities/Details/5
@@ -33,7 +33,7 @@ namespace CAGISWebsite.Controllers
             }
 
             var activities = await _context.Activities
-                .FirstOrDefaultAsync(m => m.ActivityId == id);
+                .Include(a => a.ActivityImage).FirstOrDefaultAsync(m => m.ActivityId == id);
             if (activities == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace CAGISWebsite.Controllers
         {
             if (_context.Activities.Where(j => j.ActivityTitle.Contains(SearchPhrase)).Any())
             {
-                return View("Index", await _context.Activities.Where(j => j.ActivityTitle.Contains(SearchPhrase)).OrderBy(j => j.ActivityTitle).ThenBy(j => j.ActivityUploadDate).ToListAsync());
+                return View("Index", await _context.Activities.Where(j => j.ActivityTitle.Contains(SearchPhrase)).Include(a => a.ActivityImage).OrderByDescending(a => a.ActivityUploadDate).ThenBy(a => a.ActivityTitle).ToListAsync());
             }
             else
             {

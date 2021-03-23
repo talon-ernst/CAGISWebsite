@@ -21,7 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Facts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Facts.ToListAsync());
+            return View(await _context.Facts.Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
         }
 
         // GET: Facts/Details/5
@@ -33,7 +33,7 @@ namespace CAGISWebsite.Controllers
             }
 
             var facts = await _context.Facts
-                .FirstOrDefaultAsync(m => m.Dykid == id);
+                .Include(f => f.Dykimage).FirstOrDefaultAsync(m => m.Dykid == id);
             if (facts == null)
             {
                 return NotFound();
@@ -46,7 +46,7 @@ namespace CAGISWebsite.Controllers
         {
             if (_context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Any())
             {
-                return View("Index", await _context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).OrderBy(j => j.Dyktitle).ThenBy(j => j.DykuploadDate).ToListAsync());
+                return View("Index", await _context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
             }
             else
             {

@@ -27,7 +27,8 @@ namespace CAGISWebsite.Controllers
             List<Contests> contests = await _context.Contests.Include(c => c.ContestImage)
                                         .Where(c => c.ContestStartDate <= currentDateTime)
                                         .Where(c => c.ContestEndDate > currentDateTime)
-                                        .OrderBy(c => c.ContestStartDate)
+                                        .OrderByDescending(c => c.ContestStartDate)
+                                        .ThenBy(c => c.ContestTitle)
                                         .ToListAsync();
 
 
@@ -43,7 +44,7 @@ namespace CAGISWebsite.Controllers
             }
 
             var contests = await _context.Contests
-                .FirstOrDefaultAsync(m => m.ContestId == id);
+                .Include(c => c.ContestImage).FirstOrDefaultAsync(m => m.ContestId == id);
             if (contests == null)
             {
                 return NotFound();
