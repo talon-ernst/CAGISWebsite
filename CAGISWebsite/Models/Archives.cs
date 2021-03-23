@@ -12,6 +12,7 @@ namespace CAGISWebsite.Models
         public Guid PostId { get; set; }
         public string PostTitle { get; set; }
         public string PostText { get; set; }
+        public string PostCategory { get; set; }
         public DateTime PostUploadDate { get; set; }
         public DateTime PostLastEditedDate { get; set; }
         public DateTime PostArchivedDate { get; set; }

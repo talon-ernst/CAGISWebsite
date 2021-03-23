@@ -14,17 +14,17 @@
             <div class="form-group">
                 <label asp-for="Dyktitle" class="control-label">Did You Know Title</label><br />
                 <input asp-for="Dyktitle" id="txtDYKTitle" class="form-control, col-md-4" maxlength="50" />
-                <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" ></span>
+                <span id="txtDYKTitle-error" asp-validation-for="Dyktitle" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Dyktext" class="control-label">Did You Know Text</label>
                 <textarea asp-for="Dyktext" id="txtDYKText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtDYKText-error" asp-validation-for="Dyktext"></span>
+                <span id="txtDYKText-error" asp-validation-for="Dyktext" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Image</label><br />
                 <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
-                <span id="imgImageUpload-error" asp-validation-for="Dykimage"></span>
+                <span id="imgImageUpload-error" asp-validation-for="Dykimage" class="form-error"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" id="btnCreateDYK" />

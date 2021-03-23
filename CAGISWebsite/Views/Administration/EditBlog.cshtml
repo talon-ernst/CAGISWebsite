@@ -27,17 +27,17 @@
             <div class="form-group">
                 <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
                 <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50" />
-                <span id="txtBlogTitle-error" asp-validation-for="BlogTitle"></span>
+                <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="BlogText" class="control-label">Blog Description</label>
                 <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtBlogText-error" asp-validation-for="BlogText"></span>
+                <span id="txtBlogText-error" asp-validation-for="BlogText" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Image</label><br />
                 <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
-                <span id="imgImageUpload-error" asp-validation-for="BlogImage"></span>
+                <span id="imgImageUpload-error" asp-validation-for="BlogImage" class="form-error"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" asp-route-blogStatus="EditBlog" class="btn btn-primary" />

@@ -195,57 +195,85 @@ namespace CAGISWebsite.Controllers
         // GET: Create new blog
         public IActionResult CreateBlog()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View();
         }
 
         // POST: Create new blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText")] Blogs blogs, IFormFile file)
+        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText,BlogCategory,CategoryName")] BlogCategories blogs, IFormFile file, string blogStatus)
         {
             //check if image is valid
             ValidImageUpload(file, "Blog");
 
-            if (ModelState.IsValid)
+            if (blogStatus == "CreateBlog")
             {
-                //give new blog a unique id
-                blogs.BlogId = Guid.NewGuid();
-
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (blogs.BlogCategory == Guid.Empty)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
-                    {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
-
-                    blogs.BlogImageId = image.ImageId;
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a blog");
                 }
-                //set blog upload date
-                blogs.BlogUploadDate = DateTime.Now;
-                blogs.BlogEditDate = DateTime.Now;
-                _context.Add(blogs);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllBlogs));
+
+                if (ModelState.IsValid)
+                {
+                    Blogs newBlog = new Blogs();
+                    //give new blog a unique id
+                    newBlog.BlogId = Guid.NewGuid();
+                    newBlog.BlogTitle = blogs.BlogTitle;
+                    newBlog.BlogText = blogs.BlogText;
+                    newBlog.BlogCategory = blogs.BlogCategory;
+
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
+                    {
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
+
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        newBlog.BlogImageId = image.ImageId;
+                    }
+                    //set blog upload date
+                    newBlog.BlogUploadDate = DateTime.Now;
+                    newBlog.BlogEditDate = DateTime.Now;
+                    _context.Add(newBlog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(AllBlogs));
+                }
             }
-            return View(blogs);
+
+            //Add New Category
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = blogs.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    blogs.BlogCategory = category.CategoryId;
+                } 
+            }
+            ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
+            return View();
         }
 
         // GET: Edit existing blog
@@ -896,6 +924,23 @@ namespace CAGISWebsite.Controllers
                 }
             }
             return validUpload;
+        }
+
+        /// <summary>
+        /// Create selectlist with option to add new categories
+        /// </summary>
+        /// <returns></returns>
+        private SelectList TTLCategoryList(Guid selectedValue)
+        {
+            Categories blank = new Categories()
+            {
+                CategoryId = Guid.Empty,
+                CategoryName = "New"
+            };
+            List<Categories> categories = new List<Categories>(_context.Categories);
+            categories.Add(blank);
+            SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
+            return categorySelectList;
         }
 
     }

@@ -93,7 +93,7 @@ namespace CAGISWebsite.Models
             modelBuilder.Entity<Archives>(entity =>
             {
                 entity.HasKey(e => e.PostId)
-                    .HasName("PK__Archives__DD0C739A664FCD04");
+                    .HasName("PK__Archives__DD0C739AAFBD01A2");
 
                 entity.Property(e => e.PostId)
                     .HasColumnName("postId")
@@ -102,6 +102,8 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.PostArchivedDate)
                     .HasColumnName("postArchivedDate")
                     .HasColumnType("datetime");
+
+                entity.Property(e => e.PostCategory).HasColumnName("postCategory");
 
                 entity.Property(e => e.PostLastEditedDate)
                     .HasColumnName("postLastEditedDate")

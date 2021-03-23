@@ -14,32 +14,32 @@
             <div class="form-group">
                 <label asp-for="ContestTitle" class="control-label">Contest Title</label><br />
                 <input asp-for="ContestTitle" id="txtContestTitle" class="form-control, col-md-4" maxlength="50" />
-                <span id="txtContestTitle-error" asp-validation-for="ContestTitle"></span>
+                <span id="txtContestTitle-error" asp-validation-for="ContestTitle" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ContestText" class="control-label">Contest Description</label>
                 <textarea asp-for="ContestText" id="txtContestText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtContestText-error" asp-validation-for="ContestText"></span>
+                <span id="txtContestText-error" asp-validation-for="ContestText" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label">Email</label><br />
                 <input asp-for="Email" id="txtEmail" class="form-control, col-md-4" />
-                <span id="txtEmail-error" asp-validation-for="Email"></span>
+                <span id="txtEmail-error" asp-validation-for="Email" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ContestStartDate" class="control-label">Start Date</label><br />
                 <input asp-for="ContestStartDate" type="datetime-local" id="dateContestStart" class="form-control, col-md-4" />
-                <span id="dateContestStart-error" asp-validation-for="ContestStartDate"></span>
+                <span id="dateContestStart-error" asp-validation-for="ContestStartDate" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ContestEndDate" class="control-label">End Date</label><br />
                 <input asp-for="ContestEndDate" type="datetime-local" id="dateContestEnd" class="form-control, col-md-4" />
-                <span id="dateContestEnd-error" asp-validation-for="ContestEndDate"></span>
+                <span id="dateContestEnd-error" asp-validation-for="ContestEndDate" class="form-error"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Upload Image</label><br />
                 <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
-                <span id="imgImageUpload-error" asp-validation-for="ContestImage"></span>
+                <span id="imgImageUpload-error" asp-validation-for="ContestImage" class="form-error"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" id="btnCreateContest" />
