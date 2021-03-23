@@ -98,9 +98,6 @@ body {
     float: left;
 }
 
-.navbar {
-    height: 100% !important;
-}
 
 #ck-button:hover {
     background: red;
