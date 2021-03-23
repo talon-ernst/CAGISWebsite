@@ -13,7 +13,7 @@
 
 <div class="BlogDetails">
 
-    <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.BlogUploadDate.ToString("hh:mm")) </p>
+    <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.BlogUploadDate) </p>
 
     <h1 class="txtTitle">@Html.DisplayFor(model => model.BlogTitle)</h1>
 
@@ -36,27 +36,3 @@
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Blogs</a>
 </div>
-
-@*<h1>Details</h1>
-
-<div>
-    <h4>Blogs</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-           <p>Blog Title: </p>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BlogTitle)
-        </dd>
-        <dt class="col-sm-2">
-            <p>Blog Text: </p>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BlogText)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
