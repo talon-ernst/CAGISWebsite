@@ -50,7 +50,7 @@ namespace CAGISWebsite.Controllers
             }
             else
             {
-                TempData["message"] = $"No search results appeared for {SearchPhrase}. Please try again!";
+                TempData["message"] = $"No search results appeared for \"{SearchPhrase}\". Please try again!";
                 return RedirectToAction("Index", "Blogs");
             }                                  
           
