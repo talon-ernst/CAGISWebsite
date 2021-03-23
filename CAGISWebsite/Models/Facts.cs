@@ -15,7 +15,9 @@ namespace CAGISWebsite.Models
         public Guid? DykimageId { get; set; }
         public DateTime DykuploadDate { get; set; }
         public DateTime DykeditDate { get; set; }
+        public Guid Dykcategory { get; set; }
 
+        public virtual Categories DykcategoryNavigation { get; set; }
         public virtual Images Dykimage { get; set; }
     }
 }

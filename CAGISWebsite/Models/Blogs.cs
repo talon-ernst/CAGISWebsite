@@ -15,7 +15,9 @@ namespace CAGISWebsite.Models
         public Guid? BlogImageId { get; set; }
         public DateTime BlogUploadDate { get; set; }
         public DateTime BlogEditDate { get; set; }
+        public Guid BlogCategory { get; set; }
 
+        public virtual Categories BlogCategoryNavigation { get; set; }
         public virtual Images BlogImage { get; set; }
     }
 }
