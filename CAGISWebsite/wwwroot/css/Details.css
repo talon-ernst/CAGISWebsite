@@ -1,1 +1,47 @@
-﻿
+﻿.BlogDetails {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: .5%;
+    background-color: white;
+    border: solid;
+}
+
+.txtTitle {
+    padding-left: 10%;
+}
+
+.txtDescription {
+    margin-left:10%;
+    margin-right:10%;
+    margin-top:2%;
+}
+
+.txtUploadedDate {
+    text-align: right;
+    padding-right: 10%;
+}
+
+.txtUpdatedDate {
+    padding-left: 10%;
+}
+
+.imgBlog {
+    width: 15%;
+    height: 15%;
+    margin-left: 10%;
+    border: solid;
+    background-color: #2777B2;
+}
+
+.returnBtndetails{
+    margin-left:10%;
+    margin-bottom:2%;
+}
+
+.returnIndex {
+    margin-left: 10%;
+    font-size:150%;
+}
+
+

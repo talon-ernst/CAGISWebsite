@@ -3,8 +3,41 @@
 @{
     ViewData["Title"] = "Details";
 }
+<br />
 
-<h1>Details</h1>
+<div>
+    <a asp-action="Index" class="returnIndex">Return to Blogs</a>
+</div>
+
+
+
+<div class="BlogDetails">
+
+    <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.BlogUploadDate.ToString("hh:mm")) </p>
+
+    <h1 class="txtTitle">@Html.DisplayFor(model => model.BlogTitle)</h1>
+
+    
+    @if (Model.BlogEditDate != Model.BlogUploadDate)
+    {
+        <p class="txtUpdatedDate">Updated: @Html.DisplayFor(model => model.BlogEditDate) </p>
+    }
+
+    @if (Model.BlogImageId == null)
+    {
+        <img class="imgBlog" src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+    }
+    else
+    {
+        <img class="imgBlog" src="@Model.BlogImage.ImagePath" />
+    }
+
+    <p class="txtDescription">@Html.DisplayFor(model => model.BlogText)</p>
+
+    <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Blogs</a>
+</div>
+
+@*<h1>Details</h1>
 
 <div>
     <h4>Blogs</h4>
@@ -26,4 +59,4 @@
 </div>
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

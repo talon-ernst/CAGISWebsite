@@ -215,10 +215,12 @@ body {
 }
 
 #nullImgBlog, #imgsForBlogHome, #nullImgActivity, #imgsForActivitiyHome, #imgsForDYKHome, #nullImgDYK {
-    margin-left:2%;
+    margin-left: 2%;
     width: 15%;
-    object-fit:scale-down;
+    object-fit: scale-down;
     background-color: #2777B2;
+    border: solid;
+    border-color: #FBD02B;
 }
 
 #HeadingTextForTable {
