@@ -289,14 +289,27 @@ namespace CAGISWebsite.Controllers
             {
                 return NotFound();
             }
-            return View(blogs);
+            BlogCategories blogCategory = new BlogCategories
+            {
+                BlogId = blogs.BlogId,
+                BlogTitle = blogs.BlogTitle,
+                BlogText = blogs.BlogText,
+                BlogImageId = blogs.BlogImageId,
+                BlogCategory = blogs.BlogCategory
+            };
+
+            ViewData["ImagePath"] = blogs.BlogImage.ImagePath;
+            ViewData["Categories"] = TTLCategoryList(blogCategory.BlogCategory);
+            return View(blogCategory);
         }
 
         // POST: Edit existing blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogUploadDate,BlogImageId")] Blogs blogs, IFormFile file, string blogStatus)
+        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogCategory,CategoryName,BlogImageId")] BlogCategories blogs, IFormFile file, string blogStatus)
         {
+            var test = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
+
             if (id != blogs.BlogId)
             {
                 return NotFound();
@@ -307,8 +320,18 @@ namespace CAGISWebsite.Controllers
                 //check if image is valid
                 ValidImageUpload(file, "Blog");
 
+                if (blogs.BlogCategory == Guid.Empty)
+                {
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a blog");
+                }
+
                 if (ModelState.IsValid)
                 {
+                    var editBlogs = await _context.Blogs.Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+                    editBlogs.BlogTitle = blogs.BlogTitle;
+                    editBlogs.BlogText = blogs.BlogText;
+                    editBlogs.BlogCategory = blogs.BlogCategory;
+
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -334,18 +357,18 @@ namespace CAGISWebsite.Controllers
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
-                        blogs.BlogImageId = image.ImageId;
+                        editBlogs.BlogImageId = image.ImageId;
                     }
                     //set blog edit date
-                    blogs.BlogEditDate = DateTime.Now;
+                    editBlogs.BlogEditDate = DateTime.Now;
                     try
                     {
-                        _context.Update(blogs);
+                        _context.Update(editBlogs);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!BlogsExists(blogs.BlogId))
+                        if (!BlogsExists(editBlogs.BlogId))
                         {
                             return NotFound();
                         }
@@ -357,11 +380,27 @@ namespace CAGISWebsite.Controllers
                     return RedirectToAction(nameof(AllBlogs));
                 }
             }
+            //Add New Category
+            else if(blogStatus == "AddCategory")
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = blogs.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    blogs.BlogCategory = category.CategoryId;
+                }
+            }
+
             //Remove Image From Blog
             else
             {
                 blogs.BlogImageId = null;
             }
+            ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
+            ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
             return View(blogs);
         }
 
@@ -937,7 +976,7 @@ namespace CAGISWebsite.Controllers
                 CategoryId = Guid.Empty,
                 CategoryName = "New"
             };
-            List<Categories> categories = new List<Categories>(_context.Categories);
+            List<Categories> categories = new List<Categories>(_context.Categories.OrderBy(c => c.CategoryName));
             categories.Add(blank);
             SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
             return categorySelectList;

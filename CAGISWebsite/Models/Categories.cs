@@ -11,6 +11,7 @@ namespace CAGISWebsite.Models
     {
         public Categories()
         {
+            Activities = new HashSet<Activities>();
             Blogs = new HashSet<Blogs>();
             Facts = new HashSet<Facts>();
         }
@@ -18,7 +19,7 @@ namespace CAGISWebsite.Models
         public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-        public virtual Activities Activities { get; set; }
+        public virtual ICollection<Activities> Activities { get; set; }
         public virtual ICollection<Blogs> Blogs { get; set; }
         public virtual ICollection<Facts> Facts { get; set; }
     }

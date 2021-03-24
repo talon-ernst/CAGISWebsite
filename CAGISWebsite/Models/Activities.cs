@@ -17,7 +17,7 @@ namespace CAGISWebsite.Models
         public DateTime ActivityEditDate { get; set; }
         public Guid ActivityCategory { get; set; }
 
-        public virtual Categories Activity { get; set; }
+        public virtual Categories ActivityCategoryNavigation { get; set; }
         public virtual Images ActivityImage { get; set; }
     }
 }

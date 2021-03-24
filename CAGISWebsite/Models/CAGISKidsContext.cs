@@ -78,9 +78,9 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityUploadDate")
                     .HasColumnType("datetime");
 
-                entity.HasOne(d => d.Activity)
-                    .WithOne(p => p.Activities)
-                    .HasForeignKey<Activities>(d => d.ActivityId)
+                entity.HasOne(d => d.ActivityCategoryNavigation)
+                    .WithMany(p => p.Activities)
+                    .HasForeignKey(d => d.ActivityCategory)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Activities_Categories");
 
