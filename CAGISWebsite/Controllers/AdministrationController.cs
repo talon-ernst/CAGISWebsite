@@ -297,8 +297,9 @@ namespace CAGISWebsite.Controllers
                 BlogImageId = blogs.BlogImageId,
                 BlogCategory = blogs.BlogCategory
             };
-
-            ViewData["ImagePath"] = blogs.BlogImage.ImagePath;
+            
+            if(blogs.BlogImageId != null)
+                ViewData["ImagePath"] = blogs.BlogImage.ImagePath;
             ViewData["Categories"] = TTLCategoryList(blogCategory.BlogCategory);
             return View(blogCategory);
         }
