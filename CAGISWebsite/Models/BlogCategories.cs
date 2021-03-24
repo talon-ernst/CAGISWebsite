@@ -12,7 +12,6 @@ namespace CAGISWebsite.Models
         public string BlogText { get; set; }
         public Guid? BlogImageId { get; set; }
         public Guid BlogCategory { get; set; }
-        public Guid CategoryId { get; set; }
         public string CategoryName { get; set; }
 
         public virtual Categories BlogCategoryNavigation { get; set; }
