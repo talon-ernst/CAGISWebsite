@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-
-// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
-// If you have enabled NRTs for your project, then un-comment the following line:
-// #nullable disable
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CAGISWebsite.Models
 {
-    public partial class Blogs
+    public partial class BlogCategories
     {
         public Guid BlogId { get; set; }
         public string BlogTitle { get; set; }
         public string BlogText { get; set; }
         public Guid? BlogImageId { get; set; }
-        public DateTime BlogUploadDate { get; set; }
-        public DateTime BlogEditDate { get; set; }
         public Guid BlogCategory { get; set; }
+        public string CategoryName { get; set; }
 
         public virtual Categories BlogCategoryNavigation { get; set; }
         public virtual Images BlogImage { get; set; }
+
     }
 }

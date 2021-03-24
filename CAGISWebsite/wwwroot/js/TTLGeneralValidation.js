@@ -1,16 +1,22 @@
-﻿function TTLValidation(contentType) {
+﻿function TTLValidation(contentType, actionName) {
     //Bool that will be returned when the validation is finished
     var noErrors = true;
 
-    //determine the type of validation
-    if (contentType == "Blog") {
-        noErrors = TTLBlogValidation(noErrors);
+    //Avoid validation if action take was not Create or Edit
+    if (actionName == "Add Category") {
+        noErrors = TTLCategoryValidation(contentType, noErrors)
     }
-    else if (contentType == "Activity") {
-        noErrors = TTLActivityValidation(noErrors);
-    }
-    else if (contentType == "DYK") {
-        noErrors = TTLDYKValidation(noErrors);
+    else if (actionName != "Remove Image") {
+        //determine the type of validation
+        if (contentType == "Blog") {
+            noErrors = TTLBlogValidation(noErrors);
+        }
+        else if (contentType == "Activity") {
+            noErrors = TTLActivityValidation(noErrors);
+        }
+        else if (contentType == "DYK") {
+            noErrors = TTLDYKValidation(noErrors);
+        }
     }
 
     return noErrors;
@@ -127,6 +133,26 @@ function TTLDYKValidation(noErrors) {
     return noErrors;
 }
 
+//validation for categories
+function TTLCategoryValidation(contentType, noErrors) {
+    var idString = "txt" + contentType + "Category";
+    var idStringError = idString + "-error";
+    //variables for validation
+    var category = document.getElementById(idString).value;
+    var categoryError = document.getElementById(idString + '-error');
+
+    //Client-side Category Validation start
+    if (!TTLRequired(category)) {
+        categoryError.innerHTML = "Cannot Add A Blank Category";
+        noErrors = false;
+    }
+    else {
+        categoryError.innerHTML = "";
+    }
+
+    return noErrors;
+}
+
 //check for empty input of required field
 function TTLRequired(input) {
     if (input == null || input.trim() == "") {
@@ -134,3 +160,4 @@ function TTLRequired(input) {
     }
     return true;
 }
+

@@ -195,92 +195,35 @@ namespace CAGISWebsite.Controllers
         // GET: Create new blog
         public IActionResult CreateBlog()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View();
         }
 
         // POST: Create new blog
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText")] Blogs blogs, IFormFile file)
+        public async Task<IActionResult> CreateBlog([Bind("BlogTitle,BlogText,BlogCategory,CategoryName")] BlogCategories blogs, IFormFile file, string blogStatus)
         {
             //check if image is valid
             ValidImageUpload(file, "Blog");
 
-            if (ModelState.IsValid)
+            if (blogStatus == "CreateBlog")
             {
-                //give new blog a unique id
-                blogs.BlogId = Guid.NewGuid();
-
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (blogs.BlogCategory == Guid.Empty)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
-                    {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
-
-                    blogs.BlogImageId = image.ImageId;
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a blog");
                 }
-                //set blog upload date
-                blogs.BlogUploadDate = DateTime.Now;
-                blogs.BlogEditDate = DateTime.Now;
-                _context.Add(blogs);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllBlogs));
-            }
-            return View(blogs);
-        }
-
-        // GET: Edit existing blog
-        public async Task<IActionResult> EditBlog(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var blogs = await _context.Blogs.Include(b => b.BlogImage).Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
-            if (blogs == null)
-            {
-                return NotFound();
-            }
-            return View(blogs);
-        }
-
-        // POST: Edit existing blog
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogUploadDate,BlogImageId")] Blogs blogs, IFormFile file, string blogStatus)
-        {
-            if (id != blogs.BlogId)
-            {
-                return NotFound();
-            }
-            //push changes to database
-            if (blogStatus == "EditBlog")
-            {
-                //check if image is valid
-                ValidImageUpload(file, "Blog");
 
                 if (ModelState.IsValid)
                 {
+                    //create new blog object
+                    Blogs newBlog = new Blogs();
+                    //give new blog a unique id
+                    newBlog.BlogId = Guid.NewGuid();
+                    newBlog.BlogTitle = blogs.BlogTitle;
+                    newBlog.BlogText = blogs.BlogText;
+                    newBlog.BlogCategory = blogs.BlogCategory;
+
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -306,18 +249,126 @@ namespace CAGISWebsite.Controllers
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
-                        blogs.BlogImageId = image.ImageId;
+                        newBlog.BlogImageId = image.ImageId;
+                    }
+                    //set blog upload date
+                    newBlog.BlogUploadDate = DateTime.Now;
+                    newBlog.BlogEditDate = DateTime.Now;
+                    _context.Add(newBlog);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(AllBlogs));
+                }
+            }
+
+            //Add New Category
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = blogs.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    blogs.BlogCategory = category.CategoryId;
+                } 
+            }
+            ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
+            return View();
+        }
+
+        // GET: Edit existing blog
+        public async Task<IActionResult> EditBlog(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var blogs = await _context.Blogs.Include(b => b.BlogImage).Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+            if (blogs == null)
+            {
+                return NotFound();
+            }
+            BlogCategories blogCategory = new BlogCategories
+            {
+                BlogId = blogs.BlogId,
+                BlogTitle = blogs.BlogTitle,
+                BlogText = blogs.BlogText,
+                BlogImageId = blogs.BlogImageId,
+                BlogCategory = blogs.BlogCategory
+            };
+            
+            if(blogs.BlogImageId != null)
+                ViewData["ImagePath"] = blogs.BlogImage.ImagePath;
+            ViewData["Categories"] = TTLCategoryList(blogCategory.BlogCategory);
+            return View(blogCategory);
+        }
+
+        // POST: Edit existing blog
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogCategory,CategoryName,BlogImageId")] BlogCategories blogs, IFormFile file, string blogStatus)
+        {
+            if (id != blogs.BlogId)
+            {
+                return NotFound();
+            }
+            //push changes to database
+            if (blogStatus == "EditBlog")
+            {
+                //check if image is valid
+                ValidImageUpload(file, "Blog");
+
+                if (blogs.BlogCategory == Guid.Empty)
+                {
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a blog");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var editBlogs = await _context.Blogs.Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+                    editBlogs.BlogTitle = blogs.BlogTitle;
+                    editBlogs.BlogText = blogs.BlogText;
+                    editBlogs.BlogCategory = blogs.BlogCategory;
+
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
+                    {
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
+
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        editBlogs.BlogImageId = image.ImageId;
                     }
                     //set blog edit date
-                    blogs.BlogEditDate = DateTime.Now;
+                    editBlogs.BlogEditDate = DateTime.Now;
                     try
                     {
-                        _context.Update(blogs);
+                        _context.Update(editBlogs);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!BlogsExists(blogs.BlogId))
+                        if (!BlogsExists(editBlogs.BlogId))
                         {
                             return NotFound();
                         }
@@ -329,11 +380,28 @@ namespace CAGISWebsite.Controllers
                     return RedirectToAction(nameof(AllBlogs));
                 }
             }
+            //Add New Category
+            else if(blogStatus == "AddCategory")
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = blogs.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    blogs.BlogCategory = category.CategoryId;
+                }
+            }
+
             //Remove Image From Blog
             else
             {
                 blogs.BlogImageId = null;
             }
+            if (blogs.BlogImageId != null)
+                ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
+            ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
             return View(blogs);
         }
 
@@ -364,92 +432,33 @@ namespace CAGISWebsite.Controllers
         // GET: Create new fact
         public IActionResult CreateFact()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View();
         }
 
         // POST: Create new fact
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateFact([Bind("Dyktitle,Dyktext")] Facts fact, IFormFile file)
+        public async Task<IActionResult> CreateFact([Bind("Dyktitle,Dyktext,Dykcategory,CategoryName")] FactCategories fact, IFormFile file, string factStatus)
         {
-            //check if image is valid
-            ValidImageUpload(file, "Dyk");
-
-            if (ModelState.IsValid)
+            if (factStatus == "CreateFact")
             {
-                //give new Did You Know? a unique id
-                fact.Dykid = Guid.NewGuid();
-
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (fact.Dykcategory == Guid.Empty)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
-                    {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
-
-                    fact.DykimageId = image.ImageId;
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a Did You Know");
                 }
-                //set DYK upload date
-                fact.DykuploadDate = DateTime.Now;
-                fact.DykeditDate = DateTime.Now;
-                _context.Add(fact);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllFacts));
-            }
-            return View(fact);
-        }
-
-        // GET: Edit existing fact
-        public async Task<IActionResult> EditFact(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var fact = await _context.Facts.Include(f => f.Dykimage).Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
-            if (fact == null)
-            {
-                return NotFound();
-            }
-            return View(fact);
-        }
-
-        // POST: Edit existing fact
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext,DykuploadDate,DykimageId")] Facts fact, IFormFile file, string factStatus)
-        {
-            if (id != fact.Dykid)
-            {
-                return NotFound();
-            }
-
-            if (factStatus == "EditFact")
-            {
                 //check if image is valid
                 ValidImageUpload(file, "Dyk");
-
                 if (ModelState.IsValid)
                 {
+                    //create new fact object
+                    Facts newFact = new Facts();
+                    //give new Did You Know? a unique id
+                    newFact.Dykid = Guid.NewGuid();
+                    newFact.Dyktitle = fact.Dyktitle;
+                    newFact.Dyktext = fact.Dyktext;
+                    newFact.Dykcategory = fact.Dykcategory;
+
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -475,18 +484,123 @@ namespace CAGISWebsite.Controllers
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
-                        fact.DykimageId = image.ImageId;
+                        newFact.DykimageId = image.ImageId;
+                    }
+                    //set DYK upload date
+                    newFact.DykuploadDate = DateTime.Now;
+                    newFact.DykeditDate = DateTime.Now;
+                    _context.Add(newFact);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(AllFacts));
+                }
+            }
+            //Add New Category
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = fact.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    fact.Dykcategory = category.CategoryId;
+                }
+            }
+            ViewData["Categories"] = TTLCategoryList(fact.Dykcategory);
+            return View(fact);
+        }
+
+        // GET: Edit existing fact
+        public async Task<IActionResult> EditFact(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var fact = await _context.Facts.Include(f => f.Dykimage).Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
+            if (fact == null)
+            {
+                return NotFound();
+            }
+            FactCategories factCategory = new FactCategories
+            {
+                Dykid = fact.Dykid,
+                Dyktitle = fact.Dyktitle,
+                Dyktext = fact.Dyktext,
+                DykimageId = fact.DykimageId,
+                Dykcategory = fact.Dykcategory
+            };
+
+            if (fact.DykimageId != null)
+                ViewData["ImagePath"] = fact.Dykimage.ImagePath;
+            ViewData["Categories"] = TTLCategoryList(factCategory.Dykcategory);
+            return View(factCategory);
+        }
+
+        // POST: Edit existing fact
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditFact(Guid id, [Bind("Dykid,Dyktitle,Dyktext,Dykcategory,CategoryName,DykimageId")] FactCategories fact, IFormFile file, string factStatus)
+        {
+            if (id != fact.Dykid)
+            {
+                return NotFound();
+            }
+
+            if (factStatus == "EditFact")
+            {
+                if (fact.Dykcategory == Guid.Empty)
+                {
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating a Did You Know");
+                }
+                //check if image is valid
+                ValidImageUpload(file, "Dyk");
+
+                if (ModelState.IsValid)
+                {
+                    var editFact = await _context.Facts.Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
+                    editFact.Dyktitle = fact.Dyktitle;
+                    editFact.Dyktext = fact.Dyktext;
+                    editFact.Dykcategory = fact.Dykcategory;
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
+                    {
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
+
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        editFact.DykimageId = image.ImageId;
                     }
                     //set DYK edit date
-                    fact.DykeditDate = DateTime.Now;
+                    editFact.DykeditDate = DateTime.Now;
                     try
                     {
-                        _context.Update(fact);
+                        _context.Update(editFact);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!FactExists(fact.Dykid))
+                        if (!FactExists(editFact.Dykid))
                         {
                             return NotFound();
                         }
@@ -498,11 +612,29 @@ namespace CAGISWebsite.Controllers
                     return RedirectToAction(nameof(AllFacts));
                 }
             }
+            //Add New Category
+            else if (factStatus == "AddCategory")
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = fact.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    fact.Dykcategory = category.CategoryId;
+                }
+            }
+
             //Remove Image From Fact
             else
             {
                 fact.DykimageId = null;
             }
+
+            if (fact.DykimageId != null)
+                ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(fact.DykimageId)).FirstOrDefault().ImagePath;
+            ViewData["Categories"] = TTLCategoryList(fact.Dykcategory);
             return View(fact);
         }
 
@@ -532,92 +664,34 @@ namespace CAGISWebsite.Controllers
         // GET: Create new activity
         public IActionResult CreateActivity()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View();
         }
 
         // POST: Create new activity
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateActivity([Bind("ActivityTitle,ActivityText")] Activities activity, IFormFile file)
+        public async Task<IActionResult> CreateActivity([Bind("ActivityTitle,ActivityText,ActivityCategory,CategoryName")] ActivityCategories activity, IFormFile file, string activityStatus)
         {
-            //check if image is valid
-            ValidImageUpload(file, "Activity");
-
-            if (ModelState.IsValid)
+            if (activityStatus == "CreateActivity")
             {
-                //give new activity a unique id
-                activity.ActivityId = Guid.NewGuid();
-
-                //add image to image folder if employee uploaded one
-                if (file != null)
+                if (activity.ActivityCategory == Guid.Empty)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
-                    {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
-                    _context.Add(image);
-                    await _context.SaveChangesAsync();
-
-                    activity.ActivityImageId = image.ImageId;
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating an activity");
                 }
-                //set activity upload date
-                activity.ActivityUploadDate = DateTime.Now;
-                activity.ActivityEditDate = DateTime.Now;
-                _context.Add(activity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(AllActivities));
-            }
-            return View(activity);
-        }
-
-        // GET: Edit existing activity
-        public async Task<IActionResult> EditActivity(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var activity = await _context.Activities.Include(a => a.ActivityImage).Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
-            if (activity == null)
-            {
-                return NotFound();
-            }
-            return View(activity);
-        }
-
-        // POST: Edit existing activity
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText,ActivityUploadDate,ActivityImageId")] Activities activity, IFormFile file, string activityStatus)
-        {
-            if (id != activity.ActivityId)
-            {
-                return NotFound();
-            }
-
-            if (activityStatus == "EditActivity")
-            {
                 //check if image is valid
                 ValidImageUpload(file, "Activity");
 
                 if (ModelState.IsValid)
                 {
+                    //create new activity object
+                    Activities newActivity = new Activities();
+                    //give new activity a unique id
+                    newActivity.ActivityId = Guid.NewGuid();
+                    newActivity.ActivityTitle = activity.ActivityTitle;
+                    newActivity.ActivityText = activity.ActivityText;
+                    newActivity.ActivityCategory = activity.ActivityCategory;
+
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -643,18 +717,123 @@ namespace CAGISWebsite.Controllers
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
-                        activity.ActivityImageId = image.ImageId;
+                        newActivity.ActivityImageId = image.ImageId;
+                    }
+                    //set activity upload date
+                    newActivity.ActivityUploadDate = DateTime.Now;
+                    newActivity.ActivityEditDate = DateTime.Now;
+                    _context.Add(newActivity);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(AllActivities));
+                }
+            }
+            //Add New Category
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = activity.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    activity.ActivityCategory = category.CategoryId;
+                }
+            }
+            ViewData["Categories"] = TTLCategoryList(activity.ActivityCategory);
+            return View(activity);
+        }
+
+        // GET: Edit existing activity
+        public async Task<IActionResult> EditActivity(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var activity = await _context.Activities.Include(a => a.ActivityImage).Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
+            if (activity == null)
+            {
+                return NotFound();
+            }
+            ActivityCategories activityCategory = new ActivityCategories
+            {
+                ActivityId = activity.ActivityId,
+                ActivityTitle = activity.ActivityTitle,
+                ActivityText = activity.ActivityText,
+                ActivityImageId = activity.ActivityImageId,
+                ActivityCategory = activity.ActivityCategory
+            };
+
+            if (activity.ActivityImageId != null)
+                ViewData["ImagePath"] = activity.ActivityImage.ImagePath;
+            ViewData["Categories"] = TTLCategoryList(activityCategory.ActivityCategory);
+            return View(activityCategory);
+        }
+
+        // POST: Edit existing activity
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditActivity(Guid id, [Bind("ActivityId,ActivityTitle,ActivityText,ActivityCategory,CategoryName,ActivityImageId")] ActivityCategories activity, IFormFile file, string activityStatus)
+        {
+            if (id != activity.ActivityId)
+            {
+                return NotFound();
+            }
+
+            if (activityStatus == "EditActivity")
+            {
+                if (activity.ActivityCategory == Guid.Empty)
+                {
+                    ModelState.AddModelError("CategoryName", "Add or select a category before creating an activity");
+                }
+                //check if image is valid
+                ValidImageUpload(file, "Activity");
+
+                if (ModelState.IsValid)
+                {
+                    var editActivity = await _context.Activities.Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
+                    editActivity.ActivityTitle = activity.ActivityTitle;
+                    editActivity.ActivityText = activity.ActivityText;
+                    editActivity.ActivityCategory = activity.ActivityCategory;
+                    //add image to image folder if employee uploaded one
+                    if (file != null)
+                    {
+                        Images image = new Images();
+                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+                        int counter = 1;
+
+                        //check if image share name of other images
+                        while (System.IO.File.Exists("wwwroot" + filePath))
+                        {
+                            //add incremented value
+                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                            counter++;
+                        }
+                        //add image to project
+                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+
+                        //add to database
+                        image.ImageId = Guid.NewGuid();
+                        image.ImagePath = filePath;
+                        _context.Add(image);
+                        await _context.SaveChangesAsync();
+
+                        editActivity.ActivityImageId = image.ImageId;
                     }
                     //set activity edit date
-                    activity.ActivityEditDate = DateTime.Now;
+                    editActivity.ActivityEditDate = DateTime.Now;
                     try
                     {
-                        _context.Update(activity);
+                        _context.Update(editActivity);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
                     {
-                        if (!ActivityExists(activity.ActivityId))
+                        if (!ActivityExists(editActivity.ActivityId))
                         {
                             return NotFound();
                         }
@@ -666,11 +845,27 @@ namespace CAGISWebsite.Controllers
                     return RedirectToAction(nameof(AllActivities));
                 }
             }
+            //Add New Category
+            else if (activityStatus == "AddCategory")
+            {
+                if (ModelState.IsValid)
+                {
+                    Categories category = new Categories();
+                    category.CategoryId = Guid.NewGuid();
+                    category.CategoryName = activity.CategoryName;
+                    _context.Add(category);
+                    await _context.SaveChangesAsync();
+                    activity.ActivityCategory = category.CategoryId;
+                }
+            }
             //Remove Image from Activity
             else
             {
                 activity.ActivityImageId = null;
             }
+            if (activity.ActivityImageId != null)
+                ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(activity.ActivityImageId)).FirstOrDefault().ImagePath;
+            ViewData["Categories"] = TTLCategoryList(activity.ActivityCategory);
             return View(activity);
         }
 
@@ -896,6 +1091,23 @@ namespace CAGISWebsite.Controllers
                 }
             }
             return validUpload;
+        }
+
+        /// <summary>
+        /// Create selectlist with option to add new categories
+        /// </summary>
+        /// <returns></returns>
+        private SelectList TTLCategoryList(Guid selectedValue)
+        {
+            Categories blank = new Categories()
+            {
+                CategoryId = Guid.Empty,
+                CategoryName = "New"
+            };
+            List<Categories> categories = new List<Categories>(_context.Categories.OrderBy(c => c.CategoryName));
+            categories.Add(blank);
+            SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
+            return categorySelectList;
         }
 
     }

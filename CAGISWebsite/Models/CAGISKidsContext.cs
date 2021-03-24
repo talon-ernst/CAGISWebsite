@@ -20,6 +20,7 @@ namespace CAGISWebsite.Models
         }
 
         public virtual DbSet<Activities> Activities { get; set; }
+        public virtual DbSet<Archives> Archives { get; set; }
         public virtual DbSet<AspNetRoleClaims> AspNetRoleClaims { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -28,6 +29,7 @@ namespace CAGISWebsite.Models
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Blogs> Blogs { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Contests> Contests { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<Facts> Facts { get; set; }
@@ -53,6 +55,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.ActivityCategory).HasColumnName("activityCategory");
+
                 entity.Property(e => e.ActivityEditDate)
                     .HasColumnName("activityEditDate")
                     .HasColumnType("datetime");
@@ -74,10 +78,48 @@ namespace CAGISWebsite.Models
                     .HasColumnName("activityUploadDate")
                     .HasColumnType("datetime");
 
+                entity.HasOne(d => d.ActivityCategoryNavigation)
+                    .WithMany(p => p.Activities)
+                    .HasForeignKey(d => d.ActivityCategory)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Activities_Categories");
+
                 entity.HasOne(d => d.ActivityImage)
                     .WithMany(p => p.Activities)
                     .HasForeignKey(d => d.ActivityImageId)
                     .HasConstraintName("FK_Activities_Images");
+            });
+
+            modelBuilder.Entity<Archives>(entity =>
+            {
+                entity.HasKey(e => e.PostId)
+                    .HasName("PK__Archives__DD0C739AAFBD01A2");
+
+                entity.Property(e => e.PostId)
+                    .HasColumnName("postId")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.PostArchivedDate)
+                    .HasColumnName("postArchivedDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PostCategory).HasColumnName("postCategory");
+
+                entity.Property(e => e.PostLastEditedDate)
+                    .HasColumnName("postLastEditedDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.PostText)
+                    .IsRequired()
+                    .HasColumnName("postText");
+
+                entity.Property(e => e.PostTitle)
+                    .IsRequired()
+                    .HasColumnName("postTitle");
+
+                entity.Property(e => e.PostUploadDate)
+                    .HasColumnName("postUploadDate")
+                    .HasColumnType("datetime");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -187,6 +229,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.BlogCategory).HasColumnName("blogCategory");
+
                 entity.Property(e => e.BlogEditDate)
                     .HasColumnName("blogEditDate")
                     .HasColumnType("datetime");
@@ -208,10 +252,30 @@ namespace CAGISWebsite.Models
                     .HasColumnName("blogUploadDate")
                     .HasColumnType("datetime");
 
+                entity.HasOne(d => d.BlogCategoryNavigation)
+                    .WithMany(p => p.Blogs)
+                    .HasForeignKey(d => d.BlogCategory)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Blogs_Categories");
+
                 entity.HasOne(d => d.BlogImage)
                     .WithMany(p => p.Blogs)
                     .HasForeignKey(d => d.BlogImageId)
                     .HasConstraintName("FK_Blogs_Images");
+            });
+
+            modelBuilder.Entity<Categories>(entity =>
+            {
+                entity.HasKey(e => e.CategoryId);
+
+                entity.Property(e => e.CategoryId)
+                    .HasColumnName("categoryId")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CategoryName)
+                    .IsRequired()
+                    .HasColumnName("categoryName")
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Contests>(entity =>
@@ -287,6 +351,8 @@ namespace CAGISWebsite.Models
                     .HasColumnName("DYKID")
                     .ValueGeneratedNever();
 
+                entity.Property(e => e.Dykcategory).HasColumnName("DYKCategory");
+
                 entity.Property(e => e.DykeditDate)
                     .HasColumnName("DYKEditDate")
                     .HasColumnType("datetime");
@@ -307,6 +373,12 @@ namespace CAGISWebsite.Models
                 entity.Property(e => e.DykuploadDate)
                     .HasColumnName("DYKUploadDate")
                     .HasColumnType("datetime");
+
+                entity.HasOne(d => d.DykcategoryNavigation)
+                    .WithMany(p => p.Facts)
+                    .HasForeignKey(d => d.Dykcategory)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Facts_Categories");
 
                 entity.HasOne(d => d.Dykimage)
                     .WithMany(p => p.Facts)
