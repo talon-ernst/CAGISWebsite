@@ -1,0 +1,49 @@
+﻿.ListPage{
+    width:80%;
+    margin-left:10%;
+    margin-right:10%;
+}
+
+#EachBlog{
+    border:solid;
+    border-color:black;
+    background-color:white;
+    margin-bottom: 1em;
+    
+}
+
+.eachImage{
+    padding-bottom: 1em;
+    padding-left:1em;
+    width:80%;
+    height:80%;
+}
+
+.eachDescription {
+    color: black;
+    padding-right: 1em;
+    overflow-wrap: break-word;
+    
+}
+
+.eachTitle {
+    color: black;
+}
+
+
+#ListLeftColm{
+ width:20%;
+}
+
+#ListRightColm{
+    width:80%;
+}
+
+.eachcolumn {
+    height: 40%
+}
+
+.SearchEngine{
+    margin-left:10%;
+    padding-top:1em;
+}
