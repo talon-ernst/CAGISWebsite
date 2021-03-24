@@ -309,8 +309,6 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditBlog(Guid id, [Bind("BlogId,BlogTitle,BlogText,BlogCategory,CategoryName,BlogImageId")] BlogCategories blogs, IFormFile file, string blogStatus)
         {
-            var test = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
-
             if (id != blogs.BlogId)
             {
                 return NotFound();
@@ -400,7 +398,8 @@ namespace CAGISWebsite.Controllers
             {
                 blogs.BlogImageId = null;
             }
-            ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
+            if (blogs.BlogImageId != null)
+                ViewData["ImagePath"] = _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefault().ImagePath;
             ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
             return View(blogs);
         }
