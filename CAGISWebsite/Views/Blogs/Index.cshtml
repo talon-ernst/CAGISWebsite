@@ -5,17 +5,17 @@
 }
 
 <h1>Please Select A Blog, or search for one</h1>
-<form asp-action="ShowSearchResults">
+<form asp-action="ShowSearchResults" style="margin-left: 15px;">
     <div class="form-group">
         <label for="SearchPhrase" class="control-label"></label>
-        <input name="SearchPhrase" class="form-control" placeholder="Search for a blog..." style="width: 200px;" />
-
+        <input name="SearchPhrase" class="form-control" placeholder="Search for a blog..." style="width: 195px;" />       
     </div>
     <div class="form-group">
         <input type="submit" value="Search" class="btn btn-primary" />
+        <div class="btn btn-primary"><a asp-action="Index" style="color: white; text-decoration: none;">Back to List</a></div>             
     </div>
 </form>
-
+    <p style="color:red; font-size: 20px;"><strong>@TempData["message"]</strong></p>
 <table class="table">
     <thead>
         <tr>

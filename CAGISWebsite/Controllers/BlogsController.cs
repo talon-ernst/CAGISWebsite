@@ -44,18 +44,24 @@ namespace CAGISWebsite.Controllers
 
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
-            if(_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
+
+            if (String.IsNullOrEmpty(SearchPhrase))
             {
-                return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+                TempData["message"] = $"Please enter something to search for, cannot be empty.";
+                return RedirectToAction("Index", "Blogs");
             }
             else
             {
-                TempData["message"] = $"No search results appeared for \"{SearchPhrase}\". Please try again!";
-                return RedirectToAction("Index", "Blogs");
-            }                                  
-          
+                if (_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
+                {
+                    return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+                }
+                else
+                {
+                    TempData["message"] = $"No search results appeared for \"{SearchPhrase}\". Please try again!";
+                    return RedirectToAction("Index", "Blogs");
+                }
+            }
         }
-
-
     }
 }
