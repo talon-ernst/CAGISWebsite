@@ -3,43 +3,95 @@
 @{
     ViewData["Title"] = "Activities Page";
 }
+<div class="SearchEngine">
+    <h1>Please Select An Activity or search for one </h1>
+    <form asp-action="ShowSearchResults">
+        <div class="form-group">
+            <label for="SearchPhrase" class="control-label"></label>
+            <input name="SearchPhrase" class="form-control" placeholder="Search for an activity..." style="width: 200px;" />
 
-<h1>Please Select An Activity or search for one </h1>
-<form asp-action="ShowSearchResults">
-    <div class="form-group">
-        <label for="SearchPhrase" class="control-label"></label>
-        <input name="SearchPhrase" class="form-control" placeholder="Search for an activity..." style="width: 200px;" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
 
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Search" class="btn btn-primary" />
-    </div>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <p>Activity Title</p>
-            </th>
-            <th>
-               <p>Activity Text</p>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityText)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ActivityId">Details</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="ListPage">
+    @foreach (var item in Model)
+    {
+        <a asp-controller="Activities" asp-action="Details" asp-route-id="@item.ActivityId">
+
+            <div class="row" id="EachBlog">
+
+                <div class="eachcolumn" id="ListLeftColm">
+                    @if (item.ActivityImage == null)
+                    {
+                        <img class="eachImage" src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+                    }
+                    else
+                    {
+                        <img class="eachImage" src="@item.ActivityImage.ImagePath" />
+                    }
+                </div>
+
+                <div class="eachcolumn" id="ListRightColm">
+                    <h1 class="eachTitle">@Html.DisplayFor(modelItem => item.ActivityTitle)</h1>
+
+                    @if (item.ActivityText.Length >= 270)
+                    {
+                        <p class="eachDescription">@Html.DisplayTextFor(modelItem => item.ActivityText).Substring(0, 270) ...</p>
+                    }
+                    else
+                    {
+                        <p class="eachDescription">@Html.DisplayFor(modelItem => item.ActivityText)</p>
+                    }
+
+                    <p>Click to view more</p>
+                </div>
+
+            </div>
+        </a>
+    }
+</div>
+
+@*<h1>Please Select An Activity or search for one </h1>
+    <form asp-action="ShowSearchResults">
+        <div class="form-group">
+            <label for="SearchPhrase" class="control-label"></label>
+            <input name="SearchPhrase" class="form-control" placeholder="Search for an activity..." style="width: 200px;" />
+
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <p>Activity Title</p>
+                </th>
+                <th>
+                   <p>Activity Text</p>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivityText)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.ActivityId">Details</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>*@

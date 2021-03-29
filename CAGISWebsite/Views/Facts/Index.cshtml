@@ -4,19 +4,61 @@
     ViewData["Title"] = "Did You Know Page";
 }
 
-<h1>Please Select a Fact or search for one: </h1>
-<form asp-action="ShowSearchResults">
-    <div class="form-group">
-        <label for="SearchPhrase" class="control-label"></label>
-        <input name="SearchPhrase" class="form-control" placeholder="Search for a fact..." style="width: 200px;" />
+<div class="SearchEngine">
+    <h1>Please Select a Did You Know or search for one: </h1>
+    <form asp-action="ShowSearchResults">
+        <div class="form-group">
+            <label for="SearchPhrase" class="control-label"></label>
+            <input name="SearchPhrase" class="form-control" placeholder="Search for a fact..." style="width: 200px;" />
 
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Search" class="btn btn-primary" />
-    </div>
-</form>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
 
-<table class="table">
+
+
+<div class="ListPage">
+    @foreach (var item in Model)
+    {
+        <a asp-controller="Facts" asp-action="Details" asp-route-id="@item.Dykid">
+
+            <div class="row" id="EachBlog">
+
+                <div class="eachcolumn" id="ListLeftColm">
+                    @if (item.Dykimage == null)
+                    {
+                        <img class="eachImage" src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+                    }
+                    else
+                    {
+                        <img class="eachImage" src="@item.Dykimage.ImagePath" />
+                    }
+                </div>
+
+                <div class="eachcolumn" id="ListRightColm">
+                    <h1 class="eachTitle">@Html.DisplayFor(modelItem => item.Dyktitle)</h1>
+
+                    @if (item.Dyktext.Length >= 270)
+                    {
+                        <p class="eachDescription">@Html.DisplayTextFor(modelItem => item.Dyktext).Substring(0, 270) ...</p>
+                    }
+                    else
+                    {
+                        <p class="eachDescription">@Html.DisplayFor(modelItem => item.Dyktext)</p>
+                    }
+
+                    <p>Click to view more</p>
+                </div>
+
+            </div>
+        </a>
+    }
+</div>
+
+@*<table class="table">
     <thead>
         <tr>
             <th>
@@ -43,4 +85,4 @@
         </tr>
 }
     </tbody>
-</table>
+</table>*@

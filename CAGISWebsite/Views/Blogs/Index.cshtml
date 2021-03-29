@@ -38,9 +38,9 @@
                 <div class="eachcolumn" id="ListRightColm">
                     <h1 class="eachTitle">@Html.DisplayFor(modelItem => item.BlogTitle)</h1>
 
-                    @if (item.BlogText.Length >= 250)
+                    @if (item.BlogText.Length >= 270)
                     {
-                        <p class="eachDescription">@Html.DisplayTextFor(modelItem => item.BlogText).Substring(0, 250)</p>
+                        <p class="eachDescription">@Html.DisplayTextFor(modelItem => item.BlogText).Substring(0, 270) ...</p>
                     }
                     else
                     {
