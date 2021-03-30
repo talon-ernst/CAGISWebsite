@@ -1,4 +1,4 @@
-﻿.BlogDetails {
+﻿.Details {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
@@ -15,6 +15,7 @@
     margin-left:10%;
     margin-right:10%;
     margin-top:2%;
+}
 }
 
 .txtUploadedDate {
@@ -43,5 +44,16 @@
     margin-left: 10%;
     font-size:150%;
 }
+.returnLink {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
 
 
+.TextareaDetails {
+    margin-top:1em;
+    margin-left:10%;
+    width:80%;
+    resize:none;
+    grid-auto-rows:auto;
+}

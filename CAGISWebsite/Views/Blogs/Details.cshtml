@@ -3,15 +3,14 @@
 @{
     ViewData["Title"] = "Details";
 }
-<br />
 
-<div>
+<div class="returnLink">
     <a asp-action="Index" class="returnIndex">Return to Blogs</a>
 </div>
 
 
 
-<div class="BlogDetails">
+<div class="Details">
 
     <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.BlogUploadDate) </p>
 
