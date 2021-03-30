@@ -9,12 +9,14 @@
         <div class="form-group">
             <label for="SearchPhrase" class="control-label"></label>
             <input name="SearchPhrase" class="form-control" placeholder="Search for a blog..." style="width: 200px;" />
-
         </div>
         <div class="form-group">
             <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
+        <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
     </form>
+    <p style="color:red"><strong>@TempData["message"]</strong></p>
 </div>
 
 <div class="ListPage">

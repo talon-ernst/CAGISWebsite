@@ -21,6 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Blogs
         public async Task<IActionResult> Index()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View(await _context.Blogs.Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
         }
 
@@ -44,8 +45,26 @@ namespace CAGISWebsite.Controllers
 
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
+            string selectedValue = Request.Form["categoryDropdown"];
+            Categories categories = new Categories();
 
-            if (String.IsNullOrEmpty(SearchPhrase))
+            if (!String.IsNullOrEmpty(selectedValue))
+            {
+                if(selectedValue == "00000000-0000-0000-0000-000000000000")
+                {
+
+                    TempData["message"] = $"Please enter something to search for, cannot be empty.";
+                    return RedirectToAction("Index", "Blogs");
+                }
+                else
+                {
+                    categories = await _context.Categories
+                        .FirstOrDefaultAsync(m => m.CategoryId == Guid.Parse(selectedValue));
+                }
+               
+            }
+
+            if (String.IsNullOrEmpty(SearchPhrase) && String.IsNullOrEmpty(selectedValue))
             {
                 TempData["message"] = $"Please enter something to search for, cannot be empty.";
                 return RedirectToAction("Index", "Blogs");
@@ -56,6 +75,10 @@ namespace CAGISWebsite.Controllers
                 {
                     return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
                 }
+                else if(_context.Blogs.Where(j => j.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
+                {
+                    return View("Index", await _context.Blogs.Where(j => j.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+                }
                 else
                 {
                     TempData["message"] = $"No search results appeared for \"{SearchPhrase}\". Please try again!";
@@ -63,5 +86,22 @@ namespace CAGISWebsite.Controllers
                 }
             }
         }
+
+
+
+        private SelectList TTLCategoryList(Guid selectedValue)
+        {
+            Categories blank = new Categories()
+            {
+                CategoryId = Guid.Empty,
+                CategoryName = ""
+            };
+            List<Categories> categories = new List<Categories>(_context.Categories.OrderBy(c => c.CategoryName));
+            categories.Add(blank);
+            SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
+            return categorySelectList;
+        }
+
+
     }
 }
