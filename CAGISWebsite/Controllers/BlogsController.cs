@@ -43,6 +43,12 @@ namespace CAGISWebsite.Controllers
             return View(blogs);
         }
 
+        /// <summary>
+        /// Function takes what user has inputted in the search box or the category dropsown
+        /// and returns relevant blogs
+        /// </summary>
+        /// <param name="SearchPhrase"></param>
+        /// <returns></returns>
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
             string selectedValue = Request.Form["categoryDropdown"];
@@ -50,7 +56,8 @@ namespace CAGISWebsite.Controllers
 
             if (!String.IsNullOrEmpty(selectedValue))
             {
-                if(selectedValue == "00000000-0000-0000-0000-000000000000")
+                ViewData["Categories"] = TTLCategoryList(Guid.Parse(selectedValue));
+                if (selectedValue == Guid.Empty.ToString() && String.IsNullOrEmpty(SearchPhrase))
                 {
 
                     TempData["message"] = $"Please enter something to search for, cannot be empty.";
@@ -60,8 +67,7 @@ namespace CAGISWebsite.Controllers
                 {
                     categories = await _context.Categories
                         .FirstOrDefaultAsync(m => m.CategoryId == Guid.Parse(selectedValue));
-                }
-               
+                }               
             }
 
             if (String.IsNullOrEmpty(SearchPhrase) && String.IsNullOrEmpty(selectedValue))
@@ -81,20 +87,18 @@ namespace CAGISWebsite.Controllers
                 }
                 else
                 {
-                    TempData["message"] = $"No search results appeared for \"{SearchPhrase}\". Please try again!";
+                    TempData["message"] = $"There were either no search results for \"{SearchPhrase}\" or there were no results with a category of {categories.CategoryName}. Please try again!";
                     return RedirectToAction("Index", "Blogs");
                 }
             }
         }
-
-
 
         private SelectList TTLCategoryList(Guid selectedValue)
         {
             Categories blank = new Categories()
             {
                 CategoryId = Guid.Empty,
-                CategoryName = ""
+                CategoryName = "Select A Category:"
             };
             List<Categories> categories = new List<Categories>(_context.Categories.OrderBy(c => c.CategoryName));
             categories.Add(blank);
