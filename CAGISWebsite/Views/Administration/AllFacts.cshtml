@@ -14,10 +14,13 @@
             <tr>
                 <th></th>
                 <th>
-                    Did You Know Title
+                    Title
                 </th>
-                <th >
+                <th>
                     Did You Know Description
+                </th>
+                <th>
+                    Category
                 </th>
             </tr>
         </thead>
@@ -27,9 +30,9 @@
             <tr>
                 @if (item.DykimageId == null)
                 {
-                <td id="imgDYKImage">
-                    <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
-                </td>
+                    <td id="imgDYKImage">
+                        <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+                    </td>
                 }
                 else
                 {
@@ -49,7 +52,10 @@
                     {
                         @Html.DisplayFor(modelItem => item.Dyktext)
                     }
-                    
+
+                </td>
+                <td id="lblDYKCategory">
+                    @Html.DisplayFor(modelItem => item.DykcategoryNavigation.CategoryName)
                 </td>
                 <td>
                     <a asp-action="EditFact" asp-route-id="@item.Dykid" class="btn btn-primary" id="btnEditFact">Edit</a>

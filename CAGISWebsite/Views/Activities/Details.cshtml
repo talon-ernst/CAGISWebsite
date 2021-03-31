@@ -33,12 +33,15 @@
     }
     <br />
 
-    <textarea disabled class="TextareaDetails" rows="50" >@Html.DisplayFor(model => model.ActivityText)</textarea>
-    
-    
+    <textarea disabled class="TextareaDetails" rows="50">@Html.DisplayFor(model => model.ActivityText)</textarea>
+
+
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Activities</a>
 </div>
+
+<p>@Html.DisplayFor(model => model.ActivityCategoryNavigation.CategoryName)</p>
+
 
 @*<h1>Details</h1>
 

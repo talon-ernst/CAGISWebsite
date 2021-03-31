@@ -47,6 +47,11 @@ namespace CAGISWebsite.Controllers
                 .Include(c => c.ContestImage).FirstOrDefaultAsync(m => m.ContestId == id);
             if (contests == null)
             {
+                Archives archive = await _context.Archives.FindAsync(id);
+                if (archive != null)
+                {
+                    return RedirectToAction("Details", "Archives", new { id });
+                }
                 return NotFound();
             }
             ViewData["DateNow"] = DateTime.Now;

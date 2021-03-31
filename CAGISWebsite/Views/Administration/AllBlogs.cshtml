@@ -15,10 +15,13 @@
             <tr>
                 <th></th>
                 <th>
-                    Blog Title
+                    Title
                 </th>
                 <th>
                     Blog Description
+                </th>
+                <th>
+                    Category
                 </th>
                 <th></th>
             </tr>
@@ -50,7 +53,9 @@
                         {
                             @Html.DisplayFor(modelItem => item.BlogText)
                         }
-
+                    </td>
+                    <td id="lblBlogCategory">
+                        @Html.DisplayFor(modelItem => item.BlogCategoryNavigation.CategoryName)
                     </td>
                     <td>
                         <a asp-action="EditBlog" asp-route-id="@item.BlogId" class="btn btn-primary" id="btnEditBlog">Edit</a>
