@@ -16,6 +16,7 @@
 
     <h1 class="txtTitle">@Html.DisplayFor(model => model.BlogTitle)</h1>
 
+    <p class="txtCategory">Category: @Html.DisplayFor(model => model.BlogCategoryNavigation.CategoryName)</p>
 
     @if (Model.BlogEditDate != Model.BlogUploadDate)
     {

@@ -16,7 +16,7 @@
     margin-right:10%;
     margin-top:2%;
 }
-}
+
 
 .txtUploadedDate {
     text-align: right;
@@ -56,4 +56,19 @@
     width:80%;
     resize:none;
     grid-auto-rows:auto;
+}
+
+.txtCategory {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.txtContestText {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.txtStartDateText {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
 }

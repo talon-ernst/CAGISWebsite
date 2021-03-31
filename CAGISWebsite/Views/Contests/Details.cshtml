@@ -5,7 +5,37 @@
     DateTime currentDateTime = DateTime.Parse(ViewData["DateNow"].ToString());
 }
 
-<h1>Details</h1>
+<div class="returnLink">
+    <a asp-action="Index" class="returnIndex">Return to Contests</a>
+</div>
+
+<div class="Details">
+
+
+    <h1 class="txtTitle">@Html.DisplayFor(model => model.ContestTitle)</h1>
+
+
+    @if (Model.ContestImageId == null)
+    {
+        <img class="imgBlog" src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+    }
+    else
+    {
+        <img class="imgBlog" src="@Model.ContestImage.ImagePath" />
+    }
+
+    <p class="txtStartDateText">Starts Date: @Html.DisplayFor(model => model.ContestStartDate)</p>
+    <p class="txtContestText">Ends Date: @Html.DisplayFor(model => model.ContestEndDate)</p>
+
+    
+    <p class="txtDescription">Description: <br />@Html.DisplayFor(model => model.ContestText)</p>
+
+    <p class="txtContestText">Email To: <a href="mailto:@Model.Email">@Model.Email</a></p>
+
+    <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Contests</a>
+</div>
+
+@*<h1>Details</h1>
 
 <div>
     <h4>Contests</h4>
@@ -51,4 +81,4 @@
 </div>
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@

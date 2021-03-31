@@ -17,6 +17,8 @@
 
     <h1 class="txtTitle">@Html.DisplayFor(model => model.ActivityTitle)</h1>
 
+    <p class="txtCategory">Category: @Html.DisplayFor(model => model.ActivityCategoryNavigation.CategoryName)</p>
+
 
     @if (Model.ActivityEditDate != Model.ActivityUploadDate)
     {
@@ -33,14 +35,12 @@
     }
     <br />
 
-    <textarea disabled class="TextareaDetails" rows="50">@Html.DisplayFor(model => model.ActivityText)</textarea>
-
-
+    <p class="txtDescription">@Html.DisplayFor(model => model.ActivityText)</p>
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Activities</a>
 </div>
 
-<p>@Html.DisplayFor(model => model.ActivityCategoryNavigation.CategoryName)</p>
+
 
 
 @*<h1>Details</h1>

@@ -4,7 +4,35 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="Details">
+
+    <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.DykuploadDate) </p>
+
+    <h1 class="txtTitle">@Html.DisplayFor(model => model.Dyktitle)</h1>
+
+    <p class="txtCategory">Category: @Html.DisplayFor(model => model.DykcategoryNavigation.CategoryName)</p>
+
+    @if (Model.DykeditDate != Model.DykuploadDate)
+    {
+        <p class="txtUpdatedDate">Updated: @Html.DisplayFor(model => model.DykeditDate) </p>
+    }
+
+    @if (Model.DykimageId == null)
+    {
+        <img class="imgBlog" src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+    }
+    else
+    {
+        <img class="imgBlog" src="@Model.Dykimage.ImagePath" />
+    }
+
+    <p class="txtDescription">@Html.DisplayFor(model => model.Dyktext)</p>
+
+    <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Did You Knows</a>
+</div>
+
+
+@*<h1>Details</h1>
 
 <div>
     <h4>Facts</h4>
@@ -26,6 +54,6 @@
 </div>
 <div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
-<p>@Html.DisplayFor(model => model.DykcategoryNavigation.CategoryName)</p>
+
