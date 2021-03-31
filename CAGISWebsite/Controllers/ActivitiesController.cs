@@ -33,9 +33,14 @@ namespace CAGISWebsite.Controllers
             }
 
             var activities = await _context.Activities
-                .Include(a => a.ActivityImage).FirstOrDefaultAsync(m => m.ActivityId == id);
+                .Include(a => a.ActivityImage).Include(a => a.ActivityCategoryNavigation).FirstOrDefaultAsync(m => m.ActivityId == id);
             if (activities == null)
             {
+                Archives archive = await _context.Archives.FindAsync(id);
+                if (archive != null)
+                {
+                    return RedirectToAction("Details", "Archives", new { id });
+                }
                 return NotFound();
             }
 

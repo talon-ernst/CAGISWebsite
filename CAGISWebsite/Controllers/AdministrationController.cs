@@ -189,7 +189,7 @@ namespace CAGISWebsite.Controllers
         // List all blogs
         public async Task<IActionResult> AllBlogs()
         {
-            return View(await _context.Blogs.Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+            return View(await _context.Blogs.Include(b => b.BlogImage).Include(b => b.BlogCategoryNavigation).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
         }
 
         // GET: Create new blog
@@ -331,6 +331,7 @@ namespace CAGISWebsite.Controllers
                     editBlogs.BlogTitle = blogs.BlogTitle;
                     editBlogs.BlogText = blogs.BlogText;
                     editBlogs.BlogCategory = blogs.BlogCategory;
+                    editBlogs.BlogImageId = null;
 
                     //add image to image folder if employee uploaded one
                     if (file != null)
@@ -410,7 +411,18 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteBlog(Guid id)
         {
-            var blogs = await _context.Blogs.FindAsync(id);
+            var blogs = await _context.Blogs.Include(b => b.BlogCategoryNavigation).Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+            Archives archive = new Archives()
+            {
+                PostId = blogs.BlogId,
+                PostTitle = blogs.BlogTitle,
+                PostText = blogs.BlogText,
+                PostCategory = blogs.BlogCategoryNavigation.CategoryName,
+                PostUploadDate = blogs.BlogUploadDate,
+                PostLastEditedDate = blogs.BlogEditDate,
+                PostArchivedDate = DateTime.Now
+            };
+            _context.Archives.Add(archive);
             _context.Blogs.Remove(blogs);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllBlogs));
@@ -426,7 +438,7 @@ namespace CAGISWebsite.Controllers
         // List all facts
         public async Task<IActionResult> AllFacts()
         {
-            return View(await _context.Facts.Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
+            return View(await _context.Facts.Include(f => f.Dykimage).Include(f => f.DykcategoryNavigation).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
         }
 
         // GET: Create new fact
@@ -564,6 +576,7 @@ namespace CAGISWebsite.Controllers
                     editFact.Dyktitle = fact.Dyktitle;
                     editFact.Dyktext = fact.Dyktext;
                     editFact.Dykcategory = fact.Dykcategory;
+                    editFact.DykimageId = null;
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -643,7 +656,18 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFact(Guid id)
         {
-            var fact = await _context.Facts.FindAsync(id);
+            var fact = await _context.Facts.Include(f => f.DykcategoryNavigation).Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
+            Archives archive = new Archives()
+            {
+                PostId = fact.Dykid,
+                PostTitle = fact.Dyktitle,
+                PostText = fact.Dyktext,
+                PostCategory = fact.DykcategoryNavigation.CategoryName,
+                PostUploadDate = fact.DykuploadDate,
+                PostLastEditedDate = fact.DykeditDate,
+                PostArchivedDate = DateTime.Now
+            };
+            _context.Archives.Add(archive);
             _context.Facts.Remove(fact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllFacts));
@@ -658,7 +682,7 @@ namespace CAGISWebsite.Controllers
         // List all activities
         public async Task<IActionResult> AllActivities()
         {
-            return View(await _context.Activities.Include(a => a.ActivityImage).OrderByDescending(a => a.ActivityUploadDate).ThenBy(a => a.ActivityTitle).ToListAsync());
+            return View(await _context.Activities.Include(a => a.ActivityImage).Include(a => a.ActivityCategoryNavigation).OrderByDescending(a => a.ActivityUploadDate).ThenBy(a => a.ActivityTitle).ToListAsync());
         }
 
         // GET: Create new activity
@@ -797,6 +821,7 @@ namespace CAGISWebsite.Controllers
                     editActivity.ActivityTitle = activity.ActivityTitle;
                     editActivity.ActivityText = activity.ActivityText;
                     editActivity.ActivityCategory = activity.ActivityCategory;
+                    editActivity.ActivityImageId = null;
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -874,7 +899,18 @@ namespace CAGISWebsite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
-            var activity = await _context.Activities.FindAsync(id);
+            var activity = await _context.Activities.Include(a => a.ActivityCategoryNavigation).Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
+            Archives archive = new Archives()
+            {
+                PostId = activity.ActivityId,
+                PostTitle = activity.ActivityTitle,
+                PostText = activity.ActivityText,
+                PostCategory = activity.ActivityCategoryNavigation.CategoryName,
+                PostUploadDate = activity.ActivityUploadDate,
+                PostLastEditedDate = activity.ActivityEditDate,
+                PostArchivedDate = DateTime.Now
+            };
+            _context.Archives.Add(archive);
             _context.Activities.Remove(activity);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllActivities));
@@ -983,6 +1019,7 @@ namespace CAGISWebsite.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    contest.ContestImageId = null;
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
@@ -1045,6 +1082,17 @@ namespace CAGISWebsite.Controllers
         public async Task<IActionResult> DeleteContest(Guid id)
         {
             var contest = await _context.Contests.FindAsync(id);
+            Archives archive = new Archives()
+            {
+                PostId = contest.ContestId,
+                PostTitle = contest.ContestTitle,
+                PostText = contest.ContestText + " " + contest.Email,
+                PostCategory = $"{contest.ContestStartDate} - {contest.ContestEndDate}",
+                PostUploadDate = contest.ContestUploadDate,
+                PostLastEditedDate = contest.ContestEditDate,
+                PostArchivedDate = DateTime.Now
+            };
+            _context.Archives.Add(archive);
             _context.Contests.Remove(contest);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllContests));

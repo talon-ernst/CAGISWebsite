@@ -16,7 +16,7 @@
 
     <h1 class="txtTitle">@Html.DisplayFor(model => model.BlogTitle)</h1>
 
-    
+
     @if (Model.BlogEditDate != Model.BlogUploadDate)
     {
         <p class="txtUpdatedDate">Updated: @Html.DisplayFor(model => model.BlogEditDate) </p>
@@ -35,3 +35,6 @@
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Blogs</a>
 </div>
+
+
+<p>@Html.DisplayFor(model => model.BlogCategoryNavigation.CategoryName)</p>

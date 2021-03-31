@@ -33,9 +33,14 @@ namespace CAGISWebsite.Controllers
             }
 
             var facts = await _context.Facts
-                .Include(f => f.Dykimage).FirstOrDefaultAsync(m => m.Dykid == id);
+                .Include(f => f.Dykimage).Include(f => f.DykcategoryNavigation).FirstOrDefaultAsync(m => m.Dykid == id);
             if (facts == null)
             {
+                Archives archive = await _context.Archives.FindAsync(id);
+                if (archive != null)
+                {
+                    return RedirectToAction("Details", "Archives", new { id });
+                }
                 return NotFound();
             }
 
