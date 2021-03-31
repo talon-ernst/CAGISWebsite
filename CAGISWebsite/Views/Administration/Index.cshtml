@@ -13,12 +13,15 @@
     <div id="ButtonAdminPanel">
         @if (User.IsInRole("Admin"))
         {
-            <a asp-action="ListEmployees" asp-controller="Administration" class="btn btn-primary" id="btnEmployees">Employees</a><br />
+            <a asp-action="ListEmployees" asp-controller="Administration" class="btn btn-primary btn-admin" id="btnEmployees">Employees</a><br />
         }
-        <a asp-action="AllBlogs" asp-controller="Administration" class="btn btn-primary" id="btnAdminBlog">Manage Blog</a><br />
-        <a asp-action="AllFacts" asp-controller="Administration" class="btn btn-primary" id="btnAdminDYK">Manage Did You Know</a><br />
-        <a asp-action="AllActivities" asp-controller="Administration" class="btn btn-primary" id="btnAdminActivities">Manage Activities</a><br />
-        <a asp-action="AllContests" asp-controller="Administration" class="btn btn-primary" id="btnAdminContests">Manage Contests</a>
+        <a asp-action="AllBlogs" asp-controller="Administration" class="btn btn-primary btn-admin" id="btnAdminBlog">Manage Blog</a><br />
+        <a asp-action="AllFacts" asp-controller="Administration" class="btn btn-primary btn-admin" id="btnAdminDYK">Manage Did You Know</a><br />
+        <a asp-action="AllActivities" asp-controller="Administration" class="btn btn-primary btn-admin" id="btnAdminActivities">Manage Activities</a><br />
+        <a asp-action="AllContests" asp-controller="Administration" class="btn btn-primary btn-admin" id="btnAdminContests">Manage Contests</a><br />
+        <form asp-action="Index" onSubmit="return confirm('This will clear all empty categories. Continue?');">
+            <button id="btnClearCategories" class="btn btn-danger btn-admin">Clear Unused Categories</button>
+        </form>
     </div>
 </div>
    

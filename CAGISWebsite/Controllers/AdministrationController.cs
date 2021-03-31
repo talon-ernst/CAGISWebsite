@@ -1104,6 +1104,24 @@ namespace CAGISWebsite.Controllers
             return _context.Contests.Any(e => e.ContestId == id);
         }
 
+        // POST: Clear all Empty Categories
+        [HttpPost, ActionName("Index")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ClearCategories()
+        {
+            //find all categories with no content attached
+            List<Categories> categories = await _context.Categories.Where(c => c.Blogs.Count.Equals(0))
+                .Where(c => c.Activities.Count.Equals(0)).Where(c => c.Facts.Count.Equals(0)).ToListAsync();
+            foreach(Categories category in categories)
+            {
+                _context.Categories.Remove(category);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
         //image validation
         private bool ValidImageUpload (IFormFile file, string errorPrefix)
         {
