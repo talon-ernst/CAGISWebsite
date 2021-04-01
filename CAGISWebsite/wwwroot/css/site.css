@@ -146,7 +146,7 @@ body {
     
 }
 
-#btnEmployees, #btnAdminBlog, #btnAdminDYK, #btnAdminActivities, #btnAdminContests {
+.btn-admin {
     width: 50%;
     margin: 0 auto;
     display: block;
@@ -230,7 +230,10 @@ body {
     max-width: 100%;
 }
 
-
+#btnClearCategories{
+    margin-left: 25%;
+    width: 25%;
+}
 
 
 
