@@ -227,25 +227,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -337,25 +320,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -482,25 +448,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -589,25 +538,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -733,25 +665,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -840,25 +755,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -970,25 +868,8 @@ namespace CAGISWebsite.Controllers
                 //add image to image folder if employee uploaded one
                 if (file != null)
                 {
-                    Images image = new Images();
-                    var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                    int counter = 1;
-
-                    //check if image share name of other images
-                    while (System.IO.File.Exists("wwwroot" + filePath))
-                    {
-                        //add incremented value
-                        string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                        filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                        counter++;
-                    }
-                    //add image to project
-                    var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                    await file.CopyToAsync(stream);
-
-                    //add to database
-                    image.ImageId = Guid.NewGuid();
-                    image.ImagePath = filePath;
+                    //Add to Database
+                    Images image = await TTLAddImage(file);
                     _context.Add(image);
                     await _context.SaveChangesAsync();
 
@@ -1044,25 +925,8 @@ namespace CAGISWebsite.Controllers
                     //add image to image folder if employee uploaded one
                     if (file != null)
                     {
-                        Images image = new Images();
-                        var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
-                        int counter = 1;
-
-                        //check if image share name of other images
-                        while (System.IO.File.Exists("wwwroot" + filePath))
-                        {
-                            //add incremented value
-                            string newFilePath = file.FileName.Replace(".", $"({counter}).");
-                            filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
-                            counter++;
-                        }
-                        //add image to project
-                        var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
-                        await file.CopyToAsync(stream);
-
-                        //add to database
-                        image.ImageId = Guid.NewGuid();
-                        image.ImagePath = filePath;
+                        //Add to Database
+                        Images image = await TTLAddImage(file);
                         _context.Add(image);
                         await _context.SaveChangesAsync();
 
@@ -1183,6 +1047,35 @@ namespace CAGISWebsite.Controllers
                 }
             }
             return validUpload;
+        }
+
+        /// <summary>
+        /// add image to project
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        private async Task<Images> TTLAddImage(IFormFile file)
+        {
+            Images image = new Images();
+            var filePath = Path.Combine("/Images/UploadedContent/" + file.FileName);
+            int counter = 1;
+
+            //check if image share name of other images
+            while (System.IO.File.Exists("wwwroot" + filePath))
+            {
+                //add incremented value
+                string newFilePath = file.FileName.Replace(".", $"({counter}).");
+                filePath = Path.Combine("/Images/UploadedContent/" + newFilePath);
+                counter++;
+            }
+            //add image to project
+            var stream = new FileStream("wwwroot" + filePath, FileMode.Create);
+            await file.CopyToAsync(stream);
+
+            //initiate values
+            image.ImageId = Guid.NewGuid();
+            image.ImagePath = filePath;
+            return image;
         }
 
         /// <summary>
