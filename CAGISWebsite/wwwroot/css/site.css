@@ -235,6 +235,12 @@ body {
     width: 25%;
 }
 
+.eachpostTitle {
+    width: 15%;
+    margin-left: 2%;
+    display:inline-block;
+    text-align:center;
+}
 
 
 

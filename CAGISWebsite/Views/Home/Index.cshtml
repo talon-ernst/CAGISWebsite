@@ -24,6 +24,13 @@
                 }
             </a>
         }
+        <br />
+        @foreach (var BlogTitle in Model.Blogs)
+        {
+            <div class="eachpostTitle">
+                @BlogTitle.BlogTitle
+            </div>
+        }
     </div>
 </div>
 
@@ -36,8 +43,10 @@
     </div>
     <div class="column" id="rightCol">
         <h3 id="HeadingTextForTable">Most Recent Actvities</h3>
+
         @foreach (var activity in Model.Activities)
         {
+
             <a asp-controller="Activities" asp-action="Details" asp-route-id="@activity.ActivityId">
                 @if (activity.ActivityImageId == null)
                 {
@@ -49,6 +58,14 @@
                 }
             </a>
         }
+        <br />
+        @foreach (var activityTitle in Model.Activities)
+        {
+            <div class="eachpostTitle">
+                @activityTitle.ActivityTitle
+            </div>
+        }
+
     </div>
 </div>
 
@@ -61,7 +78,7 @@
         </div>
         <div class="column" id="rightCol">
             <h3 id="HeadingTextForTable">Most Recent Did You Knows </h3>
-             @foreach (var fact in Model.Facts)
+            @foreach (var fact in Model.Facts)
             {
                 <a asp-controller="Facts" asp-action="Details" asp-route-id="@fact.Dykid">
                     @if (fact.DykimageId == null)
@@ -73,6 +90,13 @@
                         <img src="@fact.Dykimage.ImagePath" alt="@fact.Dyktitle" id="imgsForDYKHome" />
                     }
                 </a>
+            }
+            <br />
+            @foreach (var DYKTitle in Model.Facts)
+            {
+                <div class="eachpostTitle">
+                    @DYKTitle.Dyktitle
+                </div>
             }
         </div>
     </div>
