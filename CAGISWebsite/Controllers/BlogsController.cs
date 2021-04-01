@@ -34,14 +34,9 @@ namespace CAGISWebsite.Controllers
             }
 
             var blogs = await _context.Blogs
-                .Include(b => b.BlogImage).Include(b => b.BlogCategoryNavigation).FirstOrDefaultAsync(m => m.BlogId == id);
+                .Include(b => b.BlogImage).FirstOrDefaultAsync(m => m.BlogId == id);
             if (blogs == null)
             {
-                Archives archive = await _context.Archives.FindAsync(id);
-                if (archive != null)
-                {
-                    return RedirectToAction("Details", "Archives", new { id });
-                }
                 return NotFound();
             }
 
@@ -49,7 +44,7 @@ namespace CAGISWebsite.Controllers
         }
 
         /// <summary>
-        /// Function takes what user has inputted in the search box or the category dropsown
+        /// Function takes what user has inputted in the search box or the category dropdown
         /// and returns relevant blogs
         /// </summary>
         /// <param name="SearchPhrase"></param>
@@ -74,27 +69,27 @@ namespace CAGISWebsite.Controllers
                         .FirstOrDefaultAsync(m => m.CategoryId == Guid.Parse(selectedValue));
                 }               
             }
-
-            if (String.IsNullOrEmpty(SearchPhrase) && String.IsNullOrEmpty(selectedValue))
+          
+            //The If returns ONLY IF both the search box and dropdown are not null
+            if(_context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Any() && _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
             {
-                TempData["message"] = $"Please enter something to search for, cannot be empty.";
-                return RedirectToAction("Index", "Blogs");
+                return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
             }
+            //This else If returns ONLY IF the category isnt null but the search box is
+            else if (_context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
+            {
+                return View("Index", await _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+            }
+            //This else If returns ONLY IF the search box isnt null but the dropdown is
+            else if (_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
+            {
+                return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+            }
+            //Returns if both are null
             else
             {
-                if (_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
-                {
-                    return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
-                }
-                else if(_context.Blogs.Where(j => j.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
-                {
-                    return View("Index", await _context.Blogs.Where(j => j.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
-                }
-                else
-                {
-                    TempData["message"] = $"There were either no search results for \"{SearchPhrase}\" or there were no results with a category of {categories.CategoryName}. Please try again!";
-                    return RedirectToAction("Index", "Blogs");
-                }
+                TempData["message"] = $"There were no search results for what you searched for. Please try again";
+                return RedirectToAction("Index", "Blogs");
             }
         }
 
