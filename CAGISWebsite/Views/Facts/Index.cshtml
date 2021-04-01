@@ -57,32 +57,3 @@
         </a>
     }
 </div>
-
-@*<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <p>Did You Know Title</p>
-            </th>
-            <th>
-                <p>Did You Know Text</p>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dyktitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dyktext)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Dykid">Details</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>*@

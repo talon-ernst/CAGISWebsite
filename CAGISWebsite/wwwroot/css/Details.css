@@ -15,6 +15,9 @@
     margin-left:10%;
     margin-right:10%;
     margin-top:2%;
+    max-width:80%;
+    height:auto;
+    white-space: pre-wrap;
 }
 
 
@@ -56,6 +59,7 @@
     width:80%;
     resize:none;
     grid-auto-rows:auto;
+    font-style:normal;
 }
 
 .txtCategory {

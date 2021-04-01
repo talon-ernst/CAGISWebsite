@@ -56,32 +56,3 @@
         </a>
      }
 </div>
-
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    <p>Blog Title</p>
-                </th>
-                <th>
-                    <p>Blog Text</p>
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BlogTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BlogText)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.BlogId">Details</a>
-                </td>
-            </tr>
-     }
-        </tbody>
-    </table>*@

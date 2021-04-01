@@ -4,6 +4,10 @@
     ViewData["Title"] = "Details";
 }
 
+<div class="returnLink">
+    <a asp-action="Index" class="returnIndex">Return to Did You Knows</a>
+</div>
+
 <div class="Details">
 
     <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.DykuploadDate) </p>
@@ -26,34 +30,7 @@
         <img class="imgBlog" src="@Model.Dykimage.ImagePath" />
     }
 
-    <p class="txtDescription">@Html.DisplayFor(model => model.Dyktext)</p>
+    <pre class="txtDescription">@Html.DisplayFor(model => model.Dyktext)</pre>
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Did You Knows</a>
 </div>
-
-
-@*<h1>Details</h1>
-
-<div>
-    <h4>Facts</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            <p>Did You Know Title: </p>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Dyktitle)
-        </dd>
-        <dt class="col-sm-2">
-            <p>Did You Know Text: </p>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Dyktext)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
-
-

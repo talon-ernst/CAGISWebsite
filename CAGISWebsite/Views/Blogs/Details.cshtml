@@ -32,10 +32,8 @@
         <img class="imgBlog" src="@Model.BlogImage.ImagePath" />
     }
 
-    <p class="txtDescription">@Html.DisplayFor(model => model.BlogText)</p>
+    <pre class="txtDescription">@Html.DisplayFor(model => model.BlogText)</pre>
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Blogs</a>
 </div>
 
-
-<p>@Html.DisplayFor(model => model.BlogCategoryNavigation.CategoryName)</p>

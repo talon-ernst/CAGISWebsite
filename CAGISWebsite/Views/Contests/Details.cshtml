@@ -27,58 +27,10 @@
     <p class="txtStartDateText">Starts Date: @Html.DisplayFor(model => model.ContestStartDate)</p>
     <p class="txtContestText">Ends Date: @Html.DisplayFor(model => model.ContestEndDate)</p>
 
-    
-    <p class="txtDescription">Description: <br />@Html.DisplayFor(model => model.ContestText)</p>
+
+    <pre class="txtDescription">Description: <br />@Html.DisplayFor(model => model.ContestText)</pre>
 
     <p class="txtContestText">Email To: <a href="mailto:@Model.Email">@Model.Email</a></p>
 
     <a asp-action="Index" class="btn btn-primary returnBtndetails">Return to Contests</a>
 </div>
-
-@*<h1>Details</h1>
-
-<div>
-    <h4>Contests</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            <p>Contest Title: </p>
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ContestTitle)
-        </dd>
-        <dt class="col-sm-2">
-            <p>Contest Dates: </p>
-        </dt>
-        <dd class="col-sm-10">
-            From @Html.DisplayFor(model => model.ContestStartDate) to @Html.DisplayFor(model => model.ContestEndDate)
-        </dd>
-        @if (Model.ContestStartDate >= currentDateTime)
-        {
-            <h3 id="lblNotStart">This Contest Has Yet to Start</h3>
-        }
-        else if (Model.ContestEndDate < currentDateTime)
-        {
-            <h3 id="lblEnded">This Contest Has Already Finished</h3>
-        }
-        else
-        {
-
-            <dt class="col-sm-2">
-                <p>Contest Text: </p>
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.ContestText)
-            </dd>
-            <dt class="col-sm-2">
-                <p>Give us your submission at </p>
-            </dt>
-            <dd class="col-sm-10">
-                <a href = "mailto: @Model.Email">@Html.DisplayFor(model => model.Email)</a>
-            </dd>
-        }
-    </dl>
-</div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>*@
