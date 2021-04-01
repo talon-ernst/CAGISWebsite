@@ -28,7 +28,15 @@
         @foreach (var BlogTitle in Model.Blogs)
         {
             <div class="eachpostTitle">
-                @BlogTitle.BlogTitle
+                @if (BlogTitle.BlogTitle.Length >= 23)
+                {
+                    @Html.DisplayTextFor(modelItem => BlogTitle.BlogTitle).Substring(0, 23);
+                }
+                else
+                {
+                 @BlogTitle.BlogTitle;
+                }
+
             </div>
         }
     </div>
@@ -62,7 +70,14 @@
         @foreach (var activityTitle in Model.Activities)
         {
             <div class="eachpostTitle">
-                @activityTitle.ActivityTitle
+               @if (activityTitle.ActivityTitle.Length >= 23)
+                {
+                    @Html.DisplayTextFor(modelItem => activityTitle.ActivityTitle).Substring(0, 23);
+                }
+                else
+                {
+                 @activityTitle.ActivityTitle;
+                }
             </div>
         }
 
@@ -95,7 +110,14 @@
             @foreach (var DYKTitle in Model.Facts)
             {
                 <div class="eachpostTitle">
-                    @DYKTitle.Dyktitle
+                    @if (DYKTitle.Dyktitle.Length >= 23)
+                {
+                    @Html.DisplayTextFor(modelItem => DYKTitle.Dyktitle).Substring(0, 23);
+                }
+                else
+                {
+                 @DYKTitle.Dyktitle;
+                }
                 </div>
             }
         </div>
