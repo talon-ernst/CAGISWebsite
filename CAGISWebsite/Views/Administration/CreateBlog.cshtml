@@ -7,40 +7,40 @@
 <div id="CreateBlogPage">
     <h1 id="titleCreateBlog">@ViewData["Title"]</h1>
 
-<hr />
-<div class="row">
-    <div class="col-md-10">
-        <form enctype="multipart/form-data" asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog', this.actionName);">
-            <div class="form-group">
-                <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
-                <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50"/>
-                <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="form-error"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BlogText" class="control-label">Blog Description</label>
-                <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
-                <span id="txtBlogText-error" asp-validation-for="BlogText" class="form-error"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="BlogCategory" class="control-label">Blog Category</label>
-                <select asp-for="BlogCategory" asp-items="ViewBag.Categories" id="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
-                <div id="NewCategoryDiv">
-                    <input asp-for="CategoryName" id="txtBlogCategory" class="form-control, col-md-4" maxlength="50" />
-                    <input type="submit" value="Add Category" class="btn btn-primary" id="btnCreateCategory" asp-route-blogStatus="AddCategory" onclick="this.form.actionName=this.value" />
+    <hr />
+    <div class="row">
+        <div class="col-md-10">
+            <form enctype="multipart/form-data" asp-action="CreateBlog" id="frmBlog" onsubmit="return TTLValidation('Blog', this.actionName);">
+                <div class="form-group">
+                    <label asp-for="BlogTitle" class="control-label">Blog Title</label><br />
+                    <input asp-for="BlogTitle" id="txtBlogTitle" class="form-control, col-md-4" maxlength="50" />
+                    <span id="txtBlogTitle-error" asp-validation-for="BlogTitle" class="form-error"></span>
                 </div>
-                <span id="txtBlogCategory-error" asp-validation-for="CategoryName" class="form-error"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Upload Image</label><br />
-                <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
-                <span id="imgImageUpload-error" asp-validation-for="BlogImage" class="form-error"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create Blog" class="btn btn-primary" id="btnCreateBlog" asp-route-blogStatus="CreateBlog" onclick="this.form.actionName=this.value"/>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="BlogText" class="control-label">Blog Description</label>
+                    <textarea asp-for="BlogText" id="txtBlogText" class="form-control" rows="7" cols="250"></textarea>
+                    <span id="txtBlogText-error" asp-validation-for="BlogText" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BlogCategory" class="control-label">Blog Category</label>
+                    <select asp-for="BlogCategory" asp-items="ViewBag.Categories" id="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
+                    <div id="NewCategoryDiv">
+                        <input asp-for="CategoryName" id="txtBlogCategory" class="form-control, col-md-4" maxlength="50" />
+                        <input type="submit" value="Add Category" class="btn btn-primary" id="btnCreateCategory" asp-route-blogStatus="AddCategory" onclick="this.form.actionName=this.value" />
+                    </div>
+                    <span id="txtBlogCategory-error" asp-validation-for="CategoryName" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Upload Image</label><br />
+                    <input type="file" accept=".png,.jpg,.jpeg,.gif" name="file" id="imgImageUpload" class="form-control, col-md-4" onchange="TTLCheckImageExtension()" />
+                    <span id="imgImageUpload-error" asp-validation-for="BlogImage" class="form-error"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create Blog" class="btn btn-primary" id="btnCreateBlog" asp-route-blogStatus="CreateBlog" onclick="this.form.actionName=this.value" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
     <div>
         <a asp-action="AllBlogs">Back to List</a>
@@ -66,6 +66,8 @@
         }
 
         $(document).ready(function () {
+            $('#NewCategoryDiv').hide();
+            $('#txtBlogCategory').val("");
             TTLCategoryChange();
         });
     </script>

@@ -140,15 +140,31 @@ function TTLCategoryValidation(contentType, noErrors) {
     //variables for validation
     var category = document.getElementById(idString).value;
     var categoryError = document.getElementById(idString + '-error');
-
+    //get values from dropdown
+    var categories = document.getElementById('categoryDropdown');
     //Client-side Category Validation start
     if (!TTLRequired(category)) {
         categoryError.innerHTML = "Cannot Add A Blank Category";
         noErrors = false;
     }
     else {
-        categoryError.innerHTML = "";
+        //iterate through all current categories to ensure new category isn't a duplicate
+        var noDuplicates = true;
+        for (var i = 0; i < categories.length; i++) {
+            if (categories.options[i].innerHTML == category) {
+                noDuplicates = false;
+                break;
+            }
+        }
+        if (noDuplicates) {
+            categoryError.innerHTML = "";
+        }
+        else {
+            categoryError.innerHTML = "Cannot Add A Duplicate Category";
+            noErrors = false;
+        }
     }
+    
 
     return noErrors;
 }

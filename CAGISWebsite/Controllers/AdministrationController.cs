@@ -274,7 +274,7 @@ namespace CAGISWebsite.Controllers
                 } 
             }
             ViewData["Categories"] = TTLCategoryList(blogs.BlogCategory);
-            return View();
+            return View(blogs);
         }
 
         // GET: Edit existing blog
@@ -328,6 +328,7 @@ namespace CAGISWebsite.Controllers
                 if (ModelState.IsValid)
                 {
                     var editBlogs = await _context.Blogs.Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+                    Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(editBlogs.BlogImageId)).FirstOrDefaultAsync();
                     editBlogs.BlogTitle = blogs.BlogTitle;
                     editBlogs.BlogText = blogs.BlogText;
                     editBlogs.BlogCategory = blogs.BlogCategory;
@@ -360,12 +361,16 @@ namespace CAGISWebsite.Controllers
 
                         editBlogs.BlogImageId = image.ImageId;
                     }
+                    
                     //set blog edit date
                     editBlogs.BlogEditDate = DateTime.Now;
                     try
                     {
                         _context.Update(editBlogs);
+                        if (oldImage != null)
+                            TTLRemoveUnusedImage(editBlogs.BlogImageId, oldImage);
                         await _context.SaveChangesAsync();
+                        
                     }
                     catch (DbUpdateConcurrencyException)
                     {
@@ -412,6 +417,7 @@ namespace CAGISWebsite.Controllers
         public async Task<IActionResult> DeleteBlog(Guid id)
         {
             var blogs = await _context.Blogs.Include(b => b.BlogCategoryNavigation).Where(b => b.BlogId.Equals(id)).FirstOrDefaultAsync();
+            Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(blogs.BlogImageId)).FirstOrDefaultAsync();
             Archives archive = new Archives()
             {
                 PostId = blogs.BlogId,
@@ -424,6 +430,8 @@ namespace CAGISWebsite.Controllers
             };
             _context.Archives.Add(archive);
             _context.Blogs.Remove(blogs);
+            if (oldImage != null)
+                TTLRemoveUnusedImage(null, oldImage);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllBlogs));
         }
@@ -573,6 +581,7 @@ namespace CAGISWebsite.Controllers
                 if (ModelState.IsValid)
                 {
                     var editFact = await _context.Facts.Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
+                    Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(editFact.DykimageId)).FirstOrDefaultAsync();
                     editFact.Dyktitle = fact.Dyktitle;
                     editFact.Dyktext = fact.Dyktext;
                     editFact.Dykcategory = fact.Dykcategory;
@@ -609,6 +618,8 @@ namespace CAGISWebsite.Controllers
                     try
                     {
                         _context.Update(editFact);
+                        if (oldImage != null)
+                            TTLRemoveUnusedImage(editFact.DykimageId, oldImage);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
@@ -657,6 +668,7 @@ namespace CAGISWebsite.Controllers
         public async Task<IActionResult> DeleteFact(Guid id)
         {
             var fact = await _context.Facts.Include(f => f.DykcategoryNavigation).Where(f => f.Dykid.Equals(id)).FirstOrDefaultAsync();
+            Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(fact.DykimageId)).FirstOrDefaultAsync();
             Archives archive = new Archives()
             {
                 PostId = fact.Dykid,
@@ -669,6 +681,8 @@ namespace CAGISWebsite.Controllers
             };
             _context.Archives.Add(archive);
             _context.Facts.Remove(fact);
+            if (oldImage != null)
+                TTLRemoveUnusedImage(null, oldImage);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllFacts));
         }
@@ -818,6 +832,7 @@ namespace CAGISWebsite.Controllers
                 if (ModelState.IsValid)
                 {
                     var editActivity = await _context.Activities.Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
+                    Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(editActivity.ActivityImageId)).FirstOrDefaultAsync();
                     editActivity.ActivityTitle = activity.ActivityTitle;
                     editActivity.ActivityText = activity.ActivityText;
                     editActivity.ActivityCategory = activity.ActivityCategory;
@@ -854,6 +869,8 @@ namespace CAGISWebsite.Controllers
                     try
                     {
                         _context.Update(editActivity);
+                        if (oldImage != null)
+                            TTLRemoveUnusedImage(editActivity.ActivityImageId, oldImage);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
@@ -900,6 +917,7 @@ namespace CAGISWebsite.Controllers
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
             var activity = await _context.Activities.Include(a => a.ActivityCategoryNavigation).Where(a => a.ActivityId.Equals(id)).FirstOrDefaultAsync();
+            Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(activity.ActivityImageId)).FirstOrDefaultAsync();
             Archives archive = new Archives()
             {
                 PostId = activity.ActivityId,
@@ -912,6 +930,8 @@ namespace CAGISWebsite.Controllers
             };
             _context.Archives.Add(archive);
             _context.Activities.Remove(activity);
+            if (oldImage != null)
+                TTLRemoveUnusedImage(null, oldImage);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllActivities));
         }
@@ -1019,6 +1039,7 @@ namespace CAGISWebsite.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(contest.ContestImageId)).FirstOrDefaultAsync();
                     contest.ContestImageId = null;
                     //add image to image folder if employee uploaded one
                     if (file != null)
@@ -1052,6 +1073,8 @@ namespace CAGISWebsite.Controllers
                     try
                     {
                         _context.Update(contest);
+                        if (oldImage != null)
+                            TTLRemoveUnusedImage(contest.ContestImageId, oldImage);
                         await _context.SaveChangesAsync();
                     }
                     catch (DbUpdateConcurrencyException)
@@ -1082,6 +1105,7 @@ namespace CAGISWebsite.Controllers
         public async Task<IActionResult> DeleteContest(Guid id)
         {
             var contest = await _context.Contests.FindAsync(id);
+            Images oldImage = await _context.Images.Where(i => i.ImageId.Equals(contest.ContestImageId)).FirstOrDefaultAsync();
             Archives archive = new Archives()
             {
                 PostId = contest.ContestId,
@@ -1094,6 +1118,8 @@ namespace CAGISWebsite.Controllers
             };
             _context.Archives.Add(archive);
             _context.Contests.Remove(contest);
+            if (oldImage != null)
+                TTLRemoveUnusedImage(null, oldImage);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AllContests));
         }
@@ -1174,6 +1200,26 @@ namespace CAGISWebsite.Controllers
             categories.Add(blank);
             SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
             return categorySelectList;
+        }
+
+        /// <summary>
+        /// Delete image from project and remove from database when unused
+        /// </summary>
+        /// <param name="newImage"></param>
+        /// <param name="oldImage"></param>
+        private void TTLRemoveUnusedImage(Guid? newImage, Images oldImage)
+        {
+            if (newImage != oldImage.ImageId)
+            {
+                //get relative image path
+                string imagePath = "\\wwwroot" + oldImage.ImagePath.Replace("/", "\\");
+                var path = Path.Combine(Directory.GetCurrentDirectory() + imagePath);
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                _context.Remove(oldImage);
+            }
         }
 
     }
