@@ -59,9 +59,20 @@ namespace CAGISWebsite.Controllers
                 ViewData["Categories"] = TTLCategoryList(Guid.Parse(selectedValue));
                 if (selectedValue == Guid.Empty.ToString() && String.IsNullOrEmpty(SearchPhrase))
                 {
-
-                    TempData["message"] = $"Please enter something to search for, cannot be empty.";
+                    TempData["blogErrorMessage"] = $"Please enter something to search for, cannot be empty.";
                     return RedirectToAction("Index", "Blogs");
+                }
+                else if(selectedValue == Guid.Empty.ToString() && !String.IsNullOrEmpty(SearchPhrase))
+                {
+                    if(_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
+                    {
+                        return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
+                    }
+                    else
+                    {
+                        TempData["blogErrorMessage"] = $"There were no search results for what you searched for. Please try again";
+                        return RedirectToAction("Index", "Blogs");
+                    }
                 }
                 else
                 {
@@ -69,7 +80,7 @@ namespace CAGISWebsite.Controllers
                         .FirstOrDefaultAsync(m => m.CategoryId == Guid.Parse(selectedValue));
                 }               
             }
-          
+                       
             //The If returns ONLY IF both the search box and dropdown are not null
             if(_context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Any() && _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
             {
@@ -79,16 +90,11 @@ namespace CAGISWebsite.Controllers
             else if (_context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
             {
                 return View("Index", await _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
-            }
-            //This else If returns ONLY IF the search box isnt null but the dropdown is
-            else if (_context.Blogs.Where(j => j.BlogTitle.Contains(SearchPhrase)).Any())
-            {
-                return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
-            }
+            }        
             //Returns if both are null
             else
             {
-                TempData["message"] = $"There were no search results for what you searched for. Please try again";
+                TempData["blogErrorMessage"] = $"There were no search results for what you searched for. Please try again";
                 return RedirectToAction("Index", "Blogs");
             }
         }

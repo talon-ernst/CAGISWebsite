@@ -21,6 +21,7 @@ namespace CAGISWebsite.Controllers
         // GET: Facts
         public async Task<IActionResult> Index()
         {
+            ViewData["Categories"] = TTLCategoryList(Guid.Empty);
             return View(await _context.Facts.Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
         }
 
@@ -49,15 +50,65 @@ namespace CAGISWebsite.Controllers
 
         public async Task<IActionResult> ShowSearchResults(String SearchPhrase)
         {
-            if (_context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Any())
+            string selectedValue = Request.Form["categoryDropdown"];
+            Categories categories = new Categories();
+
+            if (!String.IsNullOrEmpty(selectedValue))
             {
-                return View("Index", await _context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Include(f => f.Dykimage).OrderByDescending(f => f.DykuploadDate).ThenBy(f => f.Dyktitle).ToListAsync());
+                ViewData["Categories"] = TTLCategoryList(Guid.Parse(selectedValue));
+                if (selectedValue == Guid.Empty.ToString() && String.IsNullOrEmpty(SearchPhrase))
+                {
+                    TempData["factErrorMessage"] = $"Please enter something to search for, cannot be empty.";
+                    return RedirectToAction("Index", "Facts");
+                }
+                else if (selectedValue == Guid.Empty.ToString() && !String.IsNullOrEmpty(SearchPhrase))
+                {
+                    if (_context.Facts.Where(j => j.Dyktitle.Contains(SearchPhrase)).Any())
+                    {
+                        return View("Index", await _context.Facts.Where(b => b.Dyktitle.Contains(SearchPhrase)).Include(b => b.Dykimage).OrderByDescending(b => b.DykuploadDate).ThenBy(b => b.Dyktitle).ToListAsync());
+                    }
+                    else
+                    {
+                        TempData["factErrorMessage"] = $"There were no search results for what you searched for. Please try again";
+                        return RedirectToAction("Index", "Facts");
+                    }
+                }
+                else
+                {
+                    categories = await _context.Categories
+                        .FirstOrDefaultAsync(m => m.CategoryId == Guid.Parse(selectedValue));
+                }
             }
+
+            //The If returns ONLY IF both the search box and dropdown are not null
+            if (_context.Facts.Where(b => b.Dyktitle.Contains(SearchPhrase)).Any() && _context.Facts.Where(b => b.DykcategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
+            {
+                return View("Index", await _context.Facts.Where(b => b.Dyktitle.Contains(SearchPhrase)).Where(b => b.DykcategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.Dykimage).OrderByDescending(b => b.DykuploadDate).ThenBy(b => b.Dyktitle).ToListAsync());
+            }
+            //This else If returns ONLY IF the category isnt null but the search box is
+            else if (_context.Facts.Where(b => b.DykcategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
+            {
+                return View("Index", await _context.Facts.Where(b => b.DykcategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.Dykimage).OrderByDescending(b => b.DykuploadDate).ThenBy(b => b.Dyktitle).ToListAsync());
+            }
+            //Returns if both are null
             else
             {
-                TempData["message"] = $"No search results appeared for {SearchPhrase}. Please try again!";
+                TempData["factErrorMessage"] = $"There were no search results for what you searched for. Please try again";
                 return RedirectToAction("Index", "Facts");
             }
+        }
+
+        private SelectList TTLCategoryList(Guid selectedValue)
+        {
+            Categories blank = new Categories()
+            {
+                CategoryId = Guid.Empty,
+                CategoryName = "Select A Category:"
+            };
+            List<Categories> categories = new List<Categories>(_context.Categories.OrderBy(c => c.CategoryName));
+            categories.Add(blank);
+            SelectList categorySelectList = new SelectList(categories, "CategoryId", "CategoryName", selectedValue);
+            return categorySelectList;
         }
 
     }
