@@ -30,7 +30,7 @@
             <div class="eachpostTitle">
                 @if (BlogTitle.BlogTitle.Length >= 23)
                 {
-                    @Html.DisplayTextFor(modelItem => BlogTitle.BlogTitle).Substring(0, 23);
+                <p>@Html.DisplayTextFor(modelItem => BlogTitle.BlogTitle).Substring(0, 20)...</p>
                 }
                 else
                 {
@@ -72,7 +72,7 @@
             <div class="eachpostTitle">
                @if (activityTitle.ActivityTitle.Length >= 23)
                 {
-                    @Html.DisplayTextFor(modelItem => activityTitle.ActivityTitle).Substring(0, 23);
+                    <p>@Html.DisplayTextFor(modelItem => activityTitle.ActivityTitle).Substring(0, 20)...</p>
                 }
                 else
                 {
@@ -112,7 +112,7 @@
                 <div class="eachpostTitle">
                     @if (DYKTitle.Dyktitle.Length >= 23)
                 {
-                    @Html.DisplayTextFor(modelItem => DYKTitle.Dyktitle).Substring(0, 23);
+                    <p>@Html.DisplayTextFor(modelItem => DYKTitle.Dyktitle).Substring(0, 20)...</p>
                 }
                 else
                 {
