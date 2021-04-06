@@ -12,12 +12,13 @@
 
         </div>
         <div class="form-group">
+            <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
+        </div>
+        <div class="form-group">
             <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
-        <div class="form-group">
-            <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
-        </div>
+
     </form>
     <p style="color:red"><strong>@TempData["activityErrorMessage"]</strong></p>
 </div>

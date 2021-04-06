@@ -9,16 +9,17 @@
     <form asp-action="ShowSearchResults">
         <div class="form-group">
             <label for="SearchPhrase" class="control-label"></label>
-            <input name="SearchPhrase" class="form-control" placeholder="Search for a fact..." style="width: 200px;" />
+            <input name="SearchPhrase" class="form-control" placeholder="Search for a Did You Know..." style="width: 200px;" />
 
+        </div>
+        <div class="form-group">
+            <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
         </div>
         <div class="form-group">
             <input type="submit" value="Search" class="btn btn-primary" />
             <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
-        <div class="form-group">
-            <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
-        </div>
+
     </form>
     <p style="color:red"><strong>@TempData["factErrorMessage"]</strong></p>
 </div>
