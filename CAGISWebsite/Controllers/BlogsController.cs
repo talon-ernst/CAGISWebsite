@@ -92,7 +92,7 @@ namespace CAGISWebsite.Controllers
                 return View("Index", await _context.Blogs.Where(b => b.BlogTitle.Contains(SearchPhrase)).Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
             }
             //This else If returns ONLY IF the category isnt null but the search box is
-            else if (_context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any())
+            else if (_context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Any() && String.IsNullOrEmpty(SearchPhrase))
             {
                 return View("Index", await _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
             }        
