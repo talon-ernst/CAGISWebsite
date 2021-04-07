@@ -34,9 +34,14 @@ namespace CAGISWebsite.Controllers
             }
 
             var blogs = await _context.Blogs
-                .Include(b => b.BlogImage).FirstOrDefaultAsync(m => m.BlogId == id);
+                .Include(b => b.BlogImage).Include(b => b.BlogCategoryNavigation).FirstOrDefaultAsync(m => m.BlogId == id);
             if (blogs == null)
             {
+                Archives archive = await _context.Archives.FindAsync(id);
+                if (archive != null)
+                {
+                    return RedirectToAction("Details", "Archives", new { id });
+                }
                 return NotFound();
             }
 

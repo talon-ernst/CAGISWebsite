@@ -6,6 +6,7 @@
 
 <div id="AllBlogPage">
     <h1 id="titleAllBogs">@ViewData["Title"]</h1>
+    <span class="form-error">@ViewData["Error"]</span>
 
     <p>
         <a asp-action="CreateBlog" id="btnAddBlog">Create New</a>
@@ -27,18 +28,19 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model) {
+            @foreach (var item in Model)
+            {
                 <tr>
                     @if (item.BlogImageId == null)
                     {
-                    <td id="imgBlogImage">
-                        <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
-                    </td>
+                        <td id="imgBlogImage">
+                            <img src="~/Images/WebsiteImages/Cagis_logo_colour.png" />
+                        </td>
                     }
                     else
                     {
                         <td id="imgBlogImage">
-                            <img src="@item.BlogImage.ImagePath" height="150" width="200"/>
+                            <img src="@item.BlogImage.ImagePath" height="150" width="200" />
                         </td>
                     }
                     <td id="lblBlogTitle">
@@ -59,8 +61,8 @@
                     </td>
                     <td>
                         <a asp-action="EditBlog" asp-route-id="@item.BlogId" class="btn btn-primary" id="btnEditBlog">Edit</a>
-                        <form asp-action="DeleteBlog" onSubmit="return confirm('Are you sure you want to delete this?');" >
-                            <input type="submit" id="btnDeleteBlog" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger"/>
+                        <form asp-action="DeleteBlog" onSubmit="return confirm('Are you sure you want to delete this?');">
+                            <input type="submit" id="btnDeleteBlog" value="Delete" asp-route-id="@item.BlogId" class="btn btn-danger" />
                         </form>
                     </td>
                 </tr>

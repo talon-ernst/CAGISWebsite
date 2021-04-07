@@ -1107,11 +1107,16 @@ namespace CAGISWebsite.Controllers
                 //get relative image path
                 string imagePath = "\\wwwroot" + oldImage.ImagePath.Replace("/", "\\");
                 var path = Path.Combine(Directory.GetCurrentDirectory() + imagePath);
-                if (System.IO.File.Exists(path))
+                try
                 {
                     System.IO.File.Delete(path);
+                    _context.Remove(oldImage);
                 }
-                _context.Remove(oldImage);
+                catch
+                {
+                    ViewData["Error"] = "Something went wrong with internal image deletion.";
+                }
+                
             }
         }
 

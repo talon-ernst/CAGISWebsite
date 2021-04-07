@@ -1,54 +1,22 @@
 ﻿@model CAGISWebsite.Models.Archives
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Archived - " + Model.PostTitle;
 }
 
-<h1>Details</h1>
+<div class="Details">
 
-<div>
-    <h4>Archives</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostTitle)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostTitle)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostText)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostText)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostCategory)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostCategory)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostUploadDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostUploadDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostLastEditedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostLastEditedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostArchivedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PostArchivedDate)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.PostId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <p class="txtUploadedDate">Uploaded: @Html.DisplayFor(model => model.PostUploadDate) </p>
+    <p class="txtUploadedDate">Last Edited: @Html.DisplayFor(model => model.PostLastEditedDate) </p>
+
+    <h1 class="txtTitle">@ViewData["Title"]</h1>
+
+    <p class="txtCategory">Category: @Html.DisplayFor(model => model.PostCategory)</p>
+
+
+    <p class="txtUpdatedDate">This post was archived: @Html.DisplayFor(model => model.PostArchivedDate) </p>
+
+    <pre class="txtDescription">@Html.DisplayFor(model => model.PostText)</pre>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary returnBtndetails">Return to Home</a>
 </div>
