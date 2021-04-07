@@ -96,7 +96,7 @@ namespace CAGISWebsite.Controllers
             {
                 return View("Index", await _context.Blogs.Where(b => b.BlogCategoryNavigation.CategoryName.Contains(categories.CategoryName)).Include(b => b.BlogImage).OrderByDescending(b => b.BlogUploadDate).ThenBy(b => b.BlogTitle).ToListAsync());
             }        
-            //Returns if both are null
+            //Returns if both are null or search is null
             else
             {
                 TempData["blogErrorMessage"] = $"There were no search results for what you searched for. Please try again";
