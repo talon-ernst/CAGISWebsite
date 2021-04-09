@@ -8,13 +8,13 @@
     <form asp-action="ShowSearchResults">
         <div class="form-group">
             <label for="SearchPhrase" class="control-label"></label>
-            <input name="SearchPhrase" class="form-control" placeholder="Search for a blog..." style="width: 200px;" />
+            <input name="SearchPhrase" class="form-control" placeholder="Search for a blog..." style="width: 200px;" id="txtSearch"/>
         </div>
         <div class="form-group">
             <select asp-items="ViewBag.Categories" id="categoryDropdown" name="categoryDropdown" class="form-control, col-md-4" onchange="TTLCategoryChange()"></select>
         </div>
         <div class="form-group">
-            <input type="submit" value="Search" class="btn btn-primary" />
+            <input type="submit" value="Search" class="btn btn-primary" id="btnSearch"/>
             <a asp-action="Index" class="btn btn-primary">Back to List</a>
         </div>
 
@@ -41,7 +41,7 @@
                 </div>
                 
                 <div class="eachcolumn" id="ListRightColm">
-                    <h1 class="eachTitle">@Html.DisplayFor(modelItem => item.BlogTitle)</h1>
+                    <h1 class="eachTitle" id="lblBlogTitle">@Html.DisplayFor(modelItem => item.BlogTitle)</h1>
 
                     @if (item.BlogText.Length >= 270)
                     {
