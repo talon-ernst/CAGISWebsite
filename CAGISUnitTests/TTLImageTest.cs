@@ -82,7 +82,7 @@ namespace CAGISUnitTests
         public void ImageTest_UploadWrongSize()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            string filePath = "C:\\Users\\Landon\\Desktop\\UploadImages\\BigImage.jpg";
+            string filePath = "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\wwwroot\\Images\\UnitTestContent\\BigImage.jpg";
 
             IWebElement btnAdminBlog = driver.FindElement(By.Id("btnAdminBlog"));
             btnAdminBlog.Click();
@@ -111,7 +111,7 @@ namespace CAGISUnitTests
         public void ImageTest_UploadSmallImage()
         {
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            string filePath = "C:\\Users\\Landon\\Desktop\\TINY.png";
+            string filePath = "C:\\Users\\Landon\\Desktop\\ThirdYearConestoga\\2_Capstone\\Project\\CAGISWebsite\\CAGISWebsite\\wwwroot\\Images\\UnitTestContent\\TINY.png";
 
             IWebElement btnAdminBlog = driver.FindElement(By.Id("btnAdminBlog"));
             btnAdminBlog.Click();
